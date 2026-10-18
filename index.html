@@ -124,7 +124,7 @@ table.rw tr.tot td{color:var(--amber);font-size:19px;border-bottom:none;padding-
 #btns{position:absolute;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:repeat(2,70px);gap:8px}
 #btns button{font-family:var(--px);height:54px;font-size:14px;color:var(--hud);background:rgba(10,14,9,.45);border:1px solid rgba(158,240,124,.5);border-radius:10px;touch-action:none}
 #btns button.on{background:rgba(158,240,124,.35);color:var(--bg)}
-#btns #tbJump{grid-column:1/-1}
+#btns #tbQB{color:var(--amber);border-color:rgba(242,184,75,.6)}
 #btns #tbBlade{color:var(--cyan);border-color:rgba(127,216,255,.6)}
 #pauseBtn{position:absolute;top:calc(10px + env(safe-area-inset-top,0px));right:max(12px,env(safe-area-inset-right,0px));font-family:var(--px);font-size:13px;color:var(--hud);background:rgba(10,14,9,.5);border:1px solid rgba(158,240,124,.5);padding:6px 10px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
@@ -141,8 +141,8 @@ table.rw tr.tot td{color:var(--amber);font-size:19px;border-bottom:none;padding-
     <div id="stick"><div id="knob"></div></div>
     <div id="btns">
       <button id="tbBlade">ブレード</button><button id="tbMsl">背部</button>
-      <button id="tbDash">ダッシュ</button><button id="tbFire">射撃</button>
-      <button id="tbJump">上昇</button>
+      <button id="tbQB">QB</button><button id="tbFire">射撃</button>
+      <button id="tbDash">ダッシュ</button><button id="tbJump">上昇</button>
     </div>
     <button id="pauseBtn">II</button>
   </div>
@@ -198,30 +198,52 @@ const ZERO=new V3();
 const PARTS={
   head:[
     {id:'HD-A',name:'HD-A スタンダード',desc:'バランス型の頭部',ap:400,w:120,lockR:260,lockT:0.4,radar:220,price:0},
-    {id:'HD-B',name:'HD-B シーカー',desc:'索敵型。ロックが速く、遠くまで届く',ap:300,w:160,lockR:330,lockT:0.26,radar:320,price:12000}],
+    {id:'HD-B',name:'HD-B シーカー',desc:'索敵型。ロックが速く、遠くまで届く',ap:300,w:160,lockR:330,lockT:0.26,radar:320,price:12000},
+    {id:'HD-C',name:'HD-C ブルワーク',desc:'重装甲の頭部。索敵は苦手',ap:700,w:240,lockR:230,lockT:0.5,radar:180,price:9000},
+    {id:'HD-D',name:'HD-D ホークアイ',desc:'最高級の索敵頭部。ロック距離と速さが最も優秀',ap:280,w:150,lockR:400,lockT:0.18,radar:380,price:30000,req:'m3'}],
   core:[
     {id:'CR-A',name:'CR-A スタンダード',desc:'標準的なコア',ap:2600,w:600,en:1000,price:0},
-    {id:'CR-B',name:'CR-B フォートレス',desc:'重装甲コア。EN容量は少なめ',ap:3800,w:900,en:850,price:28000}],
+    {id:'CR-B',name:'CR-B フォートレス',desc:'重装甲コア。EN容量は少なめ',ap:3800,w:900,en:850,price:28000},
+    {id:'CR-C',name:'CR-C ライトフレーム',desc:'軽量コア。装甲は薄いがEN容量が多い',ap:2000,w:440,en:1150,price:18000},
+    {id:'CR-D',name:'CR-D オーバーロード',desc:'重装甲と大容量ENを両立した高級コア',ap:3600,w:820,en:1150,price:52000,req:'m4'}],
   arms:[
-    {id:'AR-A',name:'AR-A スタンダード',desc:'標準的な腕部',ap:900,w:300,rate:1,price:0},
-    {id:'AR-B',name:'AR-B プレシジョン',desc:'細身の射撃用腕部。連射間隔が15%短い',ap:650,w:260,rate:0.85,price:14000}],
+    {id:'AR-A',name:'AR-A スタンダード',desc:'標準的な腕部',ap:900,w:300,rate:1,blade:1,price:0},
+    {id:'AR-B',name:'AR-B プレシジョン',desc:'細身の射撃用腕部。連射間隔が短い',ap:650,w:260,rate:0.85,blade:1,price:14000},
+    {id:'AR-C',name:'AR-C ヘヴィアーム',desc:'頑丈な腕部。連射はやや遅い',ap:1400,w:480,rate:1.1,blade:1,price:15000},
+    {id:'AR-D',name:'AR-D ソードアーム',desc:'格闘向けの腕部。ブレードの威力が35%上がる',ap:800,w:300,rate:1.05,blade:1.35,price:26000,req:'m2'}],
   legs:[
-    {id:'LG-B',type:'biped',name:'LG-B 二脚',desc:'標準的な二脚。癖がない',ap:2000,load:2200,walk:15,dash:34,jump:13,price:0},
-    {id:'LG-R',type:'reverse',name:'LG-R 逆関節',desc:'軽量で跳躍力が高い。装甲は薄い',ap:1500,load:1950,walk:15,dash:35,jump:20,price:24000},
-    {id:'LG-Q',type:'quad',name:'LG-Q 四脚',desc:'上昇中は空中でふわりと滞空できる',ap:2600,load:3000,walk:13,dash:31,jump:10,hover:true,price:30000},
-    {id:'LG-T',type:'tank',name:'LG-T タンク',desc:'遅いが非常に硬い。積載量最大で反動を受けない',ap:4200,load:4200,walk:9,dash:23,jump:6,price:36000}],
+    {id:'LG-B',type:'biped',name:'LG-B 二脚',desc:'標準的な二脚。癖がない',ap:2000,load:2500,walk:15,dash:34,jump:13,price:0},
+    {id:'LG-L',type:'biped',bulk:0.8,name:'LG-L 軽量二脚',desc:'速くて軽い二脚。積載量は少なめ',ap:1600,load:2200,walk:17,dash:38,jump:14,price:22000},
+    {id:'LG-H',type:'biped',bulk:1.3,name:'LG-H 重量二脚',desc:'装甲と積載に優れた重い二脚',ap:2900,load:3200,walk:12,dash:29,jump:11,price:28000,req:'m2'},
+    {id:'LG-R',type:'reverse',name:'LG-R 逆関節',desc:'軽量で跳躍力が高い。装甲は薄い',ap:1500,load:2250,walk:15,dash:35,jump:20,price:24000},
+    {id:'LG-Q',type:'quad',name:'LG-Q 四脚',desc:'上昇中は空中でふわりと滞空できる',ap:2600,load:3300,walk:13,dash:31,jump:10,hover:true,price:30000},
+    {id:'LG-T',type:'tank',name:'LG-T タンク',desc:'遅いが非常に硬い。積載量最大で反動を受けない',ap:4200,load:4500,walk:9,dash:23,jump:6,price:36000,req:'m3'}],
   rw:[
     {id:'RF',name:'RF-55 ライフル',hud:'RIFLE',desc:'扱いやすい標準ライフル',w:300,dmg:55,cd:0.11,spd:240,ammo:420,cost:12,spread:0.012,kind:'b',price:0},
     {id:'MG',name:'MG-22 マシンガン',hud:'MACHINE GUN',desc:'高連射。一発は軽い',w:260,dmg:21,cd:0.045,spd:220,ammo:1200,cost:3,spread:0.03,kind:'b',price:9000},
-    {id:'BZ',name:'BZ-40 バズーカ',hud:'BAZOOKA',desc:'重い一撃。弾速は遅い',w:520,dmg:420,cd:0.9,spd:130,ammo:40,cost:200,spread:0.004,kind:'s',price:22000}],
+    {id:'SG',name:'SG-7 ショットガン',hud:'SHOTGUN',desc:'7発の散弾を一度に撃つ。近距離で強力',w:340,dmg:40,pellets:7,cd:0.6,spd:200,ammo:60,cost:80,spread:0.09,kind:'b',price:16000},
+    {id:'BZ',name:'BZ-40 バズーカ',hud:'BAZOOKA',desc:'重い一撃。弾速は遅い',w:520,dmg:420,cd:0.9,spd:130,ammo:40,cost:200,spread:0.004,kind:'s',price:22000},
+    {id:'SR',name:'SR-3 スナイパーライフル',hud:'SNIPER',desc:'弾速が速く一発が重い。連射は遅い',w:380,dmg:260,cd:0.75,spd:420,ammo:60,cost:60,spread:0.002,kind:'b',price:24000,req:'m2'},
+    {id:'PL',name:'PL-9 パルスライフル',hud:'PULSE RIFLE',desc:'ENを使って撃つ光学兵器。弾薬費がかからない',w:330,dmg:68,cd:0.15,spd:260,ammo:0,en:45,cost:0,spread:0.01,kind:'b',price:34000,req:'m4'}],
   lw:[
     {id:'LB-0',name:'なし',hud:'',desc:'左腕に何も装備しない。そのぶん軽い',w:0,dmg:0,price:0},
     {id:'LB-10',name:'LB-10 レーザーブレード',hud:'BLADE',desc:'近くの敵に踏み込んで斬る。ENを使うだけで弾薬費はかからない',w:180,dmg:950,range:8,lunge:32,en:180,cd:1.1,len:4.2,price:0},
-    {id:'LB-77',name:'LB-77 ロングブレード',hud:'LONG BLADE',desc:'長く重い光刃。威力も間合いも大きい',w:320,dmg:1600,range:11,lunge:40,en:300,cd:1.6,len:6.5,price:32000}],
+    {id:'LB-77',name:'LB-77 ロングブレード',hud:'LONG BLADE',desc:'長く重い光刃。威力も間合いも大きい',w:320,dmg:1600,range:11,lunge:40,en:300,cd:1.6,len:6.5,price:32000},
+    {id:'LB-X',name:'PB-1 パイルバンカー',hud:'PILE BUNKER',desc:'杭を打ち込む近接兵器。間合いは短いが威力は最大',w:420,dmg:2800,range:6,lunge:24,en:140,cd:2.4,len:2.2,pile:true,price:42000,req:'m4'}],
   bw:[
     {id:'MS',name:'MS-4 ミサイル',hud:'MISSILE',desc:'最大4ロックの小型ミサイル',w:350,dmg:380,ammo:48,cost:150,locks:4,kind:'m',price:0},
     {id:'MM',name:'MM-6 多連装ミサイル',hud:'MULTI MISSILE',desc:'最大6ロック。一発は軽め',w:480,dmg:260,ammo:72,cost:110,locks:6,kind:'m',price:26000},
-    {id:'GR',name:'GR-90 グレネード',hud:'GRENADE',desc:'爆風で周囲もまとめて吹き飛ばす榴弾砲。ロック不要',w:700,dmg:950,ammo:20,cost:400,locks:0,kind:'g',price:38000}]
+    {id:'VL',name:'VL-4 垂直ミサイル',hud:'VERTICAL MSL',desc:'真上に撃ち上げてから降り注ぐ。建物の陰の敵に強い',w:400,dmg:340,ammo:40,cost:170,locks:4,kind:'m',vert:true,price:28000,req:'m3'},
+    {id:'GR',name:'GR-90 グレネード',hud:'GRENADE',desc:'爆風で周囲もまとめて吹き飛ばす榴弾砲。ロック不要',w:700,dmg:950,ammo:20,cost:400,locks:0,kind:'g',spd:110,blast:13,bsize:8,cd:1.8,recoil:14,price:38000},
+    {id:'CN',name:'CN-120 キャノン',hud:'CANNON',desc:'弾速の速い大口径砲。小さな爆風つき',w:820,dmg:780,ammo:30,cost:260,locks:0,kind:'g',spd:190,blast:6,bsize:4.5,cd:1.3,recoil:9,price:34000,req:'m2'}],
+  boost:[
+    {id:'BS-A',name:'BS-A スタンダード',desc:'標準的なブースター',w:120,dash:1,up:1,qb:46,qbEn:220,qbCd:0.35,price:0},
+    {id:'BS-B',name:'BS-B ハイスラスト',desc:'高出力型。速いがENを多く使う',w:170,dash:1.12,up:1.15,qb:58,qbEn:300,qbCd:0.4,price:22000},
+    {id:'BS-C',name:'BS-C エコノミー',desc:'省電力型。クイックブーストを連発しやすい',w:110,dash:0.95,up:0.92,qb:40,qbEn:140,qbCd:0.25,price:16000}],
+  gen:[
+    {id:'GN-A',name:'GN-A スタンダード',desc:'標準的なジェネレーター',w:200,en:0,regen:1,price:0},
+    {id:'GN-B',name:'GN-B キャパシター',desc:'EN容量が大きい。回復はやや遅い',w:300,en:400,regen:0.9,price:24000},
+    {id:'GN-C',name:'GN-C リアクター',desc:'EN回復が速い。容量は少なめ',w:240,en:-120,regen:1.45,price:28000,req:'m3'}]
 };
 const COLORS=[
   {name:'スチール',c:[0x8c8f84,0x4c5048,0xd9a12c]},
@@ -233,9 +255,9 @@ const pt=(cat,id)=>PARTS[cat].find(p=>p.id===id)||PARTS[cat][0];
 
 const ACS={
   vulture:{name:'ヴァルチャー',spec:{head:'HD-B',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',bw:'MS',lw:'LB-0'},cols:[0x7a2a24,0x3a3432,0xd0b040],
-    hp:6000,r:3.0,cy:3.4,sp:17,dash:32,jump:14,burst:3,gap:0.12,bd:105,bs:175,mcd:6,mslN:2,mslD:320,blade:0,range:150},
+    hp:6000,r:3.0,cy:3.4,qb:true,sp:17,dash:32,jump:14,burst:3,gap:0.12,bd:105,bs:175,mcd:6,mslN:2,mslD:320,blade:0,range:150},
   cerberus:{name:'ケルベロス',spec:{head:'HD-A',core:'CR-B',arms:'AR-B',legs:'LG-B',rw:'MG',bw:'MM',lw:'LB-77'},cols:[0x2a2a30,0x15151a,0xe03050],
-    hp:9500,r:3.2,cy:3.4,sp:19,dash:36,jump:15,burst:8,gap:0.06,bd:38,bs:190,mcd:5.5,mslN:4,mslD:240,blade:1300,range:150},
+    hp:9500,r:3.2,cy:3.4,qb:true,sp:19,dash:36,jump:15,burst:8,gap:0.06,bd:38,bs:190,mcd:5.5,mslN:4,mslD:240,blade:1300,range:150},
   mt:{name:'MT',spec:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-R',rw:'MG',bw:'MS',lw:'LB-0'},cols:[0x6a6e5a,0x3a3c32,0xa04030],
     hp:520,r:2.2,cy:2.1,scale:0.62,sp:11,dash:0,jump:11,burst:5,gap:0.1,bd:28,bs:150,mcd:0,mslN:0,blade:0,range:130,rad:1.1}
 };
@@ -283,22 +305,22 @@ const MAILS={
 };
 
 const ACTIONS=[['fwd','前進'],['back','後退'],['left','左移動'],['right','右移動'],['turnL','左旋回'],['turnR','右旋回'],['lookU','上を向く'],['lookD','下を向く'],
-  ['fire','右腕武器'],['bw','背部武器'],['blade','ブレード'],['jump','ジャンプ / 上昇'],['dash','ダッシュ'],['pause','一時停止']];
+  ['fire','右腕武器'],['bw','背部武器'],['blade','ブレード'],['jump','ジャンプ / 上昇'],['dash','ダッシュ'],['qb','クイックブースト'],['pause','一時停止']];
 const DEF_KEYS={fwd:['KeyW',''],back:['KeyS',''],left:['KeyA',''],right:['KeyD',''],turnL:['ArrowLeft',''],turnR:['ArrowRight',''],lookU:['ArrowUp',''],lookD:['ArrowDown',''],
-  fire:['Mouse0','KeyJ'],bw:['Mouse2','KeyE'],blade:['KeyF','Mouse1'],jump:['Space',''],dash:['ShiftLeft','ShiftRight'],pause:['KeyP','Escape']};
-const PAD_ACTS=['fire','bw','blade','jump','dash','pause'];
-const DEF_PAD={fire:7,bw:6,blade:5,jump:0,dash:1,pause:9};
+  fire:['Mouse0','KeyJ'],bw:['Mouse2','KeyE'],blade:['KeyF','Mouse1'],jump:['Space',''],dash:['ShiftLeft','ShiftRight'],qb:['KeyQ',''],pause:['KeyP','Escape']};
+const PAD_ACTS=['fire','bw','blade','jump','dash','qb','pause'];
+const DEF_PAD={fire:7,bw:6,blade:5,jump:0,dash:1,qb:4,pause:9};
 const PADN=['A','B','X','Y','LB','RB','LT','RT','SELECT','START','L3','R3','十字↑','十字↓','十字←','十字→','HOME'];
 function defSettings(){return {res:240,vol:0.7,sens:1,padSens:1,invY:false,keys:JSON.parse(JSON.stringify(DEF_KEYS)),pad:Object.assign({},DEF_PAD)};}
 
 /* ================= save ================= */
 const SKEY='irondust-save-v2',OLDKEY='irondust-save-v1';
-function freshSave(){return {pilot:'',acName:'',cr:20000,owned:['HD-A','CR-A','AR-A','LG-B','RF','MS','LB-0','LB-10'],
-  eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-10',bw:'MS',color:0},prog:0,cleared:{},mails:[],settings:defSettings()};}
+function freshSave(){return {pilot:'',acName:'',cr:20000,owned:['HD-A','CR-A','AR-A','LG-B','RF','MS','LB-0','LB-10','BS-A','GN-A'],
+  eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-10',bw:'MS',boost:'BS-A',gen:'GN-A',color:0},prog:0,cleared:{},mails:[],settings:defSettings()};}
 let save=freshSave();
 try{const s=JSON.parse(localStorage.getItem(SKEY));if(s&&s.eq&&Array.isArray(s.owned))save=Object.assign(freshSave(),s);}catch(e){}
 try{if(!save.pilot){const o=JSON.parse(localStorage.getItem(OLDKEY));if(o&&o.eq){save.cr=Math.max(save.cr,o.cr|0);save.owned=[...new Set(save.owned.concat(o.owned||[]))];Object.assign(save.eq,o.eq);}}}catch(e){}
-if(!save.eq.lw)save.eq.lw='LB-10';
+for(const [k,v] of [['lw','LB-10'],['boost','BS-A'],['gen','GN-A']]){if(!save.eq[k])save.eq[k]=v;if(!save.owned.includes(v))save.owned.push(v);}
 function normSettings(){const s=save.settings=Object.assign(defSettings(),save.settings||{});s.keys=Object.assign(defSettings().keys,s.keys||{});for(const a in DEF_KEYS)if(!Array.isArray(s.keys[a])||s.keys[a].length!==2)s.keys[a]=DEF_KEYS[a].slice();s.pad=Object.assign({},DEF_PAD,s.pad||{});}
 normSettings();
 function persist(){try{localStorage.setItem(SKEY,JSON.stringify(save));}catch(e){}}
@@ -306,9 +328,9 @@ function addMail(id){if(!save.mails.some(m=>m.id===id))save.mails.unshift({id,re
 const fillT=s=>esc(s).replace(/\{P\}/g,esc(save.pilot)).replace(/\{A\}/g,esc(save.acName));
 
 function calcStats(eq){
-  const h=pt('head',eq.head),c=pt('core',eq.core),a=pt('arms',eq.arms),l=pt('legs',eq.legs),r=pt('rw',eq.rw),b=pt('bw',eq.bw),lw=pt('lw',eq.lw);
-  const load=h.w+c.w+a.w+r.w+b.w+lw.w;
-  return {h,c,a,l,r,b,lw,ap:h.ap+c.ap+a.ap+l.ap,en:c.en,load,cap:l.load,over:load>l.load,spdF:1-0.22*Math.min(1,load/l.load)};
+  const h=pt('head',eq.head),c=pt('core',eq.core),a=pt('arms',eq.arms),l=pt('legs',eq.legs),r=pt('rw',eq.rw),b=pt('bw',eq.bw),lw=pt('lw',eq.lw),bo=pt('boost',eq.boost),g=pt('gen',eq.gen);
+  const load=h.w+c.w+a.w+r.w+b.w+lw.w+bo.w+g.w;
+  return {h,c,a,l,r,b,lw,bo,g,ap:h.ap+c.ap+a.ap+l.ap,en:c.en+g.en,regen:g.regen,load,cap:l.load,over:load>l.load,spdF:1-0.22*Math.min(1,load/l.load)};
 }
 let S=calcStats(save.eq);
 
@@ -504,7 +526,7 @@ function buildMech(spec,cols){
   if(lt==='biped'||lt==='reverse'){
     box(hip,1.8,0.7,1.4,c2,0,0,0);
     for(const s of [-1,1]){
-      const th=new THREE.Group();th.position.set(s*0.95,0,0);hip.add(th);
+      const th=new THREE.Group();th.position.set(s*0.95,0,0);hip.add(th);{const bk=pt('legs',spec.legs).bulk||1;th.scale.set(bk,1,bk);}
       box(th,0.8,1.8,1.0,c1,0,-0.9,0);
       const kn=new THREE.Group();kn.position.set(0,-1.8,0);th.add(kn);
       box(kn,1.0,0.6,1.2,c2,0,0,lt==='biped'?-0.15:0.1);
@@ -525,11 +547,14 @@ function buildMech(spec,cols){
     for(const s of [-1,1]){box(hip,1.4,1.7,6.2,0x2b2a24,s*2.2,-1.65,0);box(hip,1.5,0.4,6.4,c1,s*2.2,-0.65,0);}
   }
   const torso=new THREE.Group();torso.position.y=lt==='tank'?0.2:0.4;hip.add(torso);
-  const heavy=spec.core==='CR-B',off=heavy?0.25:0,armX=heavy?2.3:1.95;
+  const heavy=spec.core==='CR-B'||spec.core==='CR-D',off=heavy?0.25:0,armX=heavy?2.3:1.95;
   if(heavy){box(torso,2.4,1.3,2.0,c2,0,0.7,0);box(torso,3.6,1.5,2.6,c1,0,1.95,-0.1);box(torso,2.2,0.6,0.3,c3,0,1.75,-1.45);box(torso,1.6,1.2,0.8,c2,0,1.8,1.5);}
   else{box(torso,2.2,1.2,1.8,c2,0,0.7,0);box(torso,3.0,1.2,2.2,c1,0,1.8,-0.1);box(torso,1.8,0.5,0.3,c3,0,1.6,-1.3);box(torso,1.6,1.2,0.8,c2,0,1.7,1.3);}
   const hy=2.7+off;
-  if(spec.head==='HD-B'){
+  if(spec.head==='HD-C'){
+    box(torso,1.3,0.8,1.3,c1,0,hy,-0.2);box(torso,1.5,0.25,0.5,c2,0,hy+0.4,-0.7);
+    const eye=new THREE.Mesh(new THREE.BoxGeometry(0.9,0.1,0.05),new THREE.MeshBasicMaterial({color:0x60e0ff}));eye.position.set(0,hy,-0.88);torso.add(eye);
+  }else if(spec.head==='HD-B'||spec.head==='HD-D'){
     box(torso,0.7,0.5,1.4,c1,0,hy,-0.25);box(torso,0.08,1.2,0.08,c3,0.3,hy+0.8,0.15);box(torso,0.08,1.2,0.08,c3,-0.3,hy+0.8,0.15);
     const eye=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.12,0.05),new THREE.MeshBasicMaterial({color:0x40ff90}));eye.position.set(0,hy,-0.98);torso.add(eye);
   }else{
@@ -537,7 +562,9 @@ function buildMech(spec,cols){
     const eye=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.15,0.05),new THREE.MeshBasicMaterial({color:0xff3020}));eye.position.set(0,hy+0.02,-0.78);torso.add(eye);
   }
   const pod=new THREE.Object3D();
-  if(spec.bw==='MM'){box(torso,1.6,1.1,1.6,c3,1.0,2.9+off,0.9);box(torso,1.6,1.1,1.6,c3,-1.0,2.9+off,0.9);pod.position.set(0,3.5+off,0.9);}
+  if(spec.bw==='VL'){box(torso,1.0,1.6,1.0,c3,0.9,3.2+off,1.0);box(torso,1.0,1.6,1.0,c3,-0.9,3.2+off,1.0);pod.position.set(0,4.1+off,1.0);}
+  else if(spec.bw==='CN'){box(torso,1.0,1.0,1.8,c2,1.1,3.0+off,0.6);box(torso,0.7,0.7,6.0,0x2a2a2a,1.1,3.05+off,-2.4);pod.position.set(1.1,3.05+off,-5.5);}
+  else if(spec.bw==='MM'){box(torso,1.6,1.1,1.6,c3,1.0,2.9+off,0.9);box(torso,1.6,1.1,1.6,c3,-1.0,2.9+off,0.9);pod.position.set(0,3.5+off,0.9);}
   else if(spec.bw==='GR'){box(torso,0.9,0.9,1.6,c2,1.1,3.0+off,0.6);box(torso,0.55,0.55,4.2,0x2a2a2a,1.1,3.05+off,-1.6);pod.position.set(1.1,3.05+off,-3.8);}
   else{box(torso,1.2,0.9,1.4,c3,1.0,2.75+off,0.9);pod.position.set(1.0,3.3+off,0.9);}
   torso.add(pod);
@@ -548,7 +575,10 @@ function buildMech(spec,cols){
   box(elbow,thin,thin,1.6,c1,0,0,-0.6);
   const gun=new THREE.Group();gun.position.set(0,-0.05,-1.3);elbow.add(gun);
   const muzzle=new THREE.Object3D();
-  if(spec.rw==='MG'){box(gun,0.55,0.7,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.7,0.7,0.7,0x3a3a30,0,-0.55,-0.2);box(gun,0.2,0.2,1.2,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.3);}
+  if(spec.rw==='SR'){box(gun,0.4,0.55,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.18,0.18,3.6,0x1a1a1a,0,0.05,-2.4);box(gun,0.25,0.3,0.8,0x3a3a3a,0,0.42,-0.4);muzzle.position.set(0,0.05,-4.3);}
+  else if(spec.rw==='SG'){box(gun,0.75,0.65,1.4,0x2a2a2a,0,0,-0.3);box(gun,0.5,0.32,1.3,0x1a1a1a,0,0.05,-1.5);muzzle.position.set(0,0.05,-2.2);}
+  else if(spec.rw==='PL'){box(gun,0.55,0.65,1.8,0x2a3440,0,0,-0.4);const gl=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.3,1.3),new THREE.MeshBasicMaterial({color:0x60e0ff}));gl.position.set(0,0.05,-1.6);gun.add(gl);muzzle.position.set(0,0.05,-2.4);}
+  else if(spec.rw==='MG'){box(gun,0.55,0.7,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.7,0.7,0.7,0x3a3a30,0,-0.55,-0.2);box(gun,0.2,0.2,1.2,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.3);}
   else if(spec.rw==='BZ'){box(gun,0.75,0.75,3.4,0x3a3e34,0,0.1,-1.0);box(gun,0.9,0.9,0.4,0x2a2a2a,0,0.1,-2.7);muzzle.position.set(0,0.1,-3.0);}
   else{box(gun,0.5,0.6,1.4,0x2a2a2a,0,0,-0.3);box(gun,0.25,0.25,2.0,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.7);}
   gun.add(muzzle);
@@ -558,10 +588,12 @@ function buildMech(spec,cols){
   const lw=pt('lw',spec.lw||'LB-0');
   if(lw.dmg){
     box(armL,0.45,lw.id==='LB-77'?1.4:1.0,0.9,0x2a2e34,-0.4,-1.7,0);
-    blade=new THREE.Mesh(new THREE.BoxGeometry(0.22,lw.len,0.22),new THREE.MeshBasicMaterial({color:0x8fe8ff,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
+    blade=lw.pile?new THREE.Mesh(new THREE.BoxGeometry(0.45,lw.len,0.45),M(0xb8b8b0))
+      :new THREE.Mesh(new THREE.BoxGeometry(0.22,lw.len,0.22),new THREE.MeshBasicMaterial({color:0x8fe8ff,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
+    if(lw.pile)box(armL,0.8,1.6,1.1,0x3a3a36,-0.4,-1.9,0);
     blade.position.set(-0.4,-2.2-lw.len/2,0);blade.visible=false;armL.add(blade);
   }else box(armL,0.3,1.2,1.2,c2,-0.45,-1.3,-0.1);
-  const flame=new THREE.Mesh(new THREE.ConeGeometry(0.5,2.4,5),new THREE.MeshBasicMaterial({color:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
+  const flame=new THREE.Mesh(new THREE.ConeGeometry(0.5,2.4,5),new THREE.MeshBasicMaterial({color:spec.boost==='BS-B'?0xffb060:spec.boost==='BS-C'?0xa0ffb0:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
   flame.rotation.x=Math.PI/2;flame.position.set(0,1.5+off,heavy?2.9:2.7);flame.visible=false;torso.add(flame);
   return {g,hip,hipY:HIP,legType:lt,legs,torso,armR,armL,elbow,muzzle,pod,flame,blade,phase:0,slashT:0};
 }
@@ -618,6 +650,8 @@ function tone(freq,dur,vol,type,to){
 const fall=p=>clamp(1-p.distanceTo(P.pos)/220,0.05,1);
 const sfx={
   shot:()=>nz(0.08,3200,0.16),mg:()=>nz(0.05,3600,0.1),
+  qb:()=>{nz(0.25,1800,0.3);tone(120,0.2,0.08,'sawtooth',60);},pulse:()=>tone(1400,0.08,0.05,'square',500),
+  sg:()=>nz(0.18,2400,0.3),sniper:()=>{nz(0.25,4200,0.3);tone(200,0.2,0.08,'square',60);},
   eshot:p=>nz(0.1,2000,0.12*fall(p)),shell:p=>nz(0.3,600,0.28*fall(p)),
   heavy:()=>{nz(0.5,700,0.4);tone(90,0.35,0.2,'sine',40);},
   boom:(p,s)=>{const f=fall(p);nz(0.45+s*0.1,800,(0.3+s*0.04)*f);tone(70,0.45,0.22*f,'sine',28);},
@@ -672,10 +706,10 @@ function spark(p,blue){part(p,{mat:blue?matBlue:matSpark,life:blue?0.2:0.12,s:bl
 /* ================= projectiles ================= */
 const gBullet=new THREE.BoxGeometry(0.32,0.32,3.6),gShell=new THREE.IcosahedronGeometry(0.5,0),gGren=new THREE.IcosahedronGeometry(0.85,0),gMsl=new THREE.BoxGeometry(0.35,0.35,1.6);
 const mPB=new THREE.MeshBasicMaterial({color:0xffe27a}),mEB=new THREE.MeshBasicMaterial({color:0xff6a3a}),
-      mPM=new THREE.MeshBasicMaterial({color:0xe8e8d8}),mEM=new THREE.MeshBasicMaterial({color:0xff5040});
+      mPM=new THREE.MeshBasicMaterial({color:0xe8e8d8}),mPE=new THREE.MeshBasicMaterial({color:0x70e8ff}),mEM=new THREE.MeshBasicMaterial({color:0xff5040});
 function spawnShot(o){
   const geo=o.kind==='m'?gMsl:o.kind==='g'?gGren:o.kind==='s'?gShell:gBullet;
-  const mat=o.kind==='m'||o.kind==='g'?(o.foe?mEM:mPM):(o.foe?mEB:mPB);
+  const mat=o.kind==='m'||o.kind==='g'?(o.foe?mEM:mPM):(o.foe?mEB:o.energy?mPE:mPB);
   o.mesh=new THREE.Mesh(geo,mat);o.mesh.position.copy(o.p);scene.add(o.mesh);
   o.prev=o.p.clone();o.age=0;o.tr=0;shots.push(o);
 }
@@ -688,8 +722,8 @@ function updateShots(dt){
     if(s.kind==='m'){
       const tg=s.foe?(P.alive?pc:null):(s.target&&s.target.alive?s.target.center():null);
       const sp=s.v.length(),ns=Math.min(s.foe?58:115,sp+(s.foe?22:90)*dt);
-      if(tg&&s.age>0.18){
-        const want=tmp.copy(tg).sub(s.p).normalize(),cur=s.v.clone().normalize(),ang=cur.angleTo(want),mt=(s.foe?1.5:4.6)*dt;
+      if(tg&&s.age>(s.vert?0.55:0.18)){
+        const want=tmp.copy(tg).sub(s.p).normalize(),cur=s.v.clone().normalize(),ang=cur.angleTo(want),mt=(s.foe?1.5:s.vert?7:4.6)*dt;
         if(ang>1e-4)cur.lerp(want,Math.min(1,mt/ang)).normalize();s.v.copy(cur).multiplyScalar(ns);
       }else s.v.setLength(ns);
       s.tr-=dt;if(s.tr<=0){s.tr=0.035;part(s.p,{mat:matTrail,life:0.7,s:0.5,grow:1.6});}
@@ -707,7 +741,7 @@ function updateShots(dt){
     if(hit||s.life<=0){
       if(hit){
         if(s.kind==='b')spark(s.prev);
-        else if(s.kind==='g'){boom(s.prev,8);for(const e of enemies){if(!e.alive)continue;const d=e.center().distanceTo(s.prev);if(d<13)hurtEnemy(e,s.dmg*(1-d/16));}}
+        else if(s.kind==='g'){const R0=s.blast||13;boom(s.prev,s.bsize||8);for(const e of enemies){if(!e.alive)continue;const d=e.center().distanceTo(s.prev);if(d<R0+e.r)hurtEnemy(e,s.dmg*clamp(1-d/(R0*1.6),0.35,1));}}
         else boom(s.prev,s.kind==='m'?3.5:2.5);
       }
       scene.remove(s.mesh);shots.splice(i,1);
@@ -813,7 +847,8 @@ function updateAC(e,dt){
       const near=c.blade?14:32,far=T.gen?30:65,rad=dist>far?1:dist<near?-1:(c.blade&&Math.random()<0.02?1:0);
       e.dash-=dt;const sp=e.dash>0?c.dash:c.sp;
       const tv=f.multiplyScalar(rad).add(r.multiplyScalar(e.sd)).normalize().multiplyScalar(sp);
-      e.vel.x+=(tv.x-e.vel.x)*Math.min(1,dt*5);e.vel.z+=(tv.z-e.vel.z)*Math.min(1,dt*5);
+      if(e.qbT>0)e.qbT-=dt;else{e.vel.x+=(tv.x-e.vel.x)*Math.min(1,dt*5);e.vel.z+=(tv.z-e.vel.z)*Math.min(1,dt*5);}
+      if(c.qb){e.qbt=(e.qbt===undefined?1+Math.random()*2:e.qbt)-dt;if(e.qbt<=0){e.qbt=1.4+Math.random()*2.2;const s2=(Math.random()<.5?1:-1)*44;e.vel.x=Math.cos(e.yaw)*s2;e.vel.z=-Math.sin(e.yaw)*s2;e.qbT=0.22;nz(0.25,1800,0.25*fall(e.pos));part(e.center(),{mat:matBlue,life:0.2,s:1.2,grow:6});}}
     }
   }else{e.vel.x*=0.9;e.vel.z*=0.9;}
   if(e.slashT>0)e.slashT-=dt;e.m.slashT=Math.max(0,e.slashT);
@@ -893,7 +928,7 @@ function updateEnemies(dt,time){
 
 /* ================= input ================= */
 const KB=()=>save.settings.keys;
-const keys={};let mslReq=false,bladeReq=false,bindWait=null,swallowClick=false;
+const keys={};let mslReq=false,bladeReq=false,qbReq=false,bindWait=null,swallowClick=false;
 const T={mx:0,mz:0,fire:false,jump:false,dash:false};
 const PAD={on:false,id:'',b:[],prev:[],ax:[0,0,0,0],blocked:false,navDir:'',navT:0};
 const bound=(a,c)=>!!c&&KB()[a].includes(c);
@@ -927,6 +962,7 @@ function pressEdge(code){
   if(bound('pause',code)){pause();return;}
   if(bound('bw',code))mslReq=true;
   if(bound('blade',code))bladeReq=true;
+  if(bound('qb',code))qbReq=true;
 }
 addEventListener('keydown',e=>{
   if(bindWait&&bindWait.kind==='key'){
@@ -1012,6 +1048,7 @@ function pollPad(dt){
     if(padHit(save.settings.pad.pause)){pause();return;}
     if(padHit(save.settings.pad.bw))mslReq=true;
     if(padHit(save.settings.pad.blade))bladeReq=true;
+    if(padHit(save.settings.pad.qb))qbReq=true;
   }else padNav(dt);
 }
 addEventListener('gamepadconnected',()=>{if(state==='hub'&&(hubView==='pad'||hubView==='system'))setTimeout(renderHub,50);});
@@ -1035,6 +1072,7 @@ if(isTouch){
   hold('tbFire','fire');hold('tbJump','jump');hold('tbDash','dash');
   $('tbMsl').addEventListener('pointerdown',e=>{e.preventDefault();mslReq=true;});
   $('tbBlade').addEventListener('pointerdown',e=>{e.preventDefault();bladeReq=true;});
+  $('tbQB').addEventListener('pointerdown',e=>{e.preventDefault();qbReq=true;});
   $('pauseBtn').addEventListener('click',()=>{if(state==='play')pause();});
 }
 
@@ -1054,8 +1092,19 @@ function resolveBlade(fwd){
   P.slashed=true;const L=S.lw,pc=playerCenter();let any=false;
   for(const e of enemies){if(!e.alive)continue;const c=e.center(),d=c.distanceTo(pc)-e.r;if(d>L.range)continue;
     const dir=c.clone().sub(pc);const fl=Math.hypot(dir.x,dir.z)||1;if((dir.x*fwd.x+dir.z*fwd.z)/fl<0.1&&d>2)continue;
-    hurtEnemy(e,L.dmg);spark(c,true);any=true;}
+    hurtEnemy(e,L.dmg*(S.a.blade||1));spark(c,true);any=true;}
   if(any){shake=Math.max(shake,0.6);nz(0.2,2500,0.25);}
+}
+function startQB(fwd,rgt,mx,mz){
+  const B=S.bo;if(P.qbCd>0||P.over||P.en<B.qbEn*0.5)return;
+  P.en-=B.qbEn;P.qbCd=B.qbCd;P.qbT=0.2;
+  const d=fwd.clone().multiplyScalar(mz).add(rgt.clone().multiplyScalar(mx));d.y=0;
+  if(d.length()<0.1)d.copy(fwd);d.normalize();
+  const pw=B.qb*(0.55+0.45*S.spdF/0.78)*(S.l.type==='tank'?0.8:1);
+  P.vel.x=d.x*pw;P.vel.z=d.z*pw;if(!P.grounded&&P.vel.y<0)P.vel.y*=0.3;
+  sfx.qb();shake=Math.max(shake,0.25);
+  const back=P.pos.clone().add(new V3(0,3.6,0)).addScaledVector(d,-2.2);
+  for(let i=0;i<4;i++)part(back.clone().addScaledVector(d,-i*1.3),{mat:matBlue,life:0.22,s:1.1,grow:5});
 }
 function updatePlayer(dt){
   if(!P.alive){if(boostG)boostG.gain.value=0;return;}
@@ -1064,7 +1113,7 @@ function updatePlayer(dt){
   let mx=(held('right')?1:0)-(held('left')?1:0)+T.mx+(PAD.on?PAD.ax[0]:0),mz=(held('fwd')?1:0)-(held('back')?1:0)+T.mz-(PAD.on?PAD.ax[1]:0);
   const ml=Math.hypot(mx,mz);if(ml>1){mx/=ml;mz/=ml;}
   const wantDash=held('dash')&&ml>0.1,wantUp=held('jump');
-  P.bladeCd-=dt;
+  P.bladeCd-=dt;P.qbCd-=dt;
   if(bladeReq){bladeReq=false;startBlade(fwd);}
   let use=false;P.boosting=false;P.dashing=false;
   if(P.lungeT>0){
@@ -1073,16 +1122,18 @@ function updatePlayer(dt){
     if(P.lungeT<=0)P.vel.multiplyScalar(0.35);
   }else{
     if(!P.slashed&&P.slash>0)resolveBlade(fwd);
+    if(qbReq){qbReq=false;startQB(fwd,rgt,mx,mz);}
+    const qbOn=P.qbT>0;if(qbOn){P.qbT-=dt;use=true;}
     P.dashing=wantDash&&!P.over&&P.en>0;
-    const sp=(P.dashing?LG.dash:LG.walk)*S.spdF*(P.grounded?1:0.92);
+    const sp=(P.dashing?LG.dash*S.bo.dash:LG.walk)*S.spdF*(P.grounded?1:0.92);
     const tv=fwd.clone().multiplyScalar(mz*sp).add(rgt.clone().multiplyScalar(mx*sp));
-    const acc=P.grounded?(P.dashing?6:9):(P.dashing?4:2.2);
+    const acc=qbOn?0.5:P.grounded?(P.dashing?6:9):(P.dashing?4:2.2);
     P.vel.x+=(tv.x-P.vel.x)*Math.min(1,dt*acc);P.vel.z+=(tv.z-P.vel.z)*Math.min(1,dt*acc);
-    if(P.dashing){P.en-=(LG.type==='tank'?300:260)*dt;use=true;}
+    if(P.dashing){P.en-=(LG.type==='tank'?300:260)*S.bo.dash*dt;use=true;}
     if(wantUp){
       if(P.grounded&&!P.jl){P.vel.y=LG.jump;P.jl=true;}
       else if(!P.grounded&&!P.over&&P.en>0){
-        const up=LG.type==='tank'?8:LG.hover?9:11,cost=LG.type==='tank'?420:LG.hover?200:330;
+        const up=(LG.type==='tank'?8:LG.hover?9:11)*S.bo.up,cost=(LG.type==='tank'?420:LG.hover?200:330)*S.bo.up;
         P.vel.y=Math.min(P.vel.y+48*dt,up);P.en-=cost*dt;use=true;P.boosting=true;
       }else if(!P.grounded&&LG.hover&&P.vel.y<-2.5)P.vel.y=-2.5;
     }else P.jl=false;
@@ -1091,44 +1142,49 @@ function updatePlayer(dt){
   if(P.slash>0)P.slash-=dt;P.mech.slashT=Math.max(0,P.slash);
   P.pos.addScaledVector(P.vel,dt);
   P.grounded=collide(P.pos,P.vel,LG.type==='tank'?2.2:1.6);
-  if(!use&&P.lungeT<=0)P.en+=(P.grounded?420:160)*dt;
+  if(!use&&P.lungeT<=0)P.en+=(P.grounded?420:160)*S.regen*dt;
   if(P.en<=0){P.en=0;if(!P.over){P.over=true;say('EN不足',1.4,'#ff4b3a');}}
   if(P.over&&P.en>=P.enMax*0.35)P.over=false;
   P.en=Math.min(P.en,P.enMax);
   P.mech.g.position.copy(P.pos);P.mech.g.rotation.y=P.yaw;
-  animMech(P.mech,Math.hypot(P.vel.x,P.vel.z),P.grounded,dt,P.pitch,P.boosting||P.dashing||P.lungeT>0);
+  animMech(P.mech,Math.hypot(P.vel.x,P.vel.z),P.grounded,dt,P.pitch,P.boosting||P.dashing||P.lungeT>0||P.qbT>0);
   if(boostG)boostG.gain.value=(P.boosting||P.dashing||P.lungeT>0)?0.22*save.settings.vol:0.0;
 
   const R=S.r,B=S.b;
   P.fireCd-=dt;P.mslCd-=dt;
   const aimAt=(from,spd)=>{if(rifleT&&rifleT.alive){const c=rifleT.center(),t=c.distanceTo(from)/spd;if(rifleT.vel)c.addScaledVector(rifleT.vel,t);return c;}return aimPoint.clone();};
-  if(held('fire')&&P.fireCd<=0&&P.ammo>0&&P.slash<=0){
-    P.fireCd=R.cd*S.a.rate;P.ammo--;usedB++;
+  const canFire=R.en?(!P.over&&P.en>=R.en):P.ammo>0;
+  if(held('fire')&&P.fireCd<=0&&canFire&&P.slash<=0){
+    P.fireCd=R.cd*S.a.rate;if(R.en)P.en-=R.en;else{P.ammo--;usedB++;}
     const mp=P.mech.muzzle.getWorldPosition(new V3());
-    const dir=aimAt(mp,R.spd).sub(mp).normalize();
-    dir.x+=(Math.random()-.5)*R.spread;dir.y+=(Math.random()-.5)*R.spread;dir.normalize();
-    spawnShot({p:mp,v:dir.multiplyScalar(R.spd),dmg:R.dmg,foe:false,kind:R.kind,life:R.kind==='s'?3:1.4});
-    part(mp,{mat:matSpark,life:0.05,s:R.kind==='s'?1.6:0.9,grow:6});
+    const base=aimAt(mp,R.spd).sub(mp).normalize();
+    for(let k=0;k<(R.pellets||1);k++){
+      const dir=base.clone();dir.x+=(Math.random()-.5)*R.spread;dir.y+=(Math.random()-.5)*R.spread;if(R.pellets)dir.z+=(Math.random()-.5)*R.spread;dir.normalize();
+      spawnShot({p:mp.clone(),v:dir.multiplyScalar(R.spd),dmg:R.dmg,foe:false,kind:R.kind,energy:!!R.en,life:R.kind==='s'?3:R.id==='SR'?2:R.pellets?0.9:1.4});
+    }
+    part(mp,{mat:R.en?matBlue:matSpark,life:0.05,s:R.kind==='s'||R.pellets?1.6:0.9,grow:6});
     if(R.kind==='s'){sfx.heavy();shake=Math.max(shake,0.3);if(LG.type!=='tank')P.vel.addScaledVector(fwd,-4);}
-    else if(R.id==='MG')sfx.mg();else sfx.shot();
+    else if(R.id==='MG')sfx.mg();else if(R.en)sfx.pulse();else if(R.pellets){sfx.sg();shake=Math.max(shake,0.15);}else if(R.id==='SR'){sfx.sniper();shake=Math.max(shake,0.2);}else sfx.shot();
   }
   if(mslReq){
     mslReq=false;
     if(P.mslCd<=0&&P.msl>0){
       const pod=P.mech.pod.getWorldPosition(new V3());
       if(B.kind==='g'){
-        P.mslCd=1.8;P.msl--;usedM++;
-        const dir=aimAt(pod,110).sub(pod).normalize();
-        spawnShot({p:pod.clone().addScaledVector(dir,1),v:dir.multiplyScalar(110),dmg:B.dmg,foe:false,kind:'g',life:4});
+        P.mslCd=B.cd;P.msl--;usedM++;
+        const dir=aimAt(pod,B.spd).sub(pod).normalize();
+        spawnShot({p:pod.clone().addScaledVector(dir,1),v:dir.multiplyScalar(B.spd),dmg:B.dmg,foe:false,kind:'g',blast:B.blast,bsize:B.bsize,life:4});
         part(pod,{geo:gIco,mat:matFire,life:0.2,s:1,grow:8});sfx.heavy();shake=Math.max(shake,0.8);
-        if(LG.type!=='tank'){P.vel.addScaledVector(fwd,-14);if(!P.grounded)P.vel.y=Math.max(P.vel.y,2);}
+        if(LG.type!=='tank'){P.vel.addScaledVector(fwd,-B.recoil);if(!P.grounded)P.vel.y=Math.max(P.vel.y,2);}
       }else{
         P.mslCd=0.9;
         const tg=lockedList.length?lockedList:[null];
         tg.forEach((t,i)=>{if(P.msl<=0)return;P.msl--;usedM++;
-          let v;if(t)v=fwd.clone().multiplyScalar(26).add(new V3(0,16,0)).addScaledVector(rgt,(i-(tg.length-1)/2)*7);
+          const off=i-(tg.length-1)/2;let v;
+          if(B.vert&&t)v=new V3(0,34,0).addScaledVector(rgt,off*3);
+          else if(t)v=fwd.clone().multiplyScalar(26).add(new V3(0,16,0)).addScaledVector(rgt,off*7);
           else v=aimPoint.clone().sub(pod).normalize().multiplyScalar(60);
-          spawnShot({p:pod.clone().addScaledVector(rgt,(i-(tg.length-1)/2)*0.3),v,dmg:B.dmg,foe:false,kind:'m',target:t,life:5});});
+          spawnShot({p:pod.clone().addScaledVector(rgt,off*0.3),v,dmg:B.dmg,foe:false,kind:'m',target:t,vert:!!(B.vert&&t),life:B.vert?7:5});});
         sfx.msl();
       }
     }
@@ -1174,7 +1230,7 @@ function clearWorld(){
 function reset(){
   clearWorld();loadMap(curM.map);S=calcStats(save.eq);
   Object.assign(P,{yaw:0,pitch:0.05,ap:S.ap,max:S.ap,en:S.en,enMax:S.en,over:false,grounded:true,alive:true,ammo:S.r.ammo,msl:S.b.ammo,
-    fireCd:0,mslCd:0,bladeCd:0,slash:0,lungeT:0,slashed:true,jl:false});
+    fireCd:0,mslCd:0,bladeCd:0,slash:0,lungeT:0,slashed:true,jl:false,qbT:0,qbCd:0});
   P.pos.set(0,0,MAP.gen?8:0);P.vel.set(0,0,0);rebuildPlayer();
   if(GEN){GEN.hp=GEN.max=curM.genHP||4000;}
   for(const [type,n,o] of (curM.spawn||[]))for(let i=0;i<n;i++)spawnOne(type,Object.assign({},o||{}));
@@ -1230,7 +1286,8 @@ function showResult(){
   if(win){
     const idx=MISSIONS.indexOf(m),prev=save.cleared[m.id];
     if(!prev||RANKS.indexOf(rank)<RANKS.indexOf(prev))save.cleared[m.id]=rank;
-    if(!prev){addMail(m.id);if(idx+1>save.prog)save.prog=Math.min(MISSIONS.length-1,idx+1);note='新着メールがあります。'+(idx+1<MISSIONS.length?'新しい依頼が届きました。':'');}
+    if(!prev){addMail(m.id);if(idx+1>save.prog)save.prog=Math.min(MISSIONS.length-1,idx+1);note='新着メールがあります。'+(idx+1<MISSIONS.length?'新しい依頼が届きました。':'');
+      const np=Object.values(PARTS).flat().filter(p=>p.req===m.id);if(np.length)note+=`ショップに新しいパーツが${np.length}点入荷しました。`;}
   }
   persist();
   const t=missionT|0;
@@ -1256,7 +1313,7 @@ function sortie(){if(!curM||calcStats(save.eq).over)return;reset();startPlay();}
 
 /* ================= hub screens ================= */
 let hubView='menu',gTab='legs',gNote='',gNoteOk=false,selM=null,selMail=null,wipeArm=false;
-const CATS=[['head','頭部'],['core','コア'],['arms','腕部'],['legs','脚部'],['rw','右腕'],['lw','左腕'],['bw','背部'],['color','カラー']];
+const CATS=[['head','頭部'],['core','コア'],['arms','腕部'],['legs','脚部'],['boost','ブースター'],['gen','ジェネ'],['rw','右腕'],['lw','左腕'],['bw','背部'],['color','カラー']];
 function toHub(view){
   initAudio();hideAll();clearWorld();
   if(curMapId!=='hangar'){loadMap('hangar');}
@@ -1333,8 +1390,8 @@ function renderSystem(){
       <b>${['fwd','left','back','right'].map(a=>keyName(K[a][0])).join('')}</b><span>移動</span>
       <b>マウス / ${['turnL','turnR','lookU','lookD'].map(a=>keyName(K[a][0])).join('')}</b><span>旋回・照準</span>
       <b>${kn('fire')}</b><span>右腕武器</span><b>${kn('bw')}</b><span>背部武器</span><b>${kn('blade')}</b><span>ブレード</span>
-      <b>${kn('jump')}</b><span>ジャンプ → 長押しで上昇</span><b>${kn('dash')}</b><span>ダッシュ</span><b>${kn('pause')}</b><span>一時停止</span></div></div>
-    <div class="srow"><span class="lbl">スマホ</span><span class="sub2">左下のスティックで移動、画面右側をなぞって旋回。右下のボタンで射撃・背部・ブレード・ダッシュ・上昇。</span></div>
+      <b>${kn('jump')}</b><span>ジャンプ → 長押しで上昇</span><b>${kn('dash')}</b><span>ダッシュ</span><b>${kn('qb')}</b><span>クイックブースト（移動方向へ瞬間加速）</span><b>${kn('pause')}</b><span>一時停止</span></div></div>
+    <div class="srow"><span class="lbl">スマホ</span><span class="sub2">左下のスティックで移動、画面右側をなぞって旋回。右下のボタンで射撃・背部・ブレード・QB・ダッシュ・上昇。</span></div>
     <div class="srow"><span class="lbl">データ管理</span><div class="row"><button class="btn sub ${wipeArm?'warn':''}" data-act="wipe">${wipeArm?'もう一度押すと全データを消去します':'セーブデータを消去'}</button></div></div>
   </div>
   <div class="row"><button class="btn sub" data-act="menu" data-back>戻る</button></div>`;
@@ -1369,9 +1426,11 @@ function renderPad(){
 function partStats(cat,p){
   if(cat==='head')return `AP ${p.ap} ／ 重量 ${p.w} ／ ロック距離 ${p.lockR} ／ ロック時間 ${p.lockT}秒`;
   if(cat==='core')return `AP ${p.ap} ／ 重量 ${p.w} ／ EN容量 ${p.en}`;
-  if(cat==='arms')return `AP ${p.ap} ／ 重量 ${p.w}`+(p.rate<1?' ／ 連射+15%':'');
+  if(cat==='arms')return `AP ${p.ap} ／ 重量 ${p.w}`+(p.rate<1?` ／ 連射+${Math.round((1-p.rate)*100)}%`:p.rate>1?` ／ 連射-${Math.round((p.rate-1)*100)}%`:'')+(p.blade>1?' ／ ブレード威力+35%':'');
+  if(cat==='boost')return `重量 ${p.w} ／ 速度 ×${p.dash} ／ QB出力 ${p.qb} ／ QB消費EN ${p.qbEn}`;
+  if(cat==='gen')return `重量 ${p.w} ／ EN容量 ${p.en>=0?'+':''}${p.en} ／ EN回復 ×${p.regen}`;
   if(cat==='legs')return `AP ${p.ap} ／ 積載 ${p.load} ／ 速度 ${p.walk*12} km/h ／ ジャンプ ${p.jump}`;
-  if(cat==='rw')return `威力 ${p.dmg} ／ 弾数 ${p.ammo} ／ 重量 ${p.w} ／ 弾単価 ${p.cost} cr`;
+  if(cat==='rw')return p.en?`威力 ${p.dmg} ／ EN消費 ${p.en}/発 ／ 重量 ${p.w} ／ 弾薬費なし`:`威力 ${p.dmg}${p.pellets?'×'+p.pellets:''} ／ 弾数 ${p.ammo} ／ 重量 ${p.w} ／ 弾単価 ${p.cost} cr`;
   if(cat==='lw')return p.dmg?`威力 ${p.dmg} ／ 間合い ${p.range} ／ EN消費 ${p.en} ／ 重量 ${p.w}`:'重量 0';
   return `威力 ${p.dmg} ／ 弾数 ${p.ammo} ／ ${p.locks?'最大ロック '+p.locks:'ロックなし'} ／ 重量 ${p.w} ／ 弾単価 ${p.cost} cr`;
 }
@@ -1383,15 +1442,15 @@ function renderGarage(){
   if(gTab==='color')list=COLORS.map((c,i)=>`<button class="pitem${save.eq.color===i?' eq':''}" data-act="color" data-i="${i}">
       <span class="nm"><span class="sw">${c.c.map(x=>`<i style="background:${hex(x)}"></i>`).join('')}</span>${c.name}</span><span class="pr">${save.eq.color===i?'装備中':'無料'}</span></button>`).join('');
   else list=PARTS[gTab].map(p=>{
-    const eq=save.eq[gTab]===p.id,own=save.owned.includes(p.id);
-    const pr=eq?'装備中':own?'所持':`<span class="${save.cr>=p.price?'':'no'}">${fmt(p.price)} cr</span>`;
-    return `<button class="pitem${eq?' eq':''}" data-act="part" data-id="${p.id}"><span class="nm">${p.name}</span><span class="pr">${pr}</span>
+    const eq=save.eq[gTab]===p.id,own=save.owned.includes(p.id),lk=!own&&p.req&&!save.cleared[p.req];
+    const pr=eq?'装備中':own?'所持':lk?`<span class="no">第${MISSIONS.findIndex(m=>m.id===p.req)+1}話クリアで入荷</span>`:`<span class="${save.cr>=p.price?'':'no'}">${fmt(p.price)} cr</span>`;
+    return `<button class="pitem${eq?' eq':''}${lk?' lock':''}" data-act="part" data-id="${p.id}"><span class="nm">${p.name}</span><span class="pr">${pr}</span>
       <span class="st">${p.desc}<br>${partStats(gTab,p)}</span></button>`;}).join('');
   const pct=Math.min(100,S.load/S.cap*100);
   dock.innerHTML=`${head(curM?'ガレージ ── 出撃準備：'+esc(curM.name):'ガレージ')}
   <div class="tabs" role="tablist">${tabs}</div>
   <div class="plist">${list}</div>
-  <div class="gstats"><div><span>AP</span><b>${fmt(S.ap)}</b></div><div><span>EN容量</span><b>${fmt(S.en)}</b></div>
+  <div class="gstats"><div><span>AP</span><b>${fmt(S.ap)}</b></div><div><span>EN容量</span><b>${fmt(S.en)}</b></div><div><span>QB出力</span><b>${S.bo.qb}</b></div><div><span>EN回復</span><b>×${S.regen}</b></div>
     <div><span>巡航速度</span><b>${Math.round(S.l.walk*S.spdF*12)} km/h</b></div><div><span>脚部</span><b>${S.l.name.split(' ')[1]}</b></div>
     <div class="full"><span>積載量</span><b class="${S.over?'ng':''}">${fmt(S.load)} / ${fmt(S.cap)}</b></div>
     <div class="lbar${S.over?' over':''}"><i style="width:calc(${pct}% - 2px)"></i></div></div>
@@ -1430,6 +1489,7 @@ dock.addEventListener('click',e=>{
     case 'color':sfx.click();save.eq.color=+b.dataset.i;rebuildPlayer();break;
     case 'part':{
       const p=pt(gTab,b.dataset.id);gNote='';gNoteOk=false;
+      if(!save.owned.includes(p.id)&&p.req&&!save.cleared[p.req]){gNote='このパーツはまだ入荷していません。依頼をこなすと入荷します。';sfx.deny();break;}
       if(!save.owned.includes(p.id)){
         if(save.cr<p.price){gNote=`${p.name} を買うには ${fmt(p.price-save.cr)} cr 足りません。`;sfx.deny();break;}
         save.cr-=p.price;save.owned.push(p.id);gNote=`${p.name} を購入しました。`;gNoteOk=true;sfx.buy();
@@ -1507,7 +1567,7 @@ function drawHUD(time){
   bar(w/2-120*u,h-32*u,240*u,10*u,P.en/P.enMax,enc);
   hx.textAlign='right';
   if(S.lw.dmg){hx.font=F(13);const rdy=P.bladeCd<=0&&!P.over;hx.fillStyle=rdy?HC:'rgba(127,216,255,.45)';hx.fillText('L  '+S.lw.hud+(rdy?'  READY':''),w-16*u,h-118*u);}
-  hx.font=F(13);hx.fillStyle=P.ammo>0?HG:HR;hx.fillText('R  '+S.r.hud,w-16*u,h-92*u);hx.font=F(22);hx.fillText(String(P.ammo).padStart(3,'0'),w-16*u,h-76*u);
+  hx.font=F(13);hx.fillStyle=(S.r.en?!P.over:P.ammo>0)?(S.r.en?HC:HG):HR;hx.fillText('R  '+S.r.hud,w-16*u,h-92*u);hx.font=F(22);hx.fillText(S.r.en?'EN':String(P.ammo).padStart(3,'0'),w-16*u,h-76*u);
   hx.font=F(13);hx.fillStyle=P.msl>0?(P.mslCd>0?'rgba(158,240,124,.5)':HG):HR;
   hx.fillText('B  '+S.b.hud+(lockedList.length?' ×'+lockedList.length:''),w-16*u,h-48*u);
   hx.font=F(22);hx.fillText(String(P.msl).padStart(2,'0'),w-16*u,h-32*u);
