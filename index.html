@@ -269,6 +269,7 @@ const MAPS={
   desert:{name:'ハルサ砂漠 補給路',sky:0xd0a070,fog:[70,330],hemi:[0xfff0d0,0x6a4a2a,0.85],sun:0.9,ground:'sand',style:'desert',seed:33,lim:300},
   night:{name:'第九工業区画',sky:0x0e1420,fog:[25,165],hemi:[0x7a8aaa,0x101010,0.6],sun:0.22,ground:'concrete',style:'factory',seed:44,lim:240},
   ruins:{name:'灰塵の廃墟区画',sky:0x5c6068,fog:[40,200],hemi:[0xc8ccd4,0x2a2c30,0.75],sun:0.5,ground:'ash',style:'ruins',seed:55,lim:200},
+  arena:{name:'アリーナ 第一闘技場',sky:0x22252a,fog:[70,240],hemi:[0xe8ecf0,0x30343a,0.95],sun:0.6,ground:'arena',style:'arena',seed:77,lim:104,start:[0,0,70]},
   hq:{name:'ガルム重工 本社区画',sky:0x6a4058,fog:[50,250],hemi:[0xffc8b0,0x2a1a24,0.8],sun:0.7,ground:'concrete',style:'hq',seed:66,lim:252}
 };
 
@@ -296,6 +297,8 @@ const MISSIONS=[
 
 const MAILS={
   welcome:{from:'傭兵管理局',title:'登録完了のお知らせ',body:'{P} 様。傭兵登録が完了しました。機体名「{A}」で登録されています。\n依頼はミッション画面から受けられます。報酬からは弾薬費と修理費が差し引かれますので、ご注意ください。\nご武運を。'},
+  arena:{from:'アリーナ運営委員会',title:'アリーナ参戦のご案内',body:'{P} 様。初任務の達成、おめでとうございます。\n依頼の合間に、腕試しをしてみませんか。アリーナでは傭兵同士が1対1で戦い、順位を競います。\nひとつ上の順位の相手に勝てば、その順位はあなたのものです。修理費と弾薬費は運営が負担します。\nメインメニューの「アリーナ」からどうぞ。'},
+  arenaTop:{from:'アリーナ運営委員会',title:'王者 {A} へ',body:'第1位ネメシスの撃破を確認しました。\n本日をもって、{A} がアリーナの頂点です。\n挑戦者はすぐに現れるでしょう。その座を守り抜いてください。'},
   m1:{from:'ガルム重工',title:'良い仕事だった',body:'見事だった、{P}。これからも君には仕事を回そう。\n……ところで、ノルド電力公社から依頼が来ても、深入りはしないことだ。'},
   m2:{from:'ノルド電力公社',title:'襲撃部隊について',body:'施設を守っていただき、感謝します。\n襲撃部隊の残骸を調べたところ、ガルム重工製の部品が多数見つかりました。偶然だといいのですが。'},
   m3:{from:'匿名',title:'頼みたい仕事がある',body:'君の戦い方を見ていた。ひとつ頼みたい仕事がある。報酬は弾む。\nミッション一覧を確認してくれ。'},
@@ -316,10 +319,11 @@ function defSettings(){return {res:240,vol:0.7,sens:1,padSens:1,invY:false,keys:
 /* ================= save ================= */
 const SKEY='irondust-save-v2',OLDKEY='irondust-save-v1';
 function freshSave(){return {pilot:'',acName:'',cr:20000,owned:['HD-A','CR-A','AR-A','LG-B','RF','MS','LB-0','LB-10','BS-A','GN-A'],
-  eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-10',bw:'MS',boost:'BS-A',gen:'GN-A',color:0},prog:0,cleared:{},mails:[],settings:defSettings()};}
+  eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-10',bw:'MS',boost:'BS-A',gen:'GN-A',color:0},prog:0,cleared:{},mails:[],arena:{rank:11},settings:defSettings()};}
 let save=freshSave();
 try{const s=JSON.parse(localStorage.getItem(SKEY));if(s&&s.eq&&Array.isArray(s.owned))save=Object.assign(freshSave(),s);}catch(e){}
 try{if(!save.pilot){const o=JSON.parse(localStorage.getItem(OLDKEY));if(o&&o.eq){save.cr=Math.max(save.cr,o.cr|0);save.owned=[...new Set(save.owned.concat(o.owned||[]))];Object.assign(save.eq,o.eq);}}}catch(e){}
+if(!save.arena)save.arena={rank:11};
 for(const [k,v] of [['lw','LB-10'],['boost','BS-A'],['gen','GN-A']]){if(!save.eq[k])save.eq[k]=v;if(!save.owned.includes(v))save.owned.push(v);}
 function normSettings(){const s=save.settings=Object.assign(defSettings(),save.settings||{});s.keys=Object.assign(defSettings().keys,s.keys||{});for(const a in DEF_KEYS)if(!Array.isArray(s.keys[a])||s.keys[a].length!==2)s.keys[a]=DEF_KEYS[a].slice();s.pad=Object.assign({},DEF_PAD,s.pad||{});}
 normSettings();
@@ -381,6 +385,7 @@ function tex(key){
     case 'g_concrete':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#6a6a66';g.fillRect(0,0,w,h);speck(g,w,h,400,90,30,[0,0,-4]);g.fillStyle='#4a4a46';g.fillRect(0,0,w,1);g.fillRect(0,0,1,h);g.fillRect(0,32,w,1);g.fillRect(32,0,1,h);},90,90);break;
     case 'g_sand':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#c09060';g.fillRect(0,0,w,h);for(let y=0;y<h;y+=4){g.fillStyle=`rgba(120,70,30,${0.06+R()*0.08})`;g.fillRect(0,y+(R()*2|0),w,2);}speck(g,w,h,260,150,40,[40,10,-30]);},80,80);break;
     case 'g_ash':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#4e4e50';g.fillRect(0,0,w,h);speck(g,w,h,600,50,40,[0,0,4]);for(let i=0;i<30;i++){g.fillStyle='#2e2e30';g.fillRect(R()*w|0,R()*h|0,3+R()*4|0,2);}},90,90);break;
+    case 'g_arena':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#3e4246';g.fillRect(0,0,w,h);speck(g,w,h,240,56,22,[0,2,6]);g.fillStyle='#2a2d31';g.fillRect(0,0,w,2);g.fillRect(0,0,2,h);g.fillStyle='rgba(242,184,75,.35)';g.fillRect(31,0,1,h);g.fillRect(0,31,w,1);},40,40);break;
     case 'g_hangar':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#55574f';g.fillRect(0,0,w,h);speck(g,w,h,300,70,26,[0,2,-4]);g.fillStyle='#3a3c36';g.fillRect(0,0,w,2);g.fillRect(0,0,2,h);g.fillStyle='#c09a30';for(let x=0;x<w;x+=8){g.fillRect(x,58,4,6);}},10,10);break;
     case 'b_city0':case 'b_city1':case 'b_city2':{const P=[['#8a8070','#37373d'],['#6f7478','#2b2f35'],['#9a8a6a','#433e37']][+key.slice(-1)];
       t=canvasTex(32,32,(g,w,h)=>{g.fillStyle=P[0];g.fillRect(0,0,w,h);for(let y=3;y<h;y+=8)for(let x=2;x<w;x+=8){g.fillStyle=R()<0.22?'#d6b268':P[1];g.fillRect(x,y,4,4);}g.fillStyle='rgba(0,0,0,.18)';g.fillRect(0,h-3,w,3);});break;}
@@ -445,6 +450,13 @@ function loadMap(id){
       blds.push({x:gx,z:gz,hw:5,hd:5,h:10});
       GEN={pos:new V3(gx,0,gz),c:new V3(gx,5,gz),hp:0,max:1,flash:0};
     }
+  }else if(st==='arena'){
+    const R=112;
+    for(const [x,z,w,d] of [[0,-R,2*R+4,4],[0,R,2*R+4,4],[-R,0,4,2*R+4],[R,0,4,2*R+4]])addBld(x,z,w,d,30,'b_wall',0x2a2c28,{unit:6});
+    for(const [x,z,w,d,h] of [[-40,-20,10,10,8],[40,20,10,10,8],[40,-20,10,10,8],[-40,20,10,10,8],[0,0,6,26,5],[-70,-60,16,6,12],[70,60,16,6,12],[70,-60,6,16,12],[-70,60,6,16,12]])
+      addBld(x,z,w,d,h,'b_metal',0x30343a);
+    for(let i=0;i<16;i++){const a=i/16*Math.PI*2,x=Math.cos(a)*(R-3),z=Math.sin(a)*(R-3);deco(new THREE.BoxGeometry(3,1.2,3),0xfff2d0,x,31,z,true);}
+    for(let i=0;i<8;i++)blinkers.push(deco(new THREE.BoxGeometry(1.2,0.6,1.2),0xff9a30,Math.cos(i/8*6.28)*(R-3),26,Math.sin(i/8*6.28)*(R-3),true));
   }else if(st==='desert'){
     for(let k=0;k<4;k++){const a=rnd()*6.28,r=120+rnd()*120;addBld(Math.cos(a)*r,Math.sin(a)*r,40+rnd()*30,40+rnd()*30,24+rnd()*20,'b_rock',0xb08458,{unit:10});}
     for(let k=0;k<46;k++){const x=(rnd()-.5)*560,z=(rnd()-.5)*560;if(Math.hypot(x,z)<45||nearBld(x,z,6))continue;
@@ -805,12 +817,12 @@ function spawnTurret(o){
   return {type:'turret',g,head,pos:g.position,vel:new V3(),hp:800,max:800,r:3.2,cy:3,alive:true,cd:1+Math.random()*2,lock:0,target:!!o.target,center:centerFn};
 }
 function spawnAC(o){
-  const cfg=ACS[o.cfg||'mt'],m=buildMech(cfg.spec,cfg.cols);
+  const cfg=typeof o.cfg==='object'?o.cfg:ACS[o.cfg||'mt'],isMT=cfg===ACS.mt,m=buildMech(cfg.spec,cfg.cols);
   if(cfg.scale)m.g.scale.setScalar(cfg.scale);
   let p=o.pos;
   if(!p){p=openSpot(o.cfg==='mt'?70:100,o.cfg==='mt'?200:170);for(let k=0;k<40&&p.distanceTo(P.pos)<80;k++)p=openSpot(80,220);}
   m.g.position.copy(p);scene.add(m.g);
-  return {type:o.cfg==='mt'?'mt':'ac',isBoss:o.cfg!=='mt',cfg,g:m.g,m,pos:m.g.position,vel:new V3(),hp:cfg.hp,max:cfg.hp,r:cfg.r,cy:cfg.cy,alive:true,lock:0,center:centerFn,
+  return {type:isMT?'mt':'ac',isBoss:!isMT,cfg,g:m.g,m,pos:m.g.position,vel:new V3(),hp:cfg.hp,max:cfg.hp,r:cfg.r,cy:cfg.cy,alive:true,lock:0,center:centerFn,
     grounded:true,yaw:0,sd:1,st:1+Math.random(),jt:1.5+Math.random()*2,hover:0,cd:1.5+Math.random(),burst:0,bt:0,mcd:cfg.mcd||99,dash:0,bladeCd:3,lungeT:0,slashT:0,slashed:true};
 }
 function spawnOne(type,o){
@@ -844,7 +856,7 @@ function updateAC(e,dt){
       e.st-=dt;if(e.st<=0){e.sd=Math.random()<.5?1:-1;e.st=1+Math.random()*1.8;if(c.dash&&Math.random()<.4)e.dash=0.7;}
       e.jt-=dt;if(e.jt<=0&&e.grounded){e.vel.y=c.jump;e.hover=c.dash?0.5+Math.random()*0.6:0;e.jt=2+Math.random()*3;}
       const f=new V3(-Math.sin(e.yaw),0,-Math.cos(e.yaw)),r=new V3(Math.cos(e.yaw),0,-Math.sin(e.yaw));
-      const near=c.blade?14:32,far=T.gen?30:65,rad=dist>far?1:dist<near?-1:(c.blade&&Math.random()<0.02?1:0);
+      const near=c.near??(c.blade?14:32),far=T.gen?30:(c.far??65),rad=dist>far?1:dist<near?-1:(c.blade&&Math.random()<0.02?1:0);
       e.dash-=dt;const sp=e.dash>0?c.dash:c.sp;
       const tv=f.multiplyScalar(rad).add(r.multiplyScalar(e.sd)).normalize().multiplyScalar(sp);
       if(e.qbT>0)e.qbT-=dt;else{e.vel.x+=(tv.x-e.vel.x)*Math.min(1,dt*5);e.vel.z+=(tv.z-e.vel.z)*Math.min(1,dt*5);}
@@ -857,11 +869,14 @@ function updateAC(e,dt){
   const ec=e.center(),pitch=Math.atan2(T.c.y-ec.y,Math.max(1,dist));
   animMech(e.m,Math.hypot(e.vel.x,e.vel.z)/(c.scale||1),e.grounded,dt,pitch,e.hover>0||e.dash>0||e.lungeT>0);
   if(!active)return;
-  e.cd-=dt;if(e.cd<=0&&dist<c.range&&e.lungeT<=0){e.burst=c.burst;e.cd=(c.blade?1.8:1.5)+Math.random()*0.8;}
+  e.cd-=dt;if(e.cd<=0&&dist<c.range&&e.lungeT<=0){e.burst=c.burst;e.cd=(c.burstCd??(c.blade?1.8:1.5))+Math.random()*0.8;}
   if(e.burst>0){e.bt-=dt;if(e.bt<=0){e.bt=c.gap;e.burst--;
     const from=e.m.muzzle.getWorldPosition(new V3());
-    if(los(from,T.c,T.gen?8:0.5)){const dir=lead(from,c.bs,0.85,T).sub(from).normalize();const sp=e.type==='mt'?0.05:0.025;dir.x+=(Math.random()-.5)*sp;dir.y+=(Math.random()-.5)*sp;dir.normalize();
-      spawnShot({p:from,v:dir.multiplyScalar(c.bs),dmg:c.bd,foe:true,kind:'b',life:2});sfx.eshot(e.pos);}}}
+    if(los(from,T.c,T.gen?8:0.5)){const dir=lead(from,c.bs,c.lead??0.85,T).sub(from).normalize();const sp=c.spread??(e.type==='mt'?0.05:0.025);dir.x+=(Math.random()-.5)*sp;dir.y+=(Math.random()-.5)*sp;dir.normalize();
+      spawnShot({p:from,v:dir.multiplyScalar(c.bs),dmg:c.bd,foe:true,kind:c.kind||'b',life:c.kind==='s'?3:2});if(c.kind==='s')sfx.shell(e.pos);else sfx.eshot(e.pos);}}}
+  if(c.can){e.ccd=(e.ccd===undefined?3:e.ccd)-dt;if(e.ccd<=0&&dist<170&&!T.gen&&e.lungeT<=0){e.ccd=c.canCd+Math.random()*2;
+    const from=e.m.pod.getWorldPosition(new V3());
+    if(los(from,T.c)){const dir=lead(from,c.canSpd,c.lead??0.8,T).sub(from).normalize();spawnShot({p:from.addScaledVector(dir,2),v:dir.multiplyScalar(c.canSpd),dmg:c.can,foe:true,kind:'s',life:3});boom(from,1.5);}}}
   if(c.mslN){e.mcd-=dt;if(e.mcd<=0&&dist<200&&!T.gen){e.mcd=c.mcd+Math.random()*3;
     const from=e.m.pod.getWorldPosition(new V3());
     for(let k=0;k<c.mslN;k++){const s=(k-(c.mslN-1)/2);spawnShot({p:from.clone(),v:new V3(Math.cos(e.yaw)*s*7,20+Math.abs(s)*2,-Math.sin(e.yaw)*s*7).add(new V3(-Math.sin(e.yaw)*12,0,-Math.cos(e.yaw)*12)),dmg:c.mslD,foe:true,kind:'m',life:6});}
@@ -1231,12 +1246,13 @@ function reset(){
   clearWorld();loadMap(curM.map);S=calcStats(save.eq);
   Object.assign(P,{yaw:0,pitch:0.05,ap:S.ap,max:S.ap,en:S.en,enMax:S.en,over:false,grounded:true,alive:true,ammo:S.r.ammo,msl:S.b.ammo,
     fireCd:0,mslCd:0,bladeCd:0,slash:0,lungeT:0,slashed:true,jl:false,qbT:0,qbCd:0});
-  P.pos.set(0,0,MAP.gen?8:0);P.vel.set(0,0,0);rebuildPlayer();
+  if(MAP.start)P.pos.set(...MAP.start);else P.pos.set(0,0,MAP.gen?8:0);P.vel.set(0,0,0);rebuildPlayer();
   if(GEN){GEN.hp=GEN.max=curM.genHP||4000;}
   for(const [type,n,o] of (curM.spawn||[]))for(let i=0;i<n;i++)spawnOne(type,Object.assign({},o||{}));
   waveIdx=0;missionT=0;endTimer=-1;outcome='';usedB=0;usedM=0;kills=0;hitFlash=0;shake=0;hitMark=0;
-  say(save.acName+'、作戦を開始する',3);
-  if(curM.obj==='boss')setTimeout(()=>{if(state==='play'&&!outcome){say('敵AC「'+enemies.find(e=>e.isBoss).cfg.name+'」を確認',3,'#ff4b3a');sfx.alarm();}},2600);
+  if(curM.arena){const o=arenaOpp(curM.arena);say(`${o.pilot}「${o.line}」`,3.5,'#f2b84b');}
+  else say(save.acName+'、作戦を開始する',3);
+  if(curM.obj==='boss'&&!curM.arena)setTimeout(()=>{if(state==='play'&&!outcome){say('敵AC「'+enemies.find(e=>e.isBoss).cfg.name+'」を確認',3,'#ff4b3a');sfx.alarm();}},2600);
 }
 function endMission(o){if(outcome)return;outcome=o;endTimer=o==='win'?3:2.8;if(o==='win')say('任務完了',3,'#f2b84b');}
 function objRemain(){
@@ -1277,16 +1293,19 @@ function showResult(){
   if(boostG)boostG.gain.value=0;
   const win=outcome==='win',m=curM,rank=win?calcRank():'─';
   $('resName').textContent=`${m.client} ／ ${m.name}`;
-  $('resTitle').textContent=win?'任務完了':'任務失敗';$('resTitle').className='big '+(win?'ok':'ng');
+  $('resTitle').textContent=m.arena?(win?'勝利':'敗北'):win?'任務完了':'任務失敗';$('resTitle').className='big '+(win?'ok':'ng');
   $('resRank').innerHTML=`${rank}<small>評価</small>`;
-  const base=win?m.reward:0,rb={S:0.3,A:0.15,B:0.05}[rank]||0,bonus=Math.round(base*rb);
-  const repair=Math.round((P.max-P.ap)*6),ammo=usedB*S.r.cost+usedM*S.b.cost,tot=base+bonus-repair-ammo;
+  const ar=!!m.arena,base=win?m.reward:0,rb={S:0.3,A:0.15,B:0.05}[rank]||0,bonus=ar?0:Math.round(base*rb);
+  const repair=ar?0:Math.round((P.max-P.ap)*6),ammo=ar?0:usedB*S.r.cost+usedM*S.b.cost,tot=base+bonus-repair-ammo;
   save.cr+=tot;
   let note='';
-  if(win){
+  if(win&&ar){
+    if(!m.rematch&&m.arena===save.arena.rank-1){save.arena.rank=m.arena;note=`アリーナ順位が第${m.arena}位に上がりました。`;
+      if(m.arena===1){addMail('arenaTop');note+='アリーナの頂点に立ちました。新着メールがあります。';}}
+  }else if(win){
     const idx=MISSIONS.indexOf(m),prev=save.cleared[m.id];
     if(!prev||RANKS.indexOf(rank)<RANKS.indexOf(prev))save.cleared[m.id]=rank;
-    if(!prev){addMail(m.id);if(idx+1>save.prog)save.prog=Math.min(MISSIONS.length-1,idx+1);note='新着メールがあります。'+(idx+1<MISSIONS.length?'新しい依頼が届きました。':'');
+    if(!prev){addMail(m.id);if(m.id==='m1')addMail('arena');if(idx+1>save.prog)save.prog=Math.min(MISSIONS.length-1,idx+1);note='新着メールがあります。'+(idx+1<MISSIONS.length?'新しい依頼が届きました。':'');
       const np=Object.values(PARTS).flat().filter(p=>p.req===m.id);if(np.length)note+=`ショップに新しいパーツが${np.length}点入荷しました。`;}
   }
   persist();
@@ -1295,8 +1314,8 @@ function showResult(){
 <tr><td>撃破数</td><td>${kills}</td></tr>
 <tr><td>基本報酬</td><td>${fmt(base)} cr</td></tr>
 <tr><td>評価ボーナス</td><td>${fmt(bonus)} cr</td></tr>
-<tr><td>修理費（AP ${fmt(P.max-P.ap)} 損傷）</td><td>${fmt(-repair)} cr</td></tr>
-<tr><td>弾薬費（${S.r.id} ${usedB}発 ／ ${S.b.id} ${usedM}発）</td><td>${fmt(-ammo)} cr</td></tr>
+<tr><td>修理費（AP ${fmt(P.max-P.ap)} 損傷）</td><td>${ar?'運営負担':fmt(-repair)+' cr'}</td></tr>
+<tr><td>弾薬費（${S.r.id} ${usedB}発 ／ ${S.b.id} ${usedM}発）</td><td>${ar?'運営負担':fmt(-ammo)+' cr'}</td></tr>
 <tr class="tot"><td>収支</td><td>${fmt(tot)} cr</td></tr>
 <tr><td>所持金</td><td class="${save.cr<0?'ng':''}">${fmt(save.cr)} cr</td></tr>`;
   $('resNote').textContent=note;
@@ -1315,6 +1334,7 @@ function sortie(){if(!curM||calcStats(save.eq).over)return;reset();startPlay();}
 let hubView='menu',gTab='legs',gNote='',gNoteOk=false,selM=null,selMail=null,wipeArm=false;
 const CATS=[['head','頭部'],['core','コア'],['arms','腕部'],['legs','脚部'],['boost','ブースター'],['gen','ジェネ'],['rw','右腕'],['lw','左腕'],['bw','背部'],['color','カラー']];
 function toHub(view){
+  if(save.cleared.m1)addMail('arena');
   initAudio();hideAll();clearWorld();
   if(curMapId!=='hangar'){loadMap('hangar');}
   P.pos.set(0,0,0);P.vel.set(0,0,0);P.yaw=0;rebuildPlayer();P.mech.g.visible=true;
@@ -1324,7 +1344,7 @@ function renderHub(){
   dock.classList.toggle('tall',hubView!=='menu');
   if(hubView==='menu')renderMenu();else if(hubView==='missions')renderMissions();
   else if(hubView==='mail')renderMail();else if(hubView==='system')renderSystem();
-  else if(hubView==='keys')renderKeys();else if(hubView==='pad')renderPad();else renderGarage();
+  else if(hubView==='arena')renderArena();else if(hubView==='keys')renderKeys();else if(hubView==='pad')renderPad();else renderGarage();
   if(PAD.on&&padEl){const it=navItems(dock);if(hubView!==padView){padIdx=0;padView=hubView;}if(it.length)focusPad(it[Math.min(padIdx,it.length-1)]);}
 }
 function head(crumb){return `<div class="crumb">${crumb}</div><div class="ghead"><span class="t">${esc(save.acName)}</span><span class="cr ${save.cr<0?'ng':''}">${fmt(save.cr)} cr</span></div>`;}
@@ -1334,6 +1354,7 @@ function renderMenu(){
   <div class="sub2">パイロット ${esc(save.pilot)} ／ 任務達成 ${done} / ${MISSIONS.length}</div>
   <nav class="mlist">
     <button class="mbtn" data-act="missions"><b>ミッション${newM?'<em>NEW</em>':''}</b><span>依頼を選んで出撃する</span></button>
+    ${save.cleared.m1?`<button class="mbtn" data-act="arena"><b>アリーナ</b><span>傭兵同士の1対1　現在 ${save.arena.rank>10?'圏外':'第'+save.arena.rank+'位'}</span></button>`:''}
     <button class="mbtn" data-act="garage"><b>ガレージ</b><span>機体の組み替えとパーツの購入</span></button>
     <button class="mbtn" data-act="mail"><b>メール${unread?`<em>${unread}</em>`:''}</b><span>届いたメッセージを読む</span></button>
     <button class="mbtn" data-act="system"><b>システム</b><span>画質・音量・キー設定・ゲームパッド・データ管理</span></button>
@@ -1359,13 +1380,13 @@ function renderMissions(){
 function renderMail(){
   if(!selMail&&save.mails.length)selMail=save.mails[0].id;
   const items=save.mails.map(x=>{const d=MAILS[x.id];return `<button class="pitem${x.id===selMail?' sel':''}${x.read?'':' unread'}" data-act="selmail" data-id="${x.id}">
-    <span class="nm">${esc(d.title)}</span><span class="pr">${esc(d.from)}</span></button>`;}).join('')||'<div class="sub2">メールはありません。</div>';
+    <span class="nm">${fillT(d.title)}</span><span class="pr">${esc(d.from)}</span></button>`;}).join('')||'<div class="sub2">メールはありません。</div>';
   const cur=save.mails.find(x=>x.id===selMail);
   if(cur&&!cur.read){cur.read=true;persist();}
   const d=cur&&MAILS[cur.id];
   dock.innerHTML=`${head('メール')}
   <div class="plist">${items}</div>
-  ${d?`<div class="detail"><div class="h">差出人：${esc(d.from)}</div><p><b>${esc(d.title)}</b></p>${fillT(d.body).split('\n').map(l=>`<p>${l||'&nbsp;'}</p>`).join('')}</div>`:''}
+  ${d?`<div class="detail"><div class="h">差出人：${esc(d.from)}</div><p><b>${fillT(d.title)}</b></p>${fillT(d.body).split('\n').map(l=>`<p>${l||'&nbsp;'}</p>`).join('')}</div>`:''}
   <div class="row"><button class="btn sub" data-act="menu">戻る</button></div>`;
 }
 function padStatus(){
@@ -1480,6 +1501,9 @@ dock.addEventListener('click',e=>{
       save=freshSave();wipeArm=false;curM=null;selM=null;selMail=null;rebuildPlayer();openTitle();return;
     case 'tab':sfx.click();gTab=b.dataset.tab;gNote='';break;
     case 'keys':sfx.click();hubView='keys';break;
+    case 'arena':sfx.click();curM=null;selA=null;hubView='arena';break;
+    case 'sela':sfx.click();selA=arenaOpp(+b.dataset.r);break;
+    case 'challenge':sfx.buy();curM=arenaMission(selA);gNote='';hubView='garage';break;
     case 'pad':sfx.click();hubView='pad';break;
     case 'invY':sfx.click();save.settings.invY=!save.settings.invY;persist();break;
     case 'kslot':{const a2=b.dataset.a,s2=+b.dataset.s;sfx.click();bindWait=(bindWait&&bindWait.kind==='key'&&bindWait.action===a2&&bindWait.slot===s2)?null:{kind:'key',action:a2,slot:s2};break;}
@@ -1499,6 +1523,82 @@ dock.addEventListener('click',e=>{
   }
   renderHub();
 });
+
+/* ================= arena ================= */
+const ARENA=[
+  {rank:10,ac:'ラストチャンス',pilot:'ボルト',line:'今日こそ勝つ。……たぶん。',hpMul:0.7,skill:0.6,qb:false,cols:[0x7a7a70,0x45453f,0xc0c040],
+   eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-0',bw:'MS'}},
+  {rank:9,ac:'モスグリーン',pilot:'ガレス',line:'重さは正義だ。',hpMul:0.75,skill:0.65,qb:false,cols:[0x5a6a3a,0x343c24,0xd0a040],
+   eq:{head:'HD-C',core:'CR-B',arms:'AR-C',legs:'LG-H',rw:'MG',lw:'LB-0',bw:'MS'}},
+  {rank:8,ac:'スプリンター',pilot:'ミナ',line:'近づいたら、もう遅いよ。',hpMul:0.8,skill:0.7,qb:true,cols:[0xd8d0c0,0x50504a,0xe06030],
+   eq:{head:'HD-A',core:'CR-C',arms:'AR-A',legs:'LG-L',rw:'SG',lw:'LB-10',bw:'MS',boost:'BS-B'}},
+  {rank:7,ac:'ホワイトノイズ',pilot:'シグ',line:'上を見ろ。そこにいる。',hpMul:0.85,skill:0.72,qb:true,cols:[0xc8ccd0,0x6a7078,0x40a0e0],
+   eq:{head:'HD-B',core:'CR-A',arms:'AR-B',legs:'LG-R',rw:'RF',lw:'LB-0',bw:'VL'}},
+  {rank:6,ac:'マッドモール',pilot:'ドルン',line:'逃げ回るやつは嫌いだ。',hpMul:0.9,skill:0.75,qb:false,cols:[0x6a5038,0x3a2c20,0xe0c060],
+   eq:{head:'HD-C',core:'CR-B',arms:'AR-C',legs:'LG-T',rw:'BZ',lw:'LB-0',bw:'GR'}},
+  {rank:5,ac:'シルフィード',pilot:'エラ',line:'風は捕まえられない。',hpMul:0.95,skill:0.8,qb:true,cols:[0x9ad0c0,0x3a5a58,0xf0f0e0],
+   eq:{head:'HD-B',core:'CR-C',arms:'AR-B',legs:'LG-Q',rw:'PL',lw:'LB-0',bw:'MM'}},
+  {rank:4,ac:'クロスボウ',pilot:'ヴィクター',line:'距離を詰められるものなら、どうぞ。',hpMul:1.0,skill:0.85,qb:true,cols:[0x4a4e3a,0x2a2c22,0xc04030],
+   eq:{head:'HD-D',core:'CR-A',arms:'AR-B',legs:'LG-B',rw:'SR',lw:'LB-0',bw:'CN'}},
+  {rank:3,ac:'ブラックサン',pilot:'カイ',line:'斬る。それだけだ。',hpMul:1.05,skill:0.9,qb:true,cols:[0x1e1e22,0x101012,0xf0a020],
+   eq:{head:'HD-A',core:'CR-C',arms:'AR-D',legs:'LG-L',rw:'MG',lw:'LB-77',bw:'MS',boost:'BS-B'}},
+  {rank:2,ac:'ゴルゴン',pilot:'マグダ',line:'石になる覚悟はできた？',hpMul:1.1,skill:0.95,qb:true,cols:[0x3a5a3a,0x1e2e1e,0xd0c050],
+   eq:{head:'HD-C',core:'CR-D',arms:'AR-C',legs:'LG-H',rw:'SG',lw:'LB-X',bw:'MM'}},
+  {rank:1,ac:'ネメシス',pilot:'名無し',line:'……来たか。',hpMul:1.2,skill:1.0,qb:true,cols:[0xe8e8e8,0x2a2a30,0xd02030],
+   eq:{head:'HD-D',core:'CR-D',arms:'AR-D',legs:'LG-L',rw:'PL',lw:'LB-77',bw:'VL',boost:'BS-B',gen:'GN-C'}}
+];
+const arenaOpp=r=>ARENA.find(a=>a.rank===r);
+const arenaPrize=r=>8000+(11-r)*4000;
+function acFromArena(o){
+  const st=calcStats(o.eq),r=st.r,b=st.b,lw=st.lw,l=st.l,k=o.skill;
+  const W={RF:{burst:3,gap:0.12,bd:95,bs:240},MG:{burst:8,gap:0.06,bd:36,bs:220},
+    SG:{burst:6,gap:0.02,bd:55,bs:200,spread:0.09,range:70,near:12,far:35},
+    BZ:{burst:1,gap:0,bd:380,bs:130,kind:'s',burstCd:2.2},
+    SR:{burst:1,gap:0,bd:300,bs:420,burstCd:1.8,range:230,near:60,far:120,spread:0.008},
+    PL:{burst:4,gap:0.12,bd:80,bs:260}}[r.id]||{burst:3,gap:0.12,bd:95,bs:240};
+  const c=Object.assign({name:o.ac,spec:Object.assign({boost:'BS-A',gen:'GN-A'},o.eq),cols:o.cols,hp:Math.round(st.ap*o.hpMul),
+    r:l.type==='tank'?3.6:3.0,cy:3.4,rad:l.type==='tank'?2.2:1.6,
+    sp:l.walk*1.1*k,dash:l.dash*st.bo.dash*(k>0.95?1:0.85),jump:l.jump,qb:o.qb,range:160,lead:0.55+0.4*k,
+    mslN:b.kind==='m'?(b.id==='MM'?4:b.id==='VL'?3:2):0,mslD:Math.round(b.dmg*0.85),mcd:b.kind==='m'?7-2*k:0,
+    can:b.kind==='g'?Math.round(b.dmg*0.6):0,canSpd:b.spd||150,canCd:(b.cd||1.5)*3,
+    blade:lw.dmg?Math.round(lw.dmg*0.9):0},W);
+  c.spread=(W.spread||0.025)*(1.6-k*0.7);
+  return c;
+}
+function arenaMission(o){
+  const rematch=o.rank>=save.arena.rank;
+  return {id:'arena',arena:o.rank,rematch,name:`アリーナ ${o.ac}戦`,client:'アリーナ運営委員会',map:'arena',obj:'boss',par:90,
+    reward:rematch?Math.round(arenaPrize(o.rank)*0.3):arenaPrize(o.rank),goal:`第${o.rank}位「${o.ac}」の撃破`,
+    spawn:[['ac',1,{cfg:acFromArena(o),pos:new V3(0,0,-70)}]]};
+}
+function arenaStand(){
+  const pr=save.arena.rank,list=[];
+  for(let pos=1;pos<=11;pos++){
+    if(pos===pr){list.push({you:true,pos});continue;}
+    const base=pos<pr?pos:pos-1;if(base>=1&&base<=10)list.push({opp:arenaOpp(base),pos});
+  }
+  return list;
+}
+let selA=null;
+function renderArena(){
+  const pr=save.arena.rank,stand=arenaStand();
+  if(!selA)selA=arenaOpp(Math.max(1,Math.min(10,pr-1)));
+  const items=stand.map(s=>{
+    if(s.you)return `<div class="pitem eq"><span class="nm">${String(s.pos).padStart(2,'0')}位　${esc(save.acName)}</span><span class="pr">あなた</span><span class="st">パイロット：${esc(save.pilot)}</span></div>`;
+    const o=s.opp,can=o.rank===pr-1,low=o.rank>=pr;
+    return `<button class="pitem${o===selA?' sel':''}" data-act="sela" data-r="${o.rank}"><span class="nm">${String(s.pos).padStart(2,'0')}位　${o.ac}</span>
+      <span class="pr">${can?'<span class="no">挑戦できます</span>':low?'撃破済':''}</span><span class="st">パイロット：${o.pilot}</span></button>`;}).join('');
+  const o=selA,can=o.rank===pr-1,low=o.rank>=pr,st=calcStats(o.eq);
+  const why=can?'':low?'再戦（報酬は30%）':'ひとつ上の順位にしか挑戦できません';
+  dock.innerHTML=`${head('アリーナ ── 現在 '+(pr>10?'圏外':'第'+pr+'位'))}
+  <div class="plist">${items}</div>
+  <div class="detail"><div class="h">▼ ${o.pilot}（${o.ac}）</div><p>「${o.line}」</p>
+    <div class="dl"><span>脚部</span><b>${st.l.name.split(' ')[1]}</b><span>武装</span><b>${st.r.name.split(' ')[1]} ／ ${st.b.name.split(' ')[1]}${st.lw.dmg?' ／ '+st.lw.name.split(' ')[1]:''}</b>
+    <span>報酬</span><b class="am">${fmt(low?Math.round(arenaPrize(o.rank)*0.3):arenaPrize(o.rank))} cr</b><span>費用</span><b>修理費・弾薬費は運営負担</b></div>
+    ${why&&!low?`<p class="sub2">${why}</p>`:''}</div>
+  <div class="row"><button class="btn" data-act="challenge" ${can||low?'':'disabled'}>${low?'再戦する':'挑戦する'}</button><button class="btn sub" data-act="menu" data-back>戻る</button></div>`;
+  const el=dock.querySelector('.pitem.sel');if(el)el.scrollIntoView({block:'nearest'});
+}
 
 /* ================= title / boot ================= */
 let newArm=false;
@@ -1521,7 +1621,7 @@ $('bootOk').onclick=()=>{
 $('bootBack').onclick=()=>{sfx.back();openTitle();};
 $('inAC').addEventListener('keydown',e=>{if(e.key==='Enter')$('bootOk').click();});
 $('inPilot').addEventListener('keydown',e=>{if(e.key==='Enter')$('inAC').focus();});
-$('retryBtn').onclick=()=>{if(calcStats(save.eq).over){toHub('garage');return;}sfx.click();reset();startPlay();};
+$('retryBtn').onclick=()=>{if(curM&&curM.arena)curM=arenaMission(arenaOpp(curM.arena));if(calcStats(save.eq).over){toHub('garage');return;}sfx.click();reset();startPlay();};
 $('toMenuBtn').onclick=()=>{sfx.click();curM=null;toHub('menu');};
 $('resumeBtn').onclick=()=>startPlay();
 $('quitBtn').onclick=()=>{$('pause').hidden=true;outcome='fail';showResult();};
