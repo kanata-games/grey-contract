@@ -12,6 +12,13 @@
 
 https://kanata-games.github.io/grey-contract/
 
+## アプリとして入れる（PWA）
+
+- **iPhone**：Safariで開く → 共有ボタン → 「ホーム画面に追加」
+- **Android / PC（Chrome・Edge）**：アドレスバーのインストールボタン、またはメニューの「アプリをインストール」
+
+ホーム画面から全画面で起動でき、一度読み込めばオフラインでも遊べます。
+
 ## 操作（初期設定）
 
 | 操作 | キーボード・マウス | ゲームパッド |
@@ -31,4 +38,5 @@ https://kanata-games.github.io/grey-contract/
 ## メモ
 
 - 1ファイル構成（`index.html`）。3D描画に three.js r128（CDN）を使用
-- セーブデータはブラウザの localStorage に保存
+- セーブデータはブラウザの localStorage に保存（iPhoneではホーム画面版とSafari版でデータが別になります）
+- PWA: `manifest.webmanifest` と `sw.js`（ゲーム本体はネット優先、three.js・フォントはキャッシュ優先）
