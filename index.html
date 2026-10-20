@@ -264,7 +264,11 @@ const PARTS={
     {id:'LG-RZ',type:'reverse',bulk:1.1,name:'LG-RZ アークエンジェル 重装逆関節',desc:'跳躍力を保ったまま装甲と積載を大きく高めた最高級逆関節',ap:2600,load:2900,walk:15,dash:35,jump:20,price:90000,req:'m12'},
     {id:'LG-B3',type:'biped',bulk:0.95,name:'LG-B3 ランナー 高機動二脚',desc:'標準二脚より速く跳べる上位モデル',ap:2100,load:2550,walk:16,dash:37,jump:13,price:46000,req:'m7'},
     {id:'LG-Q0',type:'quad',bulk:0.8,name:'LG-Q0 ウィスプ 浮遊四脚',desc:'とても身軽な四脚。長く滞空できる',ap:1900,load:2800,walk:15.5,dash:35,jump:12,hover:true,price:40000,req:'m8'},
-    {id:'LG-TZ',type:'tank',bulk:1.1,name:'LG-TZ ベヒモス 高性能タンク',desc:'重量タンク並みの装甲で、標準タンクより速い',ap:5600,load:5200,walk:9.5,dash:24,jump:6,price:92000,req:'m11'}],
+    {id:'LG-TZ',type:'tank',bulk:1.1,name:'LG-TZ ベヒモス 高性能タンク',desc:'重量タンク並みの装甲で、標準タンクより速い',ap:5600,load:5200,walk:9.5,dash:24,jump:6,price:92000,req:'m11'},
+    {id:'LG-HV1',type:'hover',bulk:0.85,name:'LG-HV1 スキマー 軽量ホバー',desc:'地面を滑るように走るホバー脚。最速だが止まりにくい',ap:1500,load:2300,walk:18,dash:41,jump:7,price:32000,req:'m3'},
+    {id:'LG-HV',type:'hover',name:'LG-HV マンタ ホバー',desc:'標準的なホバー脚。高速でダッシュのEN消費が少ない',ap:2000,load:2700,walk:16.5,dash:38,jump:6.5,price:36000,req:'m3'},
+    {id:'LG-HV3',type:'hover',bulk:1.2,name:'LG-HV3 ドレッジ 重量ホバー',desc:'重武装を載せて走れるホバー脚。慣性が大きい',ap:2700,load:3300,walk:14.5,dash:34,jump:6,price:46000,req:'m8'},
+    {id:'LG-HVZ',type:'hover',bulk:1.05,name:'LG-HVZ レイス 高性能ホバー',desc:'速さと積載を高い水準で両立した高級ホバー',ap:2500,load:3100,walk:17.5,dash:40,jump:7,price:88000,req:'m12'}],
   rw:[
     {id:'RF',name:'RF-55 ライフル',hud:'RIFLE',desc:'扱いやすい標準ライフル',w:300,dmg:55,cd:0.11,spd:240,ammo:420,cost:12,spread:0.012,kind:'b',price:0},
     {id:'MG',name:'MG-22 マシンガン',hud:'MACHINE GUN',desc:'高連射。一発は軽い',w:260,dmg:21,cd:0.045,spd:220,ammo:1200,cost:3,spread:0.03,kind:'b',price:9000},
@@ -733,7 +737,7 @@ function buildMech(spec,cols){
   const [c1,c2,c3]=cols,lt=pt('legs',spec.legs).type;
   TEXMAP={[c1]:'plate',[c2]:'frame',[c3]:'accent'};
   const g=new THREE.Group(),hip=new THREE.Group();
-  const HIP={biped:3.4,reverse:2.85,quad:3.0,tank:2.5}[lt];
+  const HIP={biped:3.4,reverse:2.85,quad:3.0,tank:2.5,hover:2.7}[lt];
   hip.position.y=HIP;g.add(hip);
   const legs=[];
   if(lt==='biped'||lt==='reverse'){
@@ -757,7 +761,12 @@ function buildMech(spec,cols){
     }
   }else{
     box(hip,3.4,1.3,4.0,c2,0,-0.6,0);
-    {const bk=pt('legs',spec.legs).bulk||1;for(const s of [-1,1]){box(hip,1.4*bk,1.7,6.2*bk,0x2b2a24,s*(1.5+0.7*bk),-1.65,0);box(hip,1.5*bk,0.4,6.4*bk,c1,s*(1.5+0.7*bk),-0.65,0);}}
+    {const bk=pt('legs',spec.legs).bulk||1;if(lt==='hover'){
+      box(hip,3.0*bk,0.9,3.4*bk,c1,0,-0.6,0);box(hip,4.0*bk,0.45,4.6*bk,c2,0,-1.2,0);box(hip,2.2*bk,0.3,3.0*bk,c1,0,-1.5,0);
+      for(const sx of [-1,1])for(const sz of [-1,1]){box(hip,1.0,0.8,1.0,0x2a2a2a,sx*1.6*bk,-1.6,sz*1.8*bk);
+        const gl=new THREE.Mesh(new THREE.BoxGeometry(0.8,0.2,0.8),new THREE.MeshBasicMaterial({color:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
+        gl.position.set(sx*1.6*bk,-2.1,sz*1.8*bk);hip.add(gl);legs.push({glow:gl});}
+    }else for(const s of [-1,1]){box(hip,1.4*bk,1.7,6.2*bk,0x2b2a24,s*(1.5+0.7*bk),-1.65,0);box(hip,1.5*bk,0.4,6.4*bk,c1,s*(1.5+0.7*bk),-0.65,0);}}
   }
   const torso=new THREE.Group();torso.position.y=lt==='tank'?0.2:0.4;hip.add(torso);
   const heavy=spec.core==='CR-B'||spec.core==='CR-D',off=heavy?0.25:0,armX=heavy?2.3:1.95;
@@ -859,6 +868,8 @@ function animMech(m,speed,grounded,dt,pitch,boost){
   }else if(lt==='quad'){
     m.phase+=dt*speed*0.35;
     L.forEach((l,i)=>{const s=Math.sin(m.phase+((i===0||i===3)?0:Math.PI));l.L.position.y=grounded?Math.max(0,s)*0.35*a:0.25;l.L.rotation.y=s*0.18*a*l.sx;});
+  }else if(lt==='hover'){m.phase+=dt*3;m.hip.position.y=m.hipY+Math.sin(m.phase)*0.12;m.hip.rotation.x=-Math.min(0.12,speed*0.004);
+    for(const l of L){const f=0.7+Math.random()*0.5;l.glow.scale.set(f,1,f);}
   }else{m.phase+=dt*speed*0.8;m.hip.position.y=m.hipY+(grounded?Math.sin(m.phase)*0.03*a:0);}
   if(lt==='biped'||lt==='reverse')for(const l of L)l.ft.rotation.x=-(l.th.rotation.x+l.kn.rotation.x);
   m.torso.rotation.x=pitch*0.25;
@@ -1392,9 +1403,10 @@ function updatePlayer(dt){
     P.dashing=wantDash&&!P.over&&P.en>0;
     const sp=(P.dashing?LG.dash*S.bo.dash:LG.walk)*S.spdF*(P.grounded?1:0.92);
     const tv=fwd.clone().multiplyScalar(mz*sp).add(rgt.clone().multiplyScalar(mx*sp));
-    const acc=qbOn?0.5:P.grounded?(P.dashing?6:9):(P.dashing?4:2.2);
+    const acc=qbOn?0.5:LG.type==='hover'?(P.dashing?2.0:2.6):P.grounded?(P.dashing?6:9):(P.dashing?4:2.2);
     P.vel.x+=(tv.x-P.vel.x)*Math.min(1,dt*acc);P.vel.z+=(tv.z-P.vel.z)*Math.min(1,dt*acc);
-    if(P.dashing){P.en-=(LG.type==='tank'?300:260)*S.bo.dash*dt;use=true;}
+    if(P.dashing){P.en-=(LG.type==='tank'?300:LG.type==='hover'?185:260)*S.bo.dash*dt;use=true;}
+    if(LG.type==='hover'&&P.grounded&&Math.hypot(P.vel.x,P.vel.z)>6&&Math.random()<dt*14)part(P.pos.clone().add(new V3((Math.random()-.5)*3,0.3,(Math.random()-.5)*3)),{mat:matSmoke,life:0.7,s:0.6,grow:2.2,v:new V3(-P.vel.x*0.1,1.2,-P.vel.z*0.1)});
     if(wantUp){
       if(P.grounded&&!P.jl){P.vel.y=LG.jump;P.jl=true;}
       else if(!P.grounded&&!P.over&&P.en>0){
