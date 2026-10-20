@@ -391,10 +391,10 @@ const MISSIONS=[
    goal:'警備部隊の全滅',spawn:[['mt',5],['turret',3],['heli',2]]},
   {id:'m5',name:'傭兵ヴァルチャー撃破',client:'ガルム重工',map:'ruins',obj:'boss',reward:85000,par:120,
    brief:'当社の機密データを盗んだ傭兵が、廃墟区画に潜伏している。機体名はヴァルチャー。腕は確かだ。確実に仕留めてくれ。',
-   goal:'敵AC「ヴァルチャー」の撃破',spawn:[['ac',1,{cfg:'vulture'}]]},
+   goal:'敵GW「ヴァルチャー」の撃破',spawn:[['ac',1,{cfg:'vulture'}]]},
   {id:'m6',name:'ガルム重工本社 強襲',client:'ノルド電力公社',map:'hq',obj:'boss',reward:150000,par:200,
-   brief:'全て分かりました。発電施設の襲撃も、データの件も、ガルム重工の自作自演です。本社を守る専属AC「ケルベロス」を撃破してください。これが最後の依頼になります。',
-   goal:'敵AC「ケルベロス」の撃破',spawn:[['ac',1,{cfg:'cerberus'}],['mt',4],['turret',2]]},
+   brief:'全て分かりました。発電施設の襲撃も、データの件も、ガルム重工の自作自演です。本社を守る専属GW「ケルベロス」を撃破してください。これが最後の依頼になります。',
+   goal:'敵GW「ケルベロス」の撃破',spawn:[['ac',1,{cfg:'cerberus'}],['mt',4],['turret',2]]},
   {id:'m7',part:2,name:'配給区画の鎮圧',client:'ノルド電力公社',map:'outer',obj:'annihilate',reward:120000,par:200,diff:{hp:1.5,dmg:1.15},
    brief:'ガルム解体から半年。当社は市の電力を一手に担っています。外郭区画で、配給制に反対する武装集団「灰の旗」が変電設備を占拠しました。排除してください。抵抗は激しいと聞いています。',
    goal:'武装集団の全滅',spawn:[['mt',5],['mth',2],['tank',4],['turret',3]]},
@@ -404,13 +404,13 @@ const MISSIONS=[
    waves:[{t:2,list:[['mt',3],['tank',2]]},{t:30,list:[['heli',4],['mth',2]]},{t:65,list:[['mt',4],['mth',2]]},{t:100,list:[['mth',3],['heli',3]]}]},
   {id:'m9',part:2,name:'灰の旗 指揮官機 撃破',client:'ノルド電力公社',map:'ruins',obj:'boss',reward:160000,par:160,diff:{hp:1.7,dmg:1.25},
    brief:'灰の旗を率いる傭兵の機体「レッドフラッグ」の潜伏先を突き止めました。廃墟区画です。指揮官を失えば、彼らは瓦解するでしょう。護衛のMTにも注意してください。',
-   goal:'敵AC「レッドフラッグ」の撃破',spawn:[['ac',1,{cfg:'redflag'}],['mth',1],['mt',3]]},
+   goal:'敵GW「レッドフラッグ」の撃破',spawn:[['ac',1,{cfg:'redflag'}],['mth',1],['mt',3]]},
   {id:'m10',part:2,name:'第九工業区画 再調査',client:'灰の旗',map:'night',obj:'targets',reward:150000,par:180,limit:240,diff:{hp:1.8,dmg:1.3},
    brief:'指揮官を討った傭兵に頼むのは筋違いだと分かっている。だが聞いてくれ。閉鎖されたはずの第九工業区画が、ノルドの名義で動いている。中のデータ端末5基を破壊して、何を作っているのか確かめてほしい。',
    goal:'データ端末5基の破壊（制限時間 4:00）',spawn:[['terminal',5,{target:true}],['mt',5],['mth',2],['turret',4]]},
-  {id:'m11',part:2,name:'無人AC試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.9,dmg:1.3},
-   brief:'端末のデータを見た。ノルドはヴァルチャーの戦闘記録から、無人のAC「エコー」を作っている。試験場で2機が稼働中だ。量産される前に叩いてくれ。',
-   goal:'無人AC「エコー」2機の撃破',spawn:[['ac',2,{cfg:'echo'}]]},
+  {id:'m11',part:2,name:'無人GW試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.9,dmg:1.3},
+   brief:'端末のデータを見た。ノルドはヴァルチャーの戦闘記録から、無人のGW「エコー」を作っている。試験場で2機が稼働中だ。量産される前に叩いてくれ。',
+   goal:'無人GW「エコー」2機の撃破',spawn:[['ac',2,{cfg:'echo'}]]},
   {id:'m12',part:2,name:'討伐部隊 迎撃',client:'傭兵管理局',map:'outer',obj:'annihilate',reward:180000,par:200,diff:{hp:2.0,dmg:1.35},
    brief:'{P} 様、緊急です。ノルド電力公社があなたの登録抹消を申請し、同時に討伐部隊を差し向けました。外郭区画で包囲されています。生き残ってください。本件の報酬は当局が保証します。',
    goal:'討伐部隊の全滅',spawn:[['mt',6],['mth',3],['heli',4],['echo',1]]},
@@ -419,11 +419,11 @@ const MISSIONS=[
    goal:'シールド発生塔4基の破壊（制限時間 4:30）',spawn:[['pylon',4,{target:true,ring:62}],['turret',6],['mth',3],['heli',3]]},
   {id:'m14',part:2,name:'中枢塔 頂上',client:'灰の旗',map:'tower',obj:'boss',reward:300000,par:200,diff:{hp:2.2,dmg:1.45},
    brief:'塔の前で待っている機体がいる。アリーナの頂点、ネメシス。奴の正体は、ノルドの役員直属の傭兵だ。……ここで終わらせよう、{A}。',
-   goal:'敵AC「ネメシス」の撃破',spawn:[['ac',1,{cfg:'nemesis'}],['mth',2]]}
+   goal:'敵GW「ネメシス」の撃破',spawn:[['ac',1,{cfg:'nemesis'}],['mth',2]]}
 ];
 
 const MAILS={
-  welcome:{from:'傭兵管理局',title:'登録完了のお知らせ',body:'{P} 様。傭兵登録が完了しました。機体名「{A}」で登録されています。\n依頼はミッション画面から受けられます。報酬からは弾薬費と修理費が差し引かれますので、ご注意ください。\nご武運を。'},
+  welcome:{from:'傭兵管理局',title:'登録完了のお知らせ',body:'{P} 様。傭兵登録が完了しました。あなたのGW（グレイ・ウォーカー）は、機体名「{A}」で登録されています。\n依頼はミッション画面から受けられます。報酬からは弾薬費と修理費が差し引かれますので、ご注意ください。\nご武運を。'},
   arena:{from:'アリーナ運営委員会',title:'アリーナ参戦のご案内',body:'{P} 様。初任務の達成、おめでとうございます。\n依頼の合間に、腕試しをしてみませんか。アリーナでは傭兵同士が1対1で戦い、順位を競います。\nひとつ上の順位の相手に勝てば、その順位はあなたのものです。修理費と弾薬費は運営が負担します。\nメインメニューの「アリーナ」からどうぞ。'},
   arenaTop:{from:'アリーナ運営委員会',title:'王者 {A} へ',body:'第1位ネメシスの撃破を確認しました。\n本日をもって、{A} がアリーナの頂点です。\n挑戦者はすぐに現れるでしょう。その座を守り抜いてください。'},
   m1:{from:'ガルム重工',title:'良い仕事だった',body:'見事だった、{P}。これからも君には仕事を回そう。\n……ところで、ノルド電力公社から依頼が来ても、深入りはしないことだ。'},
@@ -435,7 +435,7 @@ const MAILS={
   m7:{from:'ノルド電力公社',title:'引き続きのご契約を',body:'見事でした。灰の旗の残党は、まだ北部に潜んでいます。\n引き続き当社と契約してください。報酬は惜しみません。'},
   m8:{from:'匿名',title:'考えたことはあるか',body:'変電所を守ったのはお前か。\nノルドの電気が誰のために流れているか、考えたことはあるか。'},
   m9:{from:'灰の旗',title:'頼みがある',body:'レッドフラッグは死んだ。指揮官を討った相手に頼むのは癪だが、もうお前しかいない。\n第九工業区画を見てくれ。ノルドは何かを作っている。'},
-  m10:{from:'灰の旗',title:'最悪だ',body:'データを確認した。……最悪だ。\nノルドは、ヴァルチャーの戦い方を写した無人ACを作っている。依頼を出した。'},
+  m10:{from:'灰の旗',title:'最悪だ',body:'データを確認した。……最悪だ。\nノルドは、ヴァルチャーの戦い方を写した無人GWを作っている。依頼を出した。'},
   m11:{from:'傭兵管理局',title:'ご注意ください',body:'{P} 様。ノルド電力公社より、あなたに関する照会が来ています。\n身辺にご注意ください。'},
   m12:{from:'灰の旗',title:'決着をつける',body:'よく生き残った。ノルドはもう、お前を消すつもりだ。\nこちらも決着をつける。中枢塔を落とす。手を貸してくれ。'},
   m13:{from:'灰の旗',title:'塔の上で',body:'シールドは落ちた。\n塔の前で、あの機体が待っている。'},
@@ -1532,7 +1532,7 @@ function reset(){
   waveIdx=0;missionT=0;endTimer=-1;outcome='';usedB=0;usedM=0;kills=0;hitFlash=0;shake=0;hitMark=0;
   if(curM.arena){const o=arenaOpp(curM.arena);say(`${o.pilot}「${o.line}」`,3.5,'#f2b84b');}
   else say(save.acName+'、作戦を開始する',3);
-  if(curM.obj==='boss'&&!curM.arena)setTimeout(()=>{if(state==='play'&&!outcome){say('敵AC「'+enemies.find(e=>e.isBoss).cfg.name+'」を確認',3,'#ff4b3a');sfx.alarm();}},2600);
+  if(curM.obj==='boss'&&!curM.arena)setTimeout(()=>{if(state==='play'&&!outcome){say('敵GW「'+enemies.find(e=>e.isBoss).cfg.name+'」を確認',3,'#ff4b3a');sfx.alarm();}},2600);
 }
 function endMission(o){if(outcome)return;outcome=o;endTimer=o==='win'?3:2.8;if(o==='win')say('任務完了',3,'#f2b84b');}
 function objRemain(){
@@ -1982,7 +1982,7 @@ function drawHUD(time){
   hx.textAlign='right';hx.fillText('ALT '+String(Math.round(P.pos.y*2)).padStart(3,'0')+' m',cx+bw,cy+bh+8*u);
   // objective
   hx.textAlign='left';hx.font=F(13);hx.fillStyle=HG;const m=curM;let oy=14*u;
-  const ot=m.obj==='targets'?`目標：砲台 残り ${objRemain()}`:m.obj==='boss'?`目標：敵AC 撃破`:m.obj==='defend'?`目標：施設防衛　第${Math.max(1,waveIdx)}波 / ${m.waves.length}`:`目標：敵勢力 残り ${objRemain()}`;
+  const ot=m.obj==='targets'?`目標：砲台 残り ${objRemain()}`:m.obj==='boss'?`目標：敵GW 撃破`:m.obj==='defend'?`目標：施設防衛　第${Math.max(1,waveIdx)}波 / ${m.waves.length}`:`目標：敵勢力 残り ${objRemain()}`;
   hx.fillText(ot,16*u,oy);oy+=18*u;
   if(m.limit){const left=m.limit-missionT;hx.fillStyle=left<30&&Math.floor(time*2)%2?HR:left<30?HA:HG;hx.fillText('LIMIT '+mmss(left),16*u,oy);}
   else hx.fillText('TIME '+mmss(missionT),16*u,oy);
