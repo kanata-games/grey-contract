@@ -537,9 +537,59 @@ function segSphere(a,b,c,r){
 }
 
 /* ================= mech model ================= */
-function box(p,w,h,d,c,x,y,z){const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),M(c));m.position.set(x,y,z);p.add(m);return m;}
+/* ---------- mech surface textures (grey detail maps tinted by the part color) ---------- */
+const MDRAW={
+  plate:(g,w,h)=>{
+    const R=Math.random;g.fillStyle='#f0f0ee';g.fillRect(0,0,w,h);
+    for(let i=0;i<260;i++){const v=215+R()*35|0;g.fillStyle=`rgb(${v},${v},${v-4})`;g.fillRect(R()*w|0,R()*h|0,2,2);}
+    const line=(x0,y0,x1,y1)=>{g.fillStyle='#5c5e5a';g.fillRect(x0,y0,x1-x0||2,y1-y0||2);g.fillStyle='#ffffff';g.fillRect(x0+(x1===x0?2:0),y0+(y1===y0?2:0),x1-x0||1,y1-y0||1);};
+    line(0,0,w,0);line(0,0,0,h);line(0,22,w,22);line(32,0,32,22);line(0,46,w,46);line(20,22,20,46);line(44,46,44,h);
+    g.fillStyle='#4a4c48';for(const [x,y] of [[4,4],[27,4],[37,4],[59,4],[4,26],[15,26],[25,26],[59,26],[4,50],[39,50],[49,50],[59,50]])g.fillRect(x,y,2,2);
+    g.strokeStyle='#6a6c66';g.lineWidth=1;g.strokeRect(36.5,27.5,20,13);g.fillStyle='#8a8c86';g.fillRect(40,31,12,2);g.fillRect(40,35,8,2);
+    g.fillStyle='#55574f';g.font='bold 9px monospace';g.fillText('07',6,40);
+    for(let i=0;i<5;i++){const x=R()*w|0,y=R()*h*0.6|0,l=8+R()*18;const gr=g.createLinearGradient(0,y,0,y+l);gr.addColorStop(0,'rgba(40,36,30,.35)');gr.addColorStop(1,'rgba(40,36,30,0)');g.fillStyle=gr;g.fillRect(x,y,2+(R()*2|0),l);}
+    g.fillStyle='#ffffff';for(let i=0;i<14;i++){const e=R()<.5;g.fillRect(e?(R()*w|0):(R()<.5?1:w-3),e?(R()<.5?1:h-3):(R()*h|0),2+(R()*3|0),1);}
+  },
+  frame:(g,w,h)=>{
+    const R=Math.random;g.fillStyle='#d6d6d2';g.fillRect(0,0,w,h);
+    for(let i=0;i<200;i++){const v=185+R()*40|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(R()*w|0,R()*h|0,2,2);}
+    for(let y=6;y<h;y+=12){g.fillStyle='#62645e';g.fillRect(0,y,w,2);g.fillStyle='#f4f4f0';g.fillRect(0,y+2,w,1);}
+    g.fillStyle='#3e403c';for(let y=12;y<h;y+=24)for(let x=6;x<w;x+=16){g.fillRect(x,y-1,3,3);}
+    g.fillStyle='rgba(30,28,24,.25)';g.fillRect(0,h-6,w,6);
+  },
+  accent:(g,w,h)=>{
+    const R=Math.random;g.fillStyle='#f4f4f0';g.fillRect(0,0,w,h);
+    g.save();g.beginPath();g.rect(0,40,w,24);g.clip();g.fillStyle='#2a2a28';
+    for(let k=-64;k<w+64;k+=16){g.beginPath();g.moveTo(k,40);g.lineTo(k+8,40);g.lineTo(k+32,64);g.lineTo(k+24,64);g.closePath();g.fill();}
+    g.restore();
+    g.fillStyle='#5c5e5a';g.fillRect(0,38,w,2);g.fillRect(0,0,w,2);g.fillRect(0,0,2,h);
+    g.fillStyle='#4a4a46';g.font='bold 8px monospace';g.fillText('DANGER',6,14);g.fillRect(6,18,30,2);
+    g.fillStyle='#ffffff';for(let i=0;i<10;i++)g.fillRect(R()*w|0,R()*h|0,2+(R()*3|0),1);
+  },
+  gun:(g,w,h)=>{
+    const R=Math.random;g.fillStyle='#dcdcdc';g.fillRect(0,0,w,h);
+    for(let i=0;i<120;i++){const v=170+R()*60|0;g.fillStyle=`rgb(${v},${v},${v})`;g.fillRect(R()*w|0,R()*h|0,1,1);}
+    g.fillStyle='#f8f8f8';for(let i=0;i<12;i++)g.fillRect(R()*w|0,R()*h|0,4+(R()*8|0),1);
+    g.fillStyle='#707070';g.fillRect(0,31,w,2);
+  }
+};
+const MTEX={};
+function mtex(k){if(!MTEX[k])MTEX[k]=canvasTex(64,64,MDRAW[k]);return MTEX[k];}
+function uvScale(geo,w,h,d,unit){
+  const uv=geo.attributes&&geo.attributes.uv;if(!uv)return;
+  const dims=[[d,h],[d,h],[w,d],[w,d],[w,h],[w,h]],ox=Math.random(),oy=Math.random();
+  for(let f=0;f<6;f++)for(let i=0;i<4;i++){const j=f*4+i;uv.setXY(j,uv.getX(j)*Math.max(0.35,dims[f][0]/unit)+ox,uv.getY(j)*Math.max(0.35,dims[f][1]/unit)+oy);}
+  uv.needsUpdate=true;
+}
+let TEXMAP=null;
+function box(p,w,h,d,c,x,y,z){
+  const geo=new THREE.BoxGeometry(w,h,d),k=(TEXMAP&&TEXMAP[c])||(c<0x303030?'gun':'plate');
+  uvScale(geo,w,h,d,k==='accent'?1.8:2.4);
+  const m=new THREE.Mesh(geo,M(c,{map:mtex(k)}));m.position.set(x,y,z);p.add(m);return m;
+}
 function buildMech(spec,cols){
   const [c1,c2,c3]=cols,lt=pt('legs',spec.legs).type;
+  TEXMAP={[c1]:'plate',[c2]:'frame',[c3]:'accent'};
   const g=new THREE.Group(),hip=new THREE.Group();
   const HIP={biped:3.4,reverse:2.85,quad:3.0,tank:2.5}[lt];
   hip.position.y=HIP;g.add(hip);
@@ -616,6 +666,7 @@ function buildMech(spec,cols){
   }else box(armL,0.3,1.2,1.2,c2,-0.45,-1.3,-0.1);
   const flame=new THREE.Mesh(new THREE.ConeGeometry(0.5,2.4,5),new THREE.MeshBasicMaterial({color:spec.boost==='BS-B'?0xffb060:spec.boost==='BS-C'?0xa0ffb0:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
   flame.rotation.x=Math.PI/2;flame.position.set(0,1.5+off,heavy?2.9:2.7);flame.visible=false;torso.add(flame);
+  TEXMAP=null;
   return {g,hip,hipY:HIP,legType:lt,legs,torso,armR,armL,elbow,muzzle,pod,flame,blade,phase:0,slashT:0};
 }
 const SLASH=0.36;
