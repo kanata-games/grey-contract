@@ -209,17 +209,34 @@ const PARTS={
     {id:'HD-A',name:'HD-A スタンダード',desc:'バランス型の頭部',ap:400,w:120,lockR:260,lockT:0.4,radar:220,price:0},
     {id:'HD-B',name:'HD-B シーカー',desc:'索敵型。ロックが速く、遠くまで届く',ap:300,w:160,lockR:330,lockT:0.26,radar:320,price:12000},
     {id:'HD-C',name:'HD-C ブルワーク',desc:'重装甲の頭部。索敵は苦手',ap:700,w:240,lockR:230,lockT:0.5,radar:180,price:9000},
-    {id:'HD-D',name:'HD-D ホークアイ',desc:'最高級の索敵頭部。ロック距離と速さが最も優秀',ap:280,w:150,lockR:400,lockT:0.18,radar:380,price:30000,req:'m3'}],
+    {id:'HD-D',name:'HD-D ホークアイ',desc:'最高級の索敵頭部。ロック距離と速さが最も優秀',ap:280,w:150,lockR:400,lockT:0.18,radar:380,price:30000,req:'m3'},
+    {id:'HD-E',name:'HD-E アウル 暗視頭部',desc:'レーダーとロック距離に優れる中堅頭部',ap:380,w:150,lockR:300,lockT:0.32,radar:300,price:16000},
+    {id:'HD-F',name:'HD-F ミニマム 軽量頭部',desc:'最軽量。性能は最低限',ap:220,w:70,lockR:240,lockT:0.45,radar:200,price:8000},
+    {id:'HD-G',name:'HD-G センチネル 重装索敵頭部',desc:'装甲と索敵を両立した高級頭部',ap:600,w:260,lockR:350,lockT:0.28,radar:300,price:38000,req:'m4'}],
   core:[
     {id:'CR-A',name:'CR-A スタンダード',desc:'標準的なコア',ap:2600,w:600,en:1000,price:0},
     {id:'CR-B',name:'CR-B フォートレス',desc:'重装甲コア。EN容量は少なめ',ap:3800,w:900,en:850,price:28000},
     {id:'CR-C',name:'CR-C ライトフレーム',desc:'軽量コア。装甲は薄いがEN容量が多い',ap:2000,w:440,en:1150,price:18000},
-    {id:'CR-D',name:'CR-D オーバーロード',desc:'重装甲と大容量ENを両立した高級コア',ap:3600,w:820,en:1150,price:52000,req:'m4'}],
+    {id:'CR-D',name:'CR-D オーバーロード',desc:'重装甲と大容量ENを両立した高級コア',ap:3600,w:820,en:1150,price:52000,req:'m4'},
+    {id:'CR-E',name:'CR-E ストライク',desc:'やや軽く、EN容量に余裕のある中量コア',ap:2300,w:520,en:1080,price:24000},
+    {id:'CR-F',name:'CR-F バンカー',desc:'最も硬いコア。重くEN容量は少ない',ap:4400,w:1050,en:800,price:40000,req:'m3'}],
   arms:[
     {id:'AR-A',name:'AR-A スタンダード',desc:'標準的な腕部',ap:900,w:300,rate:1,blade:1,price:0},
     {id:'AR-B',name:'AR-B プレシジョン',desc:'細身の射撃用腕部。連射間隔が短い',ap:650,w:260,rate:0.85,blade:1,price:14000},
     {id:'AR-C',name:'AR-C ヘヴィアーム',desc:'頑丈な腕部。連射はやや遅い',ap:1400,w:480,rate:1.1,blade:1,price:15000},
-    {id:'AR-D',name:'AR-D ソードアーム',desc:'格闘向けの腕部。ブレードの威力が35%上がる',ap:800,w:300,rate:1.05,blade:1.35,price:26000,req:'m2'}],
+    {id:'AR-D',name:'AR-D ソードアーム',desc:'格闘向けの腕部。ブレードの威力が35%上がる',ap:800,w:300,rate:1.05,blade:1.35,price:26000,req:'m2'},
+    {id:'AR-E',name:'AR-E ライトアーム',desc:'最軽量の腕部。装甲は薄い',ap:550,w:200,rate:1,blade:1,price:9000},
+    {id:'AR-F',name:'AR-F マスター',desc:'射撃も格闘もこなす高級腕部',ap:1000,w:340,rate:0.9,blade:1.15,price:48000,req:'m5'},
+    {id:'WA-MG',name:'WA-MG 機銃腕',desc:'両腕が機関銃の武器腕。手持ち武器とブレードは使えない',ap:1100,w:620,rate:1,blade:1,price:26000,
+     wa:{id:'WA-MG',hud:'ARM MG',w:0,dmg:26,cd:0.05,spd:230,ammo:1600,cost:4,spread:0.03,kind:'b'}},
+    {id:'WA-CN',name:'WA-CN 砲腕',desc:'両腕が速射砲の武器腕。重いが一発が大きい',ap:1500,w:900,rate:1,blade:1,price:38000,req:'m3',
+     wa:{id:'WA-CN',hud:'ARM CANNON',w:0,dmg:300,cd:0.55,spd:170,ammo:60,cost:140,spread:0.006,kind:'s'}},
+    {id:'WA-PL',name:'WA-PL パルス腕',desc:'両腕がパルス砲の武器腕。ENで撃つので弾薬費なし',ap:1000,w:640,rate:1,blade:1,price:44000,req:'m4',
+     wa:{id:'WA-PL',hud:'ARM PULSE',w:0,dmg:62,cd:0.08,spd:270,ammo:0,en:38,cost:0,spread:0.012,kind:'b'}},
+    {id:'WA-FR',name:'WA-FR 火炎放射腕',desc:'至近距離を焼き払う武器腕。射程は短い',ap:1300,w:700,rate:1,blade:1,price:30000,req:'m2',
+     wa:{id:'WA-FR',hud:'ARM FLAMER',w:0,dmg:22,cd:0.035,spd:70,ammo:1400,cost:3,spread:0.12,kind:'b',flame:true,life:0.45}},
+    {id:'WA-RK',name:'WA-RK ロケット腕',desc:'無誘導ロケットを連射する武器腕。小さな爆風つき',ap:1200,w:760,rate:1,blade:1,price:34000,req:'m3',
+     wa:{id:'WA-RK',hud:'ARM ROCKET',w:0,dmg:230,cd:0.32,spd:150,ammo:80,cost:90,spread:0.01,kind:'g',blast:5,bsize:3}}],
   legs:[
     {id:'LG-L',type:'biped',bulk:0.8,name:'LG-L スプライト 軽量二脚',desc:'速くて軽い二脚。積載量は少なめ',ap:1600,load:2200,walk:17,dash:38,jump:14,price:22000},
     {id:'LG-B2',type:'biped',bulk:0.9,name:'LG-B2 スカウト 準軽量二脚',desc:'標準より少し軽く速い二脚',ap:1800,load:2350,walk:16,dash:36,jump:13.5,price:12000},
@@ -244,27 +261,59 @@ const PARTS={
     {id:'SG',name:'SG-7 ショットガン',hud:'SHOTGUN',desc:'7発の散弾を一度に撃つ。近距離で強力',w:340,dmg:40,pellets:7,cd:0.6,spd:200,ammo:60,cost:80,spread:0.09,kind:'b',price:16000},
     {id:'BZ',name:'BZ-40 バズーカ',hud:'BAZOOKA',desc:'重い一撃。弾速は遅い',w:520,dmg:420,cd:0.9,spd:130,ammo:40,cost:200,spread:0.004,kind:'s',price:22000},
     {id:'SR',name:'SR-3 スナイパーライフル',hud:'SNIPER',desc:'弾速が速く一発が重い。連射は遅い',w:380,dmg:260,cd:0.75,spd:420,ammo:60,cost:60,spread:0.002,kind:'b',price:24000,req:'m2'},
-    {id:'PL',name:'PL-9 パルスライフル',hud:'PULSE RIFLE',desc:'ENを使って撃つ光学兵器。弾薬費がかからない',w:330,dmg:68,cd:0.15,spd:260,ammo:0,en:45,cost:0,spread:0.01,kind:'b',price:34000,req:'m4'}],
+    {id:'PL',name:'PL-9 パルスライフル',hud:'PULSE RIFLE',desc:'ENを使って撃つ光学兵器。弾薬費がかからない',w:330,dmg:68,cd:0.15,spd:260,ammo:0,en:45,cost:0,spread:0.01,kind:'b',price:34000,req:'m4'},
+    {id:'HG',name:'HG-2 ハンドガン',hud:'HANDGUN',desc:'軽くて一発がそこそこ重い拳銃',w:160,dmg:120,cd:0.35,spd:230,ammo:120,cost:30,spread:0.01,kind:'b',price:8000},
+    {id:'MGH',name:'MG-48 重機関銃',hud:'HEAVY MG',desc:'重いが威力の高い機関銃',w:420,dmg:32,cd:0.06,spd:230,ammo:900,cost:6,spread:0.025,kind:'b',price:20000},
+    {id:'RF77',name:'RF-77 高速ライフル',hud:'HV RIFLE',desc:'弾速が非常に速いライフル',w:360,dmg:70,cd:0.13,spd:330,ammo:300,cost:18,spread:0.008,kind:'b',price:30000,req:'m3'},
+    {id:'GL',name:'GL-3 グレネードランチャー',hud:'GRENADE L',desc:'手持ちの榴弾砲。爆風つき',w:560,dmg:480,cd:1.2,spd:120,ammo:24,cost:260,spread:0.004,kind:'g',blast:9,bsize:6,price:32000,req:'m3'},
+    {id:'LR',name:'LR-2 レーザーライフル',hud:'LASER RIFLE',desc:'ENで撃つ高威力の光学ライフル',w:400,dmg:180,cd:0.5,spd:380,ammo:0,en:160,cost:0,spread:0.004,kind:'b',price:46000,req:'m4'}],
   lw:[
     {id:'LB-0',name:'なし',hud:'',desc:'左腕に何も装備しない。そのぶん軽い',w:0,dmg:0,price:0},
     {id:'LB-10',name:'LB-10 レーザーブレード',hud:'BLADE',desc:'近くの敵に踏み込んで斬る。ENを使うだけで弾薬費はかからない',w:180,dmg:950,range:8,lunge:32,en:180,cd:1.1,len:4.2,price:0},
     {id:'LB-77',name:'LB-77 ロングブレード',hud:'LONG BLADE',desc:'長く重い光刃。威力も間合いも大きい',w:320,dmg:1600,range:11,lunge:40,en:300,cd:1.6,len:6.5,price:32000},
-    {id:'LB-X',name:'PB-1 パイルバンカー',hud:'PILE BUNKER',desc:'杭を打ち込む近接兵器。間合いは短いが威力は最大',w:420,dmg:2800,range:6,lunge:24,en:140,cd:2.4,len:2.2,pile:true,price:42000,req:'m4'}],
+    {id:'LB-X',name:'PB-1 パイルバンカー',hud:'PILE BUNKER',desc:'杭を打ち込む近接兵器。間合いは短いが威力は最大',w:420,dmg:2800,range:6,lunge:24,en:140,cd:2.4,len:2.2,pile:true,price:42000,req:'m4'},
+    {id:'LB-5',name:'LB-5 ダガー',hud:'DAGGER',desc:'軽くて振りの速い短いブレード',w:110,dmg:700,range:7,lunge:26,en:110,cd:0.7,len:3.0,price:14000},
+    {id:'LB-200',name:'LB-200 グレイヴ',hud:'GLAIVE',desc:'最長・最強の光刃。ENを大量に使う',w:380,dmg:2000,range:12,lunge:44,en:380,cd:1.8,len:7.5,price:58000,req:'m5'}],
   bw:[
     {id:'MS',name:'MS-4 ミサイル',hud:'MISSILE',desc:'最大4ロックの小型ミサイル',w:350,dmg:380,ammo:48,cost:150,locks:4,kind:'m',price:0},
     {id:'MM',name:'MM-6 多連装ミサイル',hud:'MULTI MISSILE',desc:'最大6ロック。一発は軽め',w:480,dmg:260,ammo:72,cost:110,locks:6,kind:'m',price:26000},
     {id:'VL',name:'VL-4 垂直ミサイル',hud:'VERTICAL MSL',desc:'真上に撃ち上げてから降り注ぐ。建物の陰の敵に強い',w:400,dmg:340,ammo:40,cost:170,locks:4,kind:'m',vert:true,price:28000,req:'m3'},
     {id:'GR',name:'GR-90 グレネード',hud:'GRENADE',desc:'爆風で周囲もまとめて吹き飛ばす榴弾砲。ロック不要',w:700,dmg:950,ammo:20,cost:400,locks:0,kind:'g',spd:110,blast:13,bsize:8,cd:1.8,recoil:14,price:38000},
-    {id:'CN',name:'CN-120 キャノン',hud:'CANNON',desc:'弾速の速い大口径砲。小さな爆風つき',w:820,dmg:780,ammo:30,cost:260,locks:0,kind:'g',spd:190,blast:6,bsize:4.5,cd:1.3,recoil:9,price:34000,req:'m2'}],
+    {id:'CN',name:'CN-120 キャノン',hud:'CANNON',desc:'弾速の速い大口径砲。小さな爆風つき',w:820,dmg:780,ammo:30,cost:260,locks:0,kind:'g',spd:190,blast:6,bsize:4.5,cd:1.3,recoil:9,price:34000,req:'m2'},
+    {id:'MS2',name:'MS-2 小型ミサイル',hud:'SMALL MSL',desc:'軽い2ロックミサイル',w:220,dmg:300,ammo:40,cost:110,locks:2,kind:'m',price:8000},
+    {id:'MH',name:'MH-16 マイクロミサイル',hud:'MICRO MSL',desc:'小さなミサイルを8発まとめて撃つ',w:420,dmg:130,ammo:128,cost:45,locks:8,kind:'m',micro:true,price:30000,req:'m3'},
+    {id:'MD',name:'MD-2 大型ミサイル',hud:'LARGE MSL',desc:'一発が非常に重い2ロック大型ミサイル',w:620,dmg:900,ammo:16,cost:420,locks:2,kind:'m',big:true,price:40000,req:'m4'},
+    {id:'VL8',name:'VL-8 多弾頭垂直ミサイル',hud:'VERTICAL x8',desc:'8発を撃ち上げて降らせる垂直ミサイル',w:560,dmg:220,ammo:64,cost:120,locks:8,kind:'m',vert:true,price:44000,req:'m5'},
+    {id:'GR6',name:'GR-60 軽量グレネード',hud:'LIGHT GRENADE',desc:'軽くて扱いやすいグレネード。爆風は小さめ',w:480,dmg:600,ammo:24,cost:260,locks:0,kind:'g',spd:120,blast:9,bsize:6,cd:1.4,recoil:8,price:22000},
+    {id:'CN8',name:'CN-80 軽量キャノン',hud:'LIGHT CANNON',desc:'連射のきく小口径キャノン',w:560,dmg:420,ammo:40,cost:160,locks:0,kind:'g',spd:210,blast:4,bsize:3.5,cd:0.8,recoil:5,price:24000},
+    {id:'PC',name:'PC-1 プラズマキャノン',hud:'PLASMA CANNON',desc:'ENで撃つ光学キャノン。弾薬費なし',w:720,dmg:850,ammo:0,en:420,cost:0,locks:0,kind:'g',spd:160,blast:8,bsize:6,cd:1.6,recoil:6,energy:true,price:52000,req:'m5'},
+    {id:'CG',name:'CG-30 チェインガン',hud:'CHAIN GUN',desc:'肩から10連射する機関砲。ロック不要',w:600,dmg:48,ammo:400,cost:8,locks:0,kind:'auto',spd:230,burst:10,cd:1.1,price:26000,req:'m2'},
+    {id:'RD1',name:'RD-1 レーダー',hud:'RADAR',desc:'背部武器の代わりにレーダーを積む。索敵範囲1.5倍、ロック距離+10%',w:160,dmg:0,ammo:0,cost:0,locks:0,kind:'radar',radar:1.5,lockMul:1.1,price:10000},
+    {id:'RD2',name:'RD-2 広域レーダー',hud:'WIDE RADAR',desc:'高性能レーダー。索敵範囲2倍、ロック距離+20%',w:240,dmg:0,ammo:0,cost:0,locks:0,kind:'radar',radar:2,lockMul:1.2,price:26000,req:'m3'}],
   boost:[
     {id:'BS-A',name:'BS-A スタンダード',desc:'標準的なブースター',w:120,dash:1,up:1,qb:46,qbEn:220,qbCd:0.35,price:0},
     {id:'BS-B',name:'BS-B ハイスラスト',desc:'高出力型。速いがENを多く使う',w:170,dash:1.12,up:1.15,qb:58,qbEn:300,qbCd:0.4,price:22000},
-    {id:'BS-C',name:'BS-C エコノミー',desc:'省電力型。クイックブーストを連発しやすい',w:110,dash:0.95,up:0.92,qb:40,qbEn:140,qbCd:0.25,price:16000}],
+    {id:'BS-C',name:'BS-C エコノミー',desc:'省電力型。クイックブーストを連発しやすい',w:110,dash:0.95,up:0.92,qb:40,qbEn:140,qbCd:0.25,price:16000},
+    {id:'BS-D',name:'BS-D スカイハイ',desc:'上昇力に特化したブースター',w:150,dash:1.02,up:1.3,qb:44,qbEn:240,qbCd:0.35,price:20000},
+    {id:'BS-E',name:'BS-E オーバードライブ',desc:'全性能が最高水準の高級ブースター',w:200,dash:1.2,up:1.2,qb:64,qbEn:320,qbCd:0.35,price:58000,req:'m5'}],
   gen:[
     {id:'GN-A',name:'GN-A スタンダード',desc:'標準的なジェネレーター',w:200,en:0,regen:1,price:0},
     {id:'GN-B',name:'GN-B キャパシター',desc:'EN容量が大きい。回復はやや遅い',w:300,en:400,regen:0.9,price:24000},
-    {id:'GN-C',name:'GN-C リアクター',desc:'EN回復が速い。容量は少なめ',w:240,en:-120,regen:1.45,price:28000,req:'m3'}]
+    {id:'GN-C',name:'GN-C リアクター',desc:'EN回復が速い。容量は少なめ',w:240,en:-120,regen:1.45,price:28000,req:'m3'},
+    {id:'GN-D',name:'GN-D コンパクト',desc:'軽量で小型。容量は少ない',w:120,en:-200,regen:1,price:9000},
+    {id:'GN-E',name:'GN-E フュージョン',desc:'容量も回復も優秀な最高級ジェネレーター',w:340,en:300,regen:1.3,price:62000,req:'m5'}]
 };
+const OPTS=[
+  {id:'OP-AP',name:'OP-AP 増加装甲',desc:'機体のAPが8%増える',w:120,price:12000},
+  {id:'OP-EN',name:'OP-EN 回路強化',desc:'EN回復速度が15%上がる',w:60,price:16000},
+  {id:'OP-LK',name:'OP-LK ロック加速',desc:'ロックオンにかかる時間が20%短くなる',w:40,price:14000},
+  {id:'OP-SP',name:'OP-SP 照準補正拡大',desc:'ロックと照準補正の枠が20%広がる',w:40,price:18000,req:'m2'},
+  {id:'OP-AM',name:'OP-AM 弾倉拡張',desc:'実弾武器とミサイルの弾数が25%増える',w:90,price:14000},
+  {id:'OP-QB',name:'OP-QB QB効率化',desc:'クイックブーストの消費ENが20%減る',w:50,price:20000,req:'m3'},
+  {id:'OP-IC',name:'OP-IC ミサイル迎撃',desc:'近づいた敵ミサイルを自動で撃ち落とすことがある',w:110,price:24000,req:'m3'},
+  {id:'OP-ST',name:'OP-ST 姿勢制御',desc:'被弾したときの画面の揺れと赤い点滅が弱くなる',w:30,price:6000}
+];
+const OPT_SLOTS=3;
 const COLORS=[
   {name:'スチール',c:[0x8c8f84,0x4c5048,0xd9a12c]},
   {name:'デザート',c:[0xb49a6a,0x6e5a3c,0x3f5a2e]},
@@ -339,11 +388,12 @@ function defSettings(){return {res:240,vol:0.7,sens:1,padSens:1,invY:false,keys:
 /* ================= save ================= */
 const SKEY='irondust-save-v2',OLDKEY='irondust-save-v1';
 function freshSave(){return {pilot:'',acName:'',cr:20000,owned:['HD-A','CR-A','AR-A','LG-B','RF','MS','LB-0','LB-10','BS-A','GN-A'],
-  eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-10',bw:'MS',boost:'BS-A',gen:'GN-A',color:0},prog:0,cleared:{},mails:[],arena:{rank:11},settings:defSettings()};}
+  eq:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',lw:'LB-10',bw:'MS',boost:'BS-A',gen:'GN-A',color:0,opts:[]},prog:0,cleared:{},mails:[],arena:{rank:11},settings:defSettings()};}
 let save=freshSave();
 try{const s=JSON.parse(localStorage.getItem(SKEY));if(s&&s.eq&&Array.isArray(s.owned))save=Object.assign(freshSave(),s);}catch(e){}
 try{if(!save.pilot){const o=JSON.parse(localStorage.getItem(OLDKEY));if(o&&o.eq){save.cr=Math.max(save.cr,o.cr|0);save.owned=[...new Set(save.owned.concat(o.owned||[]))];Object.assign(save.eq,o.eq);}}}catch(e){}
 if(!save.arena)save.arena={rank:11};
+if(!Array.isArray(save.eq.opts))save.eq.opts=[];
 for(const [k,v] of [['lw','LB-10'],['boost','BS-A'],['gen','GN-A']]){if(!save.eq[k])save.eq[k]=v;if(!save.owned.includes(v))save.owned.push(v);}
 function normSettings(){const s=save.settings=Object.assign(defSettings(),save.settings||{});s.keys=Object.assign(defSettings().keys,s.keys||{});for(const a in DEF_KEYS)if(!Array.isArray(s.keys[a])||s.keys[a].length!==2)s.keys[a]=DEF_KEYS[a].slice();s.pad=Object.assign({},DEF_PAD,s.pad||{});}
 normSettings();
@@ -352,9 +402,15 @@ function addMail(id){if(!save.mails.some(m=>m.id===id))save.mails.unshift({id,re
 const fillT=s=>esc(s).replace(/\{P\}/g,esc(save.pilot)).replace(/\{A\}/g,esc(save.acName));
 
 function calcStats(eq){
-  const h=pt('head',eq.head),c=pt('core',eq.core),a=pt('arms',eq.arms),l=pt('legs',eq.legs),r=pt('rw',eq.rw),b=pt('bw',eq.bw),lw=pt('lw',eq.lw),bo=pt('boost',eq.boost),g=pt('gen',eq.gen);
-  const load=h.w+c.w+a.w+r.w+b.w+lw.w+bo.w+g.w;
-  return {h,c,a,l,r,b,lw,bo,g,ap:h.ap+c.ap+a.ap+l.ap,en:c.en+g.en,regen:g.regen,load,cap:l.load,over:load>l.load,spdF:1-0.22*Math.min(1,load/l.load)};
+  const h=pt('head',eq.head),c=pt('core',eq.core),a=pt('arms',eq.arms),l=pt('legs',eq.legs),b=pt('bw',eq.bw),bo=pt('boost',eq.boost),g=pt('gen',eq.gen);
+  const wa=a.wa,r=wa?wa:pt('rw',eq.rw),lw=wa?PARTS.lw[0]:pt('lw',eq.lw);
+  const opts=(eq.opts||[]).map(id=>OPTS.find(o=>o.id===id)).filter(Boolean),has=id=>opts.some(o=>o.id===id);
+  const load=h.w+c.w+a.w+(wa?0:r.w)+b.w+(wa?0:lw.w)+bo.w+g.w+opts.reduce((t,o)=>t+o.w,0);
+  return {h,c,a,l,r,b,lw,bo,g,wa:!!wa,opts,
+    ap:Math.round((h.ap+c.ap+a.ap+l.ap)*(has('OP-AP')?1.08:1)),en:c.en+g.en,regen:+(g.regen*(has('OP-EN')?1.15:1)).toFixed(2),
+    lockT:h.lockT*(has('OP-LK')?0.8:1),lockR:Math.round(h.lockR*(b.lockMul||1)),radar:Math.round(h.radar*(b.radar||1)),
+    boxMul:has('OP-SP')?1.2:1,ammoMul:has('OP-AM')?1.25:1,qbEn:Math.round(bo.qbEn*(has('OP-QB')?0.8:1)),icpt:has('OP-IC'),stab:has('OP-ST'),
+    load,cap:l.load,over:load>l.load,spdF:1-0.22*Math.min(1,load/l.load)};
 }
 let S=calcStats(save.eq);
 
@@ -644,41 +700,68 @@ function buildMech(spec,cols){
     const eye=new THREE.Mesh(new THREE.BoxGeometry(0.7,0.15,0.05),new THREE.MeshBasicMaterial({color:0xff3020}));eye.position.set(0,hy+0.02,-0.78);torso.add(eye);
   }
   const pod=new THREE.Object3D();
-  if(spec.bw==='VL'){box(torso,1.0,1.6,1.0,c3,0.9,3.2+off,1.0);box(torso,1.0,1.6,1.0,c3,-0.9,3.2+off,1.0);pod.position.set(0,4.1+off,1.0);}
+  if(spec.bw==='RD1'||spec.bw==='RD2'){const big=spec.bw==='RD2';box(torso,0.3,1.6,0.3,c2,0.9,3.5+off,0.9);box(torso,big?2.2:1.5,0.15,big?1.2:0.9,c3,0.9,4.3+off,0.9);pod.position.set(0.9,4.3+off,0.9);}
+  else if(spec.bw==='MS2'){box(torso,0.9,0.7,1.0,c3,1.0,2.7+off,0.9);pod.position.set(1.0,3.1+off,0.9);}
+  else if(spec.bw==='MH'){box(torso,1.4,1.0,1.4,c3,1.0,2.9+off,0.9);box(torso,1.4,1.0,1.4,c3,-1.0,2.9+off,0.9);pod.position.set(0,3.5+off,0.9);}
+  else if(spec.bw==='MD'){box(torso,1.0,1.0,3.0,c3,1.2,3.0+off,0.4);box(torso,1.0,1.0,3.0,c3,-1.2,3.0+off,0.4);pod.position.set(0,3.2+off,-1.2);}
+  else if(spec.bw==='VL8'){box(torso,1.2,2.0,1.2,c3,1.0,3.4+off,1.0);box(torso,1.2,2.0,1.2,c3,-1.0,3.4+off,1.0);pod.position.set(0,4.5+off,1.0);}
+  else if(spec.bw==='GR6'){box(torso,0.8,0.8,1.4,c2,1.1,3.0+off,0.6);box(torso,0.5,0.5,3.2,0x2a2a2a,1.1,3.05+off,-1.1);pod.position.set(1.1,3.05+off,-2.8);}
+  else if(spec.bw==='CN8'){box(torso,0.8,0.8,1.4,c2,1.1,3.0+off,0.6);box(torso,0.45,0.45,4.4,0x2a2a2a,1.1,3.05+off,-1.6);pod.position.set(1.1,3.05+off,-3.9);}
+  else if(spec.bw==='PC'){box(torso,1.1,1.1,1.8,0x2a3440,1.1,3.0+off,0.6);const gl=new THREE.Mesh(new THREE.BoxGeometry(0.5,0.5,3.6),new THREE.MeshBasicMaterial({color:0x60e0ff}));gl.position.set(1.1,3.05+off,-1.6);torso.add(gl);pod.position.set(1.1,3.05+off,-3.5);}
+  else if(spec.bw==='CG'){box(torso,0.9,0.9,1.4,c2,1.1,3.0+off,0.6);for(const [x,y] of [[0.15,0.15],[-0.15,0.15],[0.15,-0.15],[-0.15,-0.15]])box(torso,0.18,0.18,3.0,0x1a1a1a,1.1+x,3.05+off+y,-1.4);pod.position.set(1.1,3.05+off,-3.0);}
+  else if(spec.bw==='VL'){box(torso,1.0,1.6,1.0,c3,0.9,3.2+off,1.0);box(torso,1.0,1.6,1.0,c3,-0.9,3.2+off,1.0);pod.position.set(0,4.1+off,1.0);}
   else if(spec.bw==='CN'){box(torso,1.0,1.0,1.8,c2,1.1,3.0+off,0.6);box(torso,0.7,0.7,6.0,0x2a2a2a,1.1,3.05+off,-2.4);pod.position.set(1.1,3.05+off,-5.5);}
   else if(spec.bw==='MM'){box(torso,1.6,1.1,1.6,c3,1.0,2.9+off,0.9);box(torso,1.6,1.1,1.6,c3,-1.0,2.9+off,0.9);pod.position.set(0,3.5+off,0.9);}
   else if(spec.bw==='GR'){box(torso,0.9,0.9,1.6,c2,1.1,3.0+off,0.6);box(torso,0.55,0.55,4.2,0x2a2a2a,1.1,3.05+off,-1.6);pod.position.set(1.1,3.05+off,-3.8);}
   else{box(torso,1.2,0.9,1.4,c3,1.0,2.75+off,0.9);pod.position.set(1.0,3.3+off,0.9);}
   torso.add(pod);
-  const thin=spec.arms==='AR-B'?0.55:0.7;
+  const wa=pt('arms',spec.arms).wa;
+  const thin=spec.arms==='AR-B'||spec.arms==='AR-E'?0.55:spec.arms==='AR-C'?0.85:0.7;
+  const muzzle=new THREE.Object3D();let muzzle2=null,elbowL=null,blade=null;
   const armR=new THREE.Group();armR.position.set(armX,2.0+off,0);torso.add(armR);
   box(armR,0.9,0.9,1.2,c2,0,0,0);box(armR,thin,1.1,thin+0.1,c1,0,-0.75,0);
   const elbow=new THREE.Group();elbow.position.set(0,-1.3,0);armR.add(elbow);
-  box(elbow,thin,thin,1.6,c1,0,0,-0.6);
-  const gun=new THREE.Group();gun.position.set(0,-0.05,-1.3);elbow.add(gun);
-  const muzzle=new THREE.Object3D();
-  if(spec.rw==='SR'){box(gun,0.4,0.55,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.18,0.18,3.6,0x1a1a1a,0,0.05,-2.4);box(gun,0.25,0.3,0.8,0x3a3a3a,0,0.42,-0.4);muzzle.position.set(0,0.05,-4.3);}
-  else if(spec.rw==='SG'){box(gun,0.75,0.65,1.4,0x2a2a2a,0,0,-0.3);box(gun,0.5,0.32,1.3,0x1a1a1a,0,0.05,-1.5);muzzle.position.set(0,0.05,-2.2);}
-  else if(spec.rw==='PL'){box(gun,0.55,0.65,1.8,0x2a3440,0,0,-0.4);const gl=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.3,1.3),new THREE.MeshBasicMaterial({color:0x60e0ff}));gl.position.set(0,0.05,-1.6);gun.add(gl);muzzle.position.set(0,0.05,-2.4);}
-  else if(spec.rw==='MG'){box(gun,0.55,0.7,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.7,0.7,0.7,0x3a3a30,0,-0.55,-0.2);box(gun,0.2,0.2,1.2,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.3);}
-  else if(spec.rw==='BZ'){box(gun,0.75,0.75,3.4,0x3a3e34,0,0.1,-1.0);box(gun,0.9,0.9,0.4,0x2a2a2a,0,0.1,-2.7);muzzle.position.set(0,0.1,-3.0);}
-  else{box(gun,0.5,0.6,1.4,0x2a2a2a,0,0,-0.3);box(gun,0.25,0.25,2.0,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.7);}
-  gun.add(muzzle);
   const armL=new THREE.Group();armL.rotation.order='YXZ';armL.position.set(-armX,2.0+off,0);torso.add(armL);
-  box(armL,0.9,0.9,1.2,c2,0,0,0);box(armL,thin,1.6,thin+0.1,c1,0,-1.1,0);
-  let blade=null;
-  const lw=pt('lw',spec.lw||'LB-0');
-  if(lw.dmg){
-    box(armL,0.45,lw.id==='LB-77'?1.4:1.0,0.9,0x2a2e34,-0.4,-1.7,0);
-    blade=lw.pile?new THREE.Mesh(new THREE.BoxGeometry(0.45,lw.len,0.45),M(0xb8b8b0))
-      :new THREE.Mesh(new THREE.BoxGeometry(0.22,lw.len,0.22),new THREE.MeshBasicMaterial({color:0x8fe8ff,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
-    if(lw.pile)box(armL,0.8,1.6,1.1,0x3a3a36,-0.4,-1.9,0);
-    blade.position.set(-0.4,-2.2-lw.len/2,0);blade.visible=false;armL.add(blade);
-  }else box(armL,0.3,1.2,1.2,c2,-0.45,-1.3,-0.1);
+  box(armL,0.9,0.9,1.2,c2,0,0,0);
+  if(wa){
+    box(armL,thin,1.1,thin+0.1,c1,0,-0.75,0);
+    elbowL=new THREE.Group();elbowL.position.set(0,-1.3,0);armL.add(elbowL);
+    muzzle2=new THREE.Object3D();
+    for(const [eg,mz] of [[elbow,muzzle],[elbowL,muzzle2]]){
+      if(wa.id==='WA-MG'){box(eg,0.9,0.9,1.8,c1,0,0,-0.7);box(eg,0.22,0.22,1.4,0x1a1a1a,0.2,0.1,-2.2);box(eg,0.22,0.22,1.4,0x1a1a1a,-0.2,0.1,-2.2);mz.position.set(0,0.1,-2.9);}
+      else if(wa.id==='WA-CN'){box(eg,1.1,1.1,2.0,c1,0,0,-0.7);box(eg,0.55,0.55,2.4,0x2a2a2a,0,0.1,-2.6);mz.position.set(0,0.1,-3.8);}
+      else if(wa.id==='WA-PL'){box(eg,0.9,0.95,2.0,0x2a3440,0,0,-0.7);const gl=new THREE.Mesh(new THREE.BoxGeometry(0.35,0.35,1.2),new THREE.MeshBasicMaterial({color:0x60e0ff}));gl.position.set(0,0.1,-2.2);eg.add(gl);mz.position.set(0,0.1,-2.9);}
+      else if(wa.id==='WA-FR'){box(eg,1.0,1.0,1.6,c1,0,0,-0.6);box(eg,0.5,0.5,1.4,0x3a3a30,0,-0.1,-2.0);box(eg,0.3,0.3,0.5,0xff7a30,0,-0.1,-2.8);mz.position.set(0,-0.1,-3.1);}
+      else{box(eg,1.0,1.0,1.8,c1,0,0,-0.6);for(const [x,y] of [[-0.22,0.22],[0.22,0.22],[-0.22,-0.22],[0.22,-0.22]])box(eg,0.3,0.3,1.2,0x2a2a2a,x,y,-1.9);mz.position.set(0,0,-2.6);}
+      eg.add(mz);
+    }
+  }else{
+    box(elbow,thin,thin,1.6,c1,0,0,-0.6);
+    const gun=new THREE.Group();gun.position.set(0,-0.05,-1.3);elbow.add(gun);
+    const rw=spec.rw;
+    if(rw==='SR'||rw==='RF77'){const L2=rw==='SR'?3.6:2.8;box(gun,0.4,0.55,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.18,0.18,L2,0x1a1a1a,0,0.05,-0.6-L2/2);box(gun,0.25,0.3,0.8,0x3a3a3a,0,0.42,-0.4);muzzle.position.set(0,0.05,-0.7-L2);}
+    else if(rw==='SG'){box(gun,0.75,0.65,1.4,0x2a2a2a,0,0,-0.3);box(gun,0.5,0.32,1.3,0x1a1a1a,0,0.05,-1.5);muzzle.position.set(0,0.05,-2.2);}
+    else if(rw==='PL'||rw==='LR'){const L2=rw==='LR'?1.9:1.3;box(gun,0.55,0.65,1.8,0x2a3440,0,0,-0.4);const gl=new THREE.Mesh(new THREE.BoxGeometry(0.3,0.3,L2),new THREE.MeshBasicMaterial({color:0x60e0ff}));gl.position.set(0,0.05,-1.0-L2/2);gun.add(gl);muzzle.position.set(0,0.05,-1.2-L2);}
+    else if(rw==='MG'||rw==='MGH'){const k2=rw==='MGH'?1.3:1;box(gun,0.55*k2,0.7*k2,1.6,0x2a2a2a,0,0,-0.3);box(gun,0.7*k2,0.7*k2,0.7,0x3a3a30,0,-0.55*k2,-0.2);box(gun,0.2*k2,0.2*k2,1.2,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.3);}
+    else if(rw==='BZ'){box(gun,0.75,0.75,3.4,0x3a3e34,0,0.1,-1.0);box(gun,0.9,0.9,0.4,0x2a2a2a,0,0.1,-2.7);muzzle.position.set(0,0.1,-3.0);}
+    else if(rw==='GL'){box(gun,0.7,0.7,2.4,0x3a3e34,0,0.1,-0.7);box(gun,0.9,0.9,0.9,0x2a2a2a,0,-0.2,0.1);muzzle.position.set(0,0.1,-2.0);}
+    else if(rw==='HG'){box(gun,0.35,0.5,0.9,0x2a2a2a,0,0,-0.1);box(gun,0.2,0.2,0.8,0x1a1a1a,0,0.1,-0.8);muzzle.position.set(0,0.1,-1.3);}
+    else{box(gun,0.5,0.6,1.4,0x2a2a2a,0,0,-0.3);box(gun,0.25,0.25,2.0,0x1a1a1a,0,0.05,-1.6);muzzle.position.set(0,0.05,-2.7);}
+    gun.add(muzzle);
+    box(armL,thin,1.6,thin+0.1,c1,0,-1.1,0);
+    const lw=pt('lw',spec.lw||'LB-0');
+    if(lw.dmg){
+      box(armL,0.45,lw.id==='LB-77'||lw.id==='LB-200'?1.4:lw.id==='LB-5'?0.7:1.0,0.9,0x2a2e34,-0.4,-1.7,0);
+      blade=lw.pile?new THREE.Mesh(new THREE.BoxGeometry(0.45,lw.len,0.45),M(0xb8b8b0))
+        :new THREE.Mesh(new THREE.BoxGeometry(lw.id==='LB-200'?0.32:0.22,lw.len,lw.id==='LB-200'?0.32:0.22),new THREE.MeshBasicMaterial({color:lw.id==='LB-200'?0xc8a0ff:0x8fe8ff,transparent:true,opacity:.9,blending:THREE.AdditiveBlending,depthWrite:false}));
+      if(lw.pile)box(armL,0.8,1.6,1.1,0x3a3a36,-0.4,-1.9,0);
+      blade.position.set(-0.4,-2.2-lw.len/2,0);blade.visible=false;armL.add(blade);
+    }else box(armL,0.3,1.2,1.2,c2,-0.45,-1.3,-0.1);
+  }
   const flame=new THREE.Mesh(new THREE.ConeGeometry(0.5,2.4,5),new THREE.MeshBasicMaterial({color:spec.boost==='BS-B'?0xffb060:spec.boost==='BS-C'?0xa0ffb0:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
   flame.rotation.x=Math.PI/2;flame.position.set(0,1.5+off,heavy?2.9:2.7);flame.visible=false;torso.add(flame);
   TEXMAP=null;
-  return {g,hip,hipY:HIP,legType:lt,legs,torso,armR,armL,elbow,muzzle,pod,flame,blade,phase:0,slashT:0};
+  return {g,hip,hipY:HIP,legType:lt,legs,torso,armR,armL,elbow,elbowL,muzzle,muzzle2,pod,flame,blade,phase:0,slashT:0};
 }
 const SLASH=0.36;
 function animMech(m,speed,grounded,dt,pitch,boost){
@@ -704,6 +787,7 @@ function animMech(m,speed,grounded,dt,pitch,boost){
   if(lt==='biped'||lt==='reverse')for(const l of L)l.ft.rotation.x=-(l.th.rotation.x+l.kn.rotation.x);
   m.torso.rotation.x=pitch*0.25;m.armR.rotation.x=0.35;m.elbow.rotation.x=pitch*0.75-0.35;
   if(m.slashT>0){const q=1-m.slashT/SLASH;m.armL.rotation.x=1.45;m.armL.rotation.y=1.25-2.5*q;if(m.blade)m.blade.visible=true;}
+  else if(m.elbowL){m.armL.rotation.x=0.35;m.armL.rotation.y=0;m.elbowL.rotation.x=pitch*0.75-0.35;}
   else{m.armL.rotation.x=0;m.armL.rotation.y=0;if(m.blade)m.blade.visible=false;}
   m.flame.visible=boost;if(boost)m.flame.scale.setScalar(0.8+Math.random()*0.4);
 }
@@ -789,11 +873,12 @@ function spark(p,blue){part(p,{mat:blue?matBlue:matSpark,life:blue?0.2:0.12,s:bl
 /* ================= projectiles ================= */
 const gBullet=new THREE.BoxGeometry(0.32,0.32,3.6),gShell=new THREE.IcosahedronGeometry(0.5,0),gGren=new THREE.IcosahedronGeometry(0.85,0),gMsl=new THREE.BoxGeometry(0.35,0.35,1.6);
 const mPB=new THREE.MeshBasicMaterial({color:0xffe27a}),mEB=new THREE.MeshBasicMaterial({color:0xff6a3a}),
-      mPM=new THREE.MeshBasicMaterial({color:0xe8e8d8}),mPE=new THREE.MeshBasicMaterial({color:0x70e8ff}),mEM=new THREE.MeshBasicMaterial({color:0xff5040});
+      mPM=new THREE.MeshBasicMaterial({color:0xe8e8d8}),mPE=new THREE.MeshBasicMaterial({color:0x70e8ff}),mPF=new THREE.MeshBasicMaterial({color:0xff8a30,transparent:true,opacity:.8,blending:THREE.AdditiveBlending,depthWrite:false}),mEM=new THREE.MeshBasicMaterial({color:0xff5040});
 function spawnShot(o){
   const geo=o.kind==='m'?gMsl:o.kind==='g'?gGren:o.kind==='s'?gShell:gBullet;
-  const mat=o.kind==='m'||o.kind==='g'?(o.foe?mEM:mPM):(o.foe?mEB:o.energy?mPE:mPB);
+  const mat=o.flame?mPF:o.kind==='m'||o.kind==='g'?(o.foe?mEM:o.energy?mPE:mPM):(o.foe?mEB:o.energy?mPE:mPB);
   o.mesh=new THREE.Mesh(geo,mat);o.mesh.position.copy(o.p);scene.add(o.mesh);
+  if(o.micro)o.mesh.scale.setScalar(0.6);else if(o.big)o.mesh.scale.setScalar(1.9);else if(o.flame)o.mesh.scale.set(5,5,0.7);
   o.prev=o.p.clone();o.age=0;o.tr=0;shots.push(o);
 }
 const tmp=new V3();
@@ -802,11 +887,13 @@ function updateShots(dt){
   const pc=playerCenter();
   for(let i=shots.length-1;i>=0;i--){
     const s=shots[i];s.life-=dt;s.age+=dt;
+    if(s.foe&&s.kind==='m'&&S.icpt&&!s.icDone&&s.p.distanceTo(pc)<42){s.icDone=true;if(Math.random()<0.45){part(s.p,{mat:matSpark,life:0.18,s:1.2,grow:7});nz(0.08,4000,0.12);scene.remove(s.mesh);shots.splice(i,1);continue;}}
+    if(s.flame){s.mesh.scale.x+=dt*14;s.mesh.scale.y+=dt*14;}
     if(s.kind==='m'){
       const tg=s.foe?(P.alive?pc:null):(s.target&&s.target.alive?s.target.center():null);
-      const sp=s.v.length(),ns=Math.min(s.foe?58:115,sp+(s.foe?22:90)*dt);
+      const sp=s.v.length(),ns=Math.min(s.foe?58:s.big?85:115,sp+(s.foe?22:90)*dt);
       if(tg&&s.age>(s.vert?0.55:0.18)){
-        const want=tmp.copy(tg).sub(s.p).normalize(),cur=s.v.clone().normalize(),ang=cur.angleTo(want),mt=(s.foe?1.5:s.vert?7:4.6)*dt;
+        const want=tmp.copy(tg).sub(s.p).normalize(),cur=s.v.clone().normalize(),ang=cur.angleTo(want),mt=(s.foe?1.5:s.vert?7:s.big?2.4:4.6)*dt;
         if(ang>1e-4)cur.lerp(want,Math.min(1,mt/ang)).normalize();s.v.copy(cur).multiplyScalar(ns);
       }else s.v.setLength(ns);
       s.tr-=dt;if(s.tr<=0){s.tr=0.035;part(s.p,{mat:matTrail,life:0.7,s:0.5,grow:1.6});}
@@ -832,7 +919,7 @@ function updateShots(dt){
   }
 }
 function hurtPlayer(d){
-  if(!P.alive||outcome)return;P.ap-=d;hitFlash=Math.min(0.8,hitFlash+0.35);shake=Math.max(shake,0.5);sfx.hit();
+  if(!P.alive||outcome)return;P.ap-=d;const stb=S.stab?0.4:1;hitFlash=Math.min(0.8,hitFlash+0.35*stb);shake=Math.max(shake,0.5*stb);sfx.hit();
   if(P.ap<=0){P.ap=0;P.alive=false;boom(playerCenter(),7);P.mech.g.visible=false;say('機体大破',3,'#ff4b3a');endMission('fail');}
 }
 function hurtGen(d){
@@ -1182,8 +1269,8 @@ function resolveBlade(fwd){
   if(any){shake=Math.max(shake,0.6);nz(0.2,2500,0.25);}
 }
 function startQB(fwd,rgt,mx,mz){
-  const B=S.bo;if(P.qbCd>0||P.over||P.en<B.qbEn*0.5)return;
-  P.en-=B.qbEn;P.qbCd=B.qbCd;P.qbT=0.2;
+  const B=S.bo;if(P.qbCd>0||P.over||P.en<S.qbEn*0.5)return;
+  P.en-=S.qbEn;P.qbCd=B.qbCd;P.qbT=0.2;
   const d=fwd.clone().multiplyScalar(mz).add(rgt.clone().multiplyScalar(mx));d.y=0;
   if(d.length()<0.1)d.copy(fwd);d.normalize();
   const pw=B.qb*(0.55+0.45*S.spdF/0.78)*(S.l.type==='tank'?0.8:1);
@@ -1242,24 +1329,32 @@ function updatePlayer(dt){
   const canFire=R.en?(!P.over&&P.en>=R.en):P.ammo>0;
   if(held('fire')&&P.fireCd<=0&&canFire&&P.slash<=0){
     P.fireCd=R.cd*S.a.rate;if(R.en)P.en-=R.en;else{P.ammo--;usedB++;}
-    const mp=P.mech.muzzle.getWorldPosition(new V3());
+    const mz=S.wa&&P.flip&&P.mech.muzzle2?P.mech.muzzle2:P.mech.muzzle;P.flip=!P.flip;
+    const mp=mz.getWorldPosition(new V3());
     const base=aimAt(mp,R.spd).sub(mp).normalize();
     for(let k=0;k<(R.pellets||1);k++){
       const dir=base.clone();dir.x+=(Math.random()-.5)*R.spread;dir.y+=(Math.random()-.5)*R.spread;if(R.pellets)dir.z+=(Math.random()-.5)*R.spread;dir.normalize();
-      spawnShot({p:mp.clone(),v:dir.multiplyScalar(R.spd),dmg:R.dmg,foe:false,kind:R.kind,energy:!!R.en,life:R.kind==='s'?3:R.id==='SR'?2:R.pellets?0.9:1.4});
+      spawnShot({p:mp.clone(),v:dir.multiplyScalar(R.spd),dmg:R.dmg,foe:false,kind:R.kind,energy:!!R.en,flame:!!R.flame,blast:R.blast,bsize:R.bsize,life:R.life||(R.kind==='s'||R.kind==='g'?3:R.id==='SR'||R.id==='RF77'||R.id==='LR'?2:R.pellets?0.9:1.4)});
     }
     part(mp,{mat:R.en?matBlue:matSpark,life:0.05,s:R.kind==='s'||R.pellets?1.6:0.9,grow:6});
-    if(R.kind==='s'){sfx.heavy();shake=Math.max(shake,0.3);if(LG.type!=='tank')P.vel.addScaledVector(fwd,-4);}
-    else if(R.id==='MG')sfx.mg();else if(R.en)sfx.pulse();else if(R.pellets){sfx.sg();shake=Math.max(shake,0.15);}else if(R.id==='SR'){sfx.sniper();shake=Math.max(shake,0.2);}else sfx.shot();
+    if(R.kind==='s'||R.kind==='g'){sfx.heavy();shake=Math.max(shake,R.kind==='g'?0.4:0.3);if(LG.type!=='tank')P.vel.addScaledVector(fwd,R.kind==='g'?-6:-4);}
+    else if(R.flame)nz(0.06,900,0.08);
+    else if(R.id==='MG'||R.id==='MGH'||R.id==='WA-MG')sfx.mg();else if(R.en)sfx.pulse();else if(R.pellets){sfx.sg();shake=Math.max(shake,0.15);}else if(R.id==='SR'){sfx.sniper();shake=Math.max(shake,0.2);}else sfx.shot();
   }
+  if(P.cg>0){P.cgT-=dt;if(P.cgT<=0){P.cgT=0.07;P.cg--;
+    if(P.msl>0){P.msl--;usedM++;const pod=P.mech.pod.getWorldPosition(new V3());const dir=aimAt(pod,B.spd).sub(pod).normalize();
+      dir.x+=(Math.random()-.5)*0.03;dir.y+=(Math.random()-.5)*0.03;dir.normalize();
+      spawnShot({p:pod.clone().addScaledVector(dir,1),v:dir.multiplyScalar(B.spd),dmg:B.dmg,foe:false,kind:'b',life:1.5});part(pod,{mat:matSpark,life:0.05,s:1.1,grow:6});sfx.mg();}}}
   if(mslReq){
     mslReq=false;
-    if(P.mslCd<=0&&P.msl>0){
+    const bwOk=B.kind!=='radar'&&P.mslCd<=0&&(B.en?(!P.over&&P.en>=B.en):P.msl>0);
+    if(bwOk){
       const pod=P.mech.pod.getWorldPosition(new V3());
-      if(B.kind==='g'){
-        P.mslCd=B.cd;P.msl--;usedM++;
+      if(B.kind==='auto'){P.mslCd=B.cd;P.cg=B.burst;P.cgT=0;}
+      else if(B.kind==='g'){
+        P.mslCd=B.cd;if(B.en)P.en-=B.en;else{P.msl--;usedM++;}
         const dir=aimAt(pod,B.spd).sub(pod).normalize();
-        spawnShot({p:pod.clone().addScaledVector(dir,1),v:dir.multiplyScalar(B.spd),dmg:B.dmg,foe:false,kind:'g',blast:B.blast,bsize:B.bsize,life:4});
+        spawnShot({p:pod.clone().addScaledVector(dir,1),v:dir.multiplyScalar(B.spd),dmg:B.dmg,foe:false,kind:'g',energy:!!B.en,blast:B.blast,bsize:B.bsize,life:4});
         part(pod,{geo:gIco,mat:matFire,life:0.2,s:1,grow:8});sfx.heavy();shake=Math.max(shake,0.8);
         if(LG.type!=='tank'){P.vel.addScaledVector(fwd,-B.recoil);if(!P.grounded)P.vel.y=Math.max(P.vel.y,2);}
       }else{
@@ -1270,7 +1365,7 @@ function updatePlayer(dt){
           if(B.vert&&t)v=new V3(0,34,0).addScaledVector(rgt,off*3);
           else if(t)v=fwd.clone().multiplyScalar(26).add(new V3(0,16,0)).addScaledVector(rgt,off*7);
           else v=aimPoint.clone().sub(pod).normalize().multiplyScalar(60);
-          spawnShot({p:pod.clone().addScaledVector(rgt,off*0.3),v,dmg:B.dmg,foe:false,kind:'m',target:t,vert:!!(B.vert&&t),life:B.vert?7:5});});
+          spawnShot({p:pod.clone().addScaledVector(rgt,off*0.3),v,dmg:B.dmg,foe:false,kind:'m',target:t,vert:!!(B.vert&&t),micro:!!B.micro,big:!!B.big,life:B.vert?7:5});});
         sfx.msl();
       }
     }
@@ -1291,12 +1386,12 @@ function updateCamera(dt){
   const hit=rayCast(o,cd,320,true);aimPoint.copy(o).addScaledVector(cd,hit.t);
 }
 function updateLocks(dt){
-  const w=hud.width,h=hud.height,list=[],HD=S.h;let best=1e9;rifleT=null;
+  const w=hud.width,h=hud.height,list=[],HD={lockR:S.lockR,lockT:S.lockT};let best=1e9;rifleT=null;
   for(const e of enemies){
     e.onScreen=false;if(!e.alive){e.lock=0;continue;}
     const c=e.center(),dist=c.distanceTo(P.pos);c.project(camera);
     if(c.z<1&&Math.abs(c.x)<1&&Math.abs(c.y)<1){e.onScreen=true;e.sx=(c.x+1)/2*w;e.sy=(1-c.y)/2*h;}
-    const inBox=e.onScreen&&Math.abs(c.x)<0.36&&Math.abs(c.y)<0.44&&dist<HD.lockR&&P.alive;
+    const inBox=e.onScreen&&Math.abs(c.x)<0.36*S.boxMul&&Math.abs(c.y)<0.44*S.boxMul&&dist<HD.lockR&&P.alive;
     if(inBox){
       const sd=Math.hypot(c.x,c.y*0.8);if(sd<best&&dist<200){best=sd;rifleT=e;}
       if(S.b.locks){const was=e.lock>=HD.lockT;e.lock+=dt;if(!was&&e.lock>=HD.lockT)sfx.lock();}
@@ -1315,7 +1410,7 @@ function clearWorld(){
 }
 function reset(){
   clearWorld();loadMap(curM.map);S=calcStats(save.eq);
-  Object.assign(P,{yaw:0,pitch:0.05,ap:S.ap,max:S.ap,en:S.en,enMax:S.en,over:false,grounded:true,alive:true,ammo:S.r.ammo,msl:S.b.ammo,
+  Object.assign(P,{yaw:0,pitch:0.05,ap:S.ap,max:S.ap,en:S.en,enMax:S.en,over:false,grounded:true,alive:true,ammo:Math.round(S.r.ammo*S.ammoMul),msl:Math.round(S.b.ammo*S.ammoMul),cg:0,cgT:0,flip:false,
     fireCd:0,mslCd:0,bladeCd:0,slash:0,lungeT:0,slashed:true,jl:false,qbT:0,qbCd:0});
   if(MAP.start)P.pos.set(...MAP.start);else P.pos.set(0,0,MAP.gen?8:0);P.vel.set(0,0,0);rebuildPlayer();
   if(GEN){GEN.hp=GEN.max=curM.genHP||4000;}
@@ -1403,7 +1498,7 @@ function sortie(){if(!curM||calcStats(save.eq).over)return;reset();startPlay();}
 
 /* ================= hub screens ================= */
 let hubView='menu',gTab='legs',gNote='',gNoteOk=false,selM=null,selMail=null,wipeArm=false;
-const CATS=[['head','頭部'],['core','コア'],['arms','腕部'],['legs','脚部'],['boost','ブースター'],['gen','ジェネ'],['rw','右腕'],['lw','左腕'],['bw','背部'],['color','カラー']];
+const CATS=[['head','頭部'],['core','コア'],['arms','腕部'],['legs','脚部'],['boost','ブースター'],['gen','ジェネ'],['rw','右腕'],['lw','左腕'],['bw','背部'],['opt','オプション'],['color','カラー']];
 function toHub(view){
   if(save.cleared.m1)addMail('arena');
   initAudio();hideAll();clearWorld();
@@ -1518,11 +1613,16 @@ function renderPad(){
 function partStats(cat,p){
   if(cat==='head')return `AP ${p.ap} ／ 重量 ${p.w} ／ ロック距離 ${p.lockR} ／ ロック時間 ${p.lockT}秒`;
   if(cat==='core')return `AP ${p.ap} ／ 重量 ${p.w} ／ EN容量 ${p.en}`;
+  if(cat==='arms'&&p.wa)return `AP ${p.ap} ／ 重量 ${p.w} ／ 威力 ${p.wa.dmg} ／ ${p.wa.en?'EN消費 '+p.wa.en+'/発':'弾数 '+p.wa.ammo+' ／ 弾単価 '+p.wa.cost+' cr'}`;
   if(cat==='arms')return `AP ${p.ap} ／ 重量 ${p.w}`+(p.rate<1?` ／ 連射+${Math.round((1-p.rate)*100)}%`:p.rate>1?` ／ 連射-${Math.round((p.rate-1)*100)}%`:'')+(p.blade>1?' ／ ブレード威力+35%':'');
   if(cat==='boost')return `重量 ${p.w} ／ 速度 ×${p.dash} ／ QB出力 ${p.qb} ／ QB消費EN ${p.qbEn}`;
   if(cat==='gen')return `重量 ${p.w} ／ EN容量 ${p.en>=0?'+':''}${p.en} ／ EN回復 ×${p.regen}`;
   if(cat==='legs')return `AP ${p.ap} ／ 積載 ${p.load} ／ 速度 ${p.walk*12} km/h ／ ジャンプ ${p.jump}`;
   if(cat==='rw')return p.en?`威力 ${p.dmg} ／ EN消費 ${p.en}/発 ／ 重量 ${p.w} ／ 弾薬費なし`:`威力 ${p.dmg}${p.pellets?'×'+p.pellets:''} ／ 弾数 ${p.ammo} ／ 重量 ${p.w} ／ 弾単価 ${p.cost} cr`;
+  if(cat==='bw'&&p.kind==='radar')return `重量 ${p.w} ／ 索敵範囲 ×${p.radar} ／ ロック距離 ×${p.lockMul}`;
+  if(cat==='bw'&&p.en)return `威力 ${p.dmg} ／ EN消費 ${p.en}/発 ／ 重量 ${p.w} ／ 弾薬費なし`;
+  if(cat==='bw'&&p.kind==='auto')return `威力 ${p.dmg}×${p.burst}連射 ／ 弾数 ${p.ammo} ／ 重量 ${p.w} ／ 弾単価 ${p.cost} cr`;
+  if(cat==='opt')return `重量 ${p.w}`;
   if(cat==='lw')return p.dmg?`威力 ${p.dmg} ／ 間合い ${p.range} ／ EN消費 ${p.en} ／ 重量 ${p.w}`:'重量 0';
   return `威力 ${p.dmg} ／ 弾数 ${p.ammo} ／ ${p.locks?'最大ロック '+p.locks:'ロックなし'} ／ 重量 ${p.w} ／ 弾単価 ${p.cost} cr`;
 }
@@ -1533,6 +1633,11 @@ function renderGarage(){
   let list;
   if(gTab==='color')list=COLORS.map((c,i)=>`<button class="pitem${save.eq.color===i?' eq':''}" data-act="color" data-i="${i}">
       <span class="nm"><span class="sw">${c.c.map(x=>`<i style="background:${hex(x)}"></i>`).join('')}</span>${c.name}</span><span class="pr">${save.eq.color===i?'装備中':'無料'}</span></button>`).join('');
+  else if(gTab==='opt'){const L=save.eq.opts||[];list=`<div class="sub2">装着中 ${L.length} / ${OPT_SLOTS}　（押すたびに付け外し）</div>`+OPTS.map(p=>{
+    const on=L.includes(p.id),own=save.owned.includes(p.id),lk=!own&&p.req&&!save.cleared[p.req];
+    const pr=on?'装着中':own?'所持':lk?`<span class="no">第${MISSIONS.findIndex(m=>m.id===p.req)+1}話クリアで入荷</span>`:`<span class="${save.cr>=p.price?'':'no'}">${fmt(p.price)} cr</span>`;
+    return `<button class="pitem${on?' eq':''}${lk?' lock':''}" data-act="opt" data-id="${p.id}"><span class="nm">${p.name}</span><span class="pr">${pr}</span><span class="st">${p.desc}<br>${partStats('opt',p)}</span></button>`;}).join('');}
+  else if(S.wa&&(gTab==='rw'||gTab==='lw'))list=`<div class="sub2">武器腕（${esc(S.a.name)}）を装備中のため、${gTab==='rw'?'右腕武器':'左腕武器'}は使えません。腕部を通常の腕に戻すと装備できます。</div>`;
   else list=PARTS[gTab].map(p=>{
     const eq=save.eq[gTab]===p.id,own=save.owned.includes(p.id),lk=!own&&p.req&&!save.cleared[p.req];
     const pr=eq?'装備中':own?'所持':lk?`<span class="no">第${MISSIONS.findIndex(m=>m.id===p.req)+1}話クリアで入荷</span>`:`<span class="${save.cr>=p.price?'':'no'}">${fmt(p.price)} cr</span>`;
@@ -1542,7 +1647,7 @@ function renderGarage(){
   dock.innerHTML=`${head(curM?'ガレージ ── 出撃準備：'+esc(curM.name):'ガレージ')}
   <div class="tabs" role="tablist">${tabs}</div>
   <div class="plist">${list}</div>
-  <div class="gstats"><div><span>AP</span><b>${fmt(S.ap)}</b></div><div><span>EN容量</span><b>${fmt(S.en)}</b></div><div><span>QB出力</span><b>${S.bo.qb}</b></div><div><span>EN回復</span><b>×${S.regen}</b></div>
+  <div class="gstats"><div><span>AP</span><b>${fmt(S.ap)}</b></div><div><span>EN容量</span><b>${fmt(S.en)}</b></div><div><span>QB出力</span><b>${S.bo.qb}</b></div><div><span>EN回復</span><b>×${S.regen}</b></div><div><span>オプション</span><b>${(save.eq.opts||[]).length} / ${OPT_SLOTS}</b></div>
     <div><span>巡航速度</span><b>${Math.round(S.l.walk*S.spdF*12)} km/h</b></div><div><span>脚部</span><b>${S.l.name.split(' ').pop()}</b></div>
     <div class="full"><span>積載量</span><b class="${S.over?'ng':''}">${fmt(S.load)} / ${fmt(S.cap)}</b></div>
     <div class="lbar${S.over?' over':''}"><i style="width:calc(${pct}% - 2px)"></i></div></div>
@@ -1571,6 +1676,16 @@ dock.addEventListener('click',e=>{
       try{localStorage.removeItem(SKEY);localStorage.removeItem(OLDKEY);}catch(err){}
       save=freshSave();wipeArm=false;curM=null;selM=null;selMail=null;rebuildPlayer();openTitle();return;
     case 'tab':sfx.click();gTab=b.dataset.tab;gNote='';break;
+    case 'opt':{const o=OPTS.find(x=>x.id===b.dataset.id);gNote='';gNoteOk=false;let bought=false;
+      if(!save.owned.includes(o.id)){
+        if(o.req&&!save.cleared[o.req]){gNote='このパーツはまだ入荷していません。依頼をこなすと入荷します。';sfx.deny();break;}
+        if(save.cr<o.price){gNote=`${o.name} を買うには ${fmt(o.price-save.cr)} cr 足りません。`;sfx.deny();break;}
+        save.cr-=o.price;save.owned.push(o.id);gNote=`${o.name} を購入しました。`;gNoteOk=true;bought=true;sfx.buy();}
+      const L=save.eq.opts||(save.eq.opts=[]),ix=L.indexOf(o.id);
+      if(ix>=0){L.splice(ix,1);sfx.click();}
+      else if(L.length>=OPT_SLOTS){gNote=(bought?gNote+' ':'')+`オプションは${OPT_SLOTS}個までです。どれかを外してから付けてください。`;gNoteOk=false;if(!bought)sfx.deny();}
+      else{L.push(o.id);if(!bought)sfx.click();}
+      break;}
     case 'keys':sfx.click();hubView='keys';break;
     case 'arena':sfx.click();curM=null;selA=null;hubView='arena';break;
     case 'sela':sfx.click();selA=arenaOpp(+b.dataset.r);break;
@@ -1710,7 +1825,7 @@ function drawHUD(time){
   const apc=P.ap/P.max<0.3?HR:HG;
   hx.textAlign='center';hx.fillStyle=apc;hx.font=F(24);hx.fillText('AP  '+Math.ceil(P.ap),w/2,12*u);
   bar(w/2-90*u,42*u,180*u,7*u,P.ap/P.max,apc);
-  const cx=w/2,cy=h/2,bw=0.36*w/2,bh=0.44*h/2,cl=14*u;
+  const cx=w/2,cy=h/2,bw=0.36*S.boxMul*w/2,bh=0.44*S.boxMul*h/2,cl=14*u;
   hx.strokeStyle='rgba(158,240,124,.55)';hx.beginPath();
   for(const [sx,sy] of [[-1,-1],[1,-1],[1,1],[-1,1]]){const x=cx+sx*bw,y=cy+sy*bh;hx.moveTo(x,y-sy*cl);hx.lineTo(x,y);hx.lineTo(x-sx*cl,y);}
   hx.stroke();
@@ -1720,7 +1835,7 @@ function drawHUD(time){
     hx.moveTo(cx-b,cy-b);hx.lineTo(cx-a,cy-a);hx.moveTo(cx+b,cy-b);hx.lineTo(cx+a,cy-a);hx.moveTo(cx-b,cy+b);hx.lineTo(cx-a,cy+a);hx.moveTo(cx+b,cy+b);hx.lineTo(cx+a,cy+a);hx.stroke();
     hx.textAlign='center';hx.font=F(12);hx.fillStyle='#ffffff';hx.fillText('HIT',cx,cy+20*u);}
   hx.font=F(11);
-  const LT=S.h.lockT;
+  const LT=S.lockT;
   for(const e of enemies){
     if(!e.alive||!e.onScreen)continue;
     const locked=lockedList.includes(e),s=(locked?11:7+(1-Math.min(1,e.lock/LT))*14)*u;
@@ -1739,9 +1854,11 @@ function drawHUD(time){
   hx.textAlign='right';
   if(S.lw.dmg){hx.font=F(13);const rdy=P.bladeCd<=0&&!P.over;hx.fillStyle=rdy?HC:'rgba(127,216,255,.45)';hx.fillText('L  '+S.lw.hud+(rdy?'  READY':''),w-16*u,h-118*u);}
   hx.font=F(13);hx.fillStyle=(S.r.en?!P.over:P.ammo>0)?(S.r.en?HC:HG):HR;hx.fillText('R  '+S.r.hud,w-16*u,h-92*u);hx.font=F(22);hx.fillText(S.r.en?'EN':String(P.ammo).padStart(3,'0'),w-16*u,h-76*u);
-  hx.font=F(13);hx.fillStyle=P.msl>0?(P.mslCd>0?'rgba(158,240,124,.5)':HG):HR;
-  hx.fillText('B  '+S.b.hud+(lockedList.length?' ×'+lockedList.length:''),w-16*u,h-48*u);
-  hx.font=F(22);hx.fillText(String(P.msl).padStart(2,'0'),w-16*u,h-32*u);
+  hx.font=F(13);
+  if(S.b.kind==='radar'){hx.fillStyle=HC;hx.fillText('B  '+S.b.hud,w-16*u,h-48*u);}
+  else{hx.fillStyle=(S.b.en?!P.over:P.msl>0)?(P.mslCd>0?'rgba(158,240,124,.5)':S.b.en?HC:HG):HR;
+    hx.fillText('B  '+S.b.hud+(lockedList.length?' ×'+lockedList.length:''),w-16*u,h-48*u);
+    hx.font=F(22);hx.fillText(S.b.en?'EN':String(P.msl).padStart(S.b.ammo>99?3:2,'0'),w-16*u,h-32*u);}
   hx.textAlign='left';hx.font=F(12);hx.fillStyle=HG;
   hx.fillText('SPD '+String(Math.round(Math.hypot(P.vel.x,P.vel.z)*12)).padStart(3,'0')+' km/h',cx-bw,cy+bh+8*u);
   hx.textAlign='right';hx.fillText('ALT '+String(Math.round(P.pos.y*2)).padStart(3,'0')+' m',cx+bw,cy+bh+8*u);
@@ -1756,7 +1873,7 @@ function drawHUD(time){
   const bs=enemies.find(e=>e.isBoss&&e.alive);
   if(bs){hx.textAlign='center';hx.fillStyle=HR;hx.font=F(12);hx.fillText(bs.cfg.name,w/2,58*u);bar(w/2-130*u,74*u,260*u,6*u,bs.hp/bs.max,HR);}
   // radar
-  const rr=56*u,rx=16*u+rr,ry=h-16*u-rr,RANGE=S.h.radar;
+  const rr=56*u,rx=16*u+rr,ry=h-16*u-rr,RANGE=S.radar;
   hx.fillStyle='rgba(10,20,8,.45)';hx.beginPath();hx.arc(rx,ry,rr,0,Math.PI*2);hx.fill();
   hx.strokeStyle='rgba(158,240,124,.5)';hx.beginPath();hx.arc(rx,ry,rr,0,Math.PI*2);hx.stroke();
   hx.beginPath();hx.arc(rx,ry,rr/2,0,Math.PI*2);hx.stroke();
