@@ -311,6 +311,7 @@ const OPTS=[
   {id:'OP-AM',name:'OP-AM 弾倉拡張',desc:'実弾武器とミサイルの弾数が25%増える',w:90,price:14000},
   {id:'OP-QB',name:'OP-QB QB効率化',desc:'クイックブーストの消費ENが20%減る',w:50,price:20000,req:'m3'},
   {id:'OP-IC',name:'OP-IC ミサイル迎撃',desc:'近づいた敵ミサイルを自動で撃ち落とすことがある',w:110,price:24000,req:'m3'},
+  {id:'OP-EC',name:'OP-EC 大容量コンデンサ',desc:'EN容量が250増える',w:140,price:22000},
   {id:'OP-ST',name:'OP-ST 姿勢制御',desc:'被弾したときの画面の揺れと赤い点滅が弱くなる',w:30,price:6000}
 ];
 const OPT_SLOTS=3;
@@ -334,7 +335,7 @@ const ACS={
   echo:{name:'エコー',spec:{head:'HD-D',core:'CR-C',arms:'AR-B',legs:'LG-L',rw:'RF77',bw:'MS',lw:'LB-10',boost:'BS-B'},cols:[0xe8ecf0,0x8a9aa8,0x40e0ff],
     hp:5200,r:3.0,cy:3.4,qb:true,sp:20,dash:38,jump:15,burst:3,gap:0.1,bd:110,bs:330,mcd:5,mslN:2,mslD:300,blade:1000,range:170,lead:0.95,spread:0.015},
   redflag:{name:'レッドフラッグ',spec:{head:'HD-C',core:'CR-D',arms:'AR-C',legs:'LG-Q',rw:'MGH',bw:'GR',lw:'LB-0'},cols:[0x8a2a24,0x3a2420,0xe8e0c8],
-    hp:7200,r:3.2,cy:3.4,sp:14,dash:28,jump:10,burst:8,gap:0.06,bd:42,bs:230,can:600,canSpd:110,canCd:4,mcd:0,mslN:0,blade:0,range:170}
+    hp:7200,r:3.2,cy:3.4,sp:14,dash:28,jump:10,burst:6,gap:0.07,bd:40,bs:230,can:450,canSpd:110,canCd:5,mcd:0,mslN:0,blade:0,range:170}
 };
 
 const MAPS={
@@ -372,29 +373,29 @@ const MISSIONS=[
   {id:'m6',name:'ガルム重工本社 強襲',client:'ノルド電力公社',map:'hq',obj:'boss',reward:150000,par:200,
    brief:'全て分かりました。発電施設の襲撃も、データの件も、ガルム重工の自作自演です。本社を守る専属AC「ケルベロス」を撃破してください。これが最後の依頼になります。',
    goal:'敵AC「ケルベロス」の撃破',spawn:[['ac',1,{cfg:'cerberus'}],['mt',4],['turret',2]]},
-  {id:'m7',part:2,name:'配給区画の鎮圧',client:'ノルド電力公社',map:'outer',obj:'annihilate',reward:120000,par:200,diff:{hp:1.5,dmg:1.4},
+  {id:'m7',part:2,name:'配給区画の鎮圧',client:'ノルド電力公社',map:'outer',obj:'annihilate',reward:120000,par:200,diff:{hp:1.5,dmg:1.15},
    brief:'ガルム解体から半年。当社は市の電力を一手に担っています。外郭区画で、配給制に反対する武装集団「灰の旗」が変電設備を占拠しました。排除してください。抵抗は激しいと聞いています。',
    goal:'武装集団の全滅',spawn:[['mt',5],['mth',2],['tank',4],['turret',3]]},
-  {id:'m8',part:2,name:'北部変電所 防衛',client:'ノルド電力公社',map:'snowplant',obj:'defend',reward:140000,par:180,genHP:6000,diff:{hp:1.6,dmg:1.5},
+  {id:'m8',part:2,name:'北部変電所 防衛',client:'ノルド電力公社',map:'snowplant',obj:'defend',reward:140000,par:180,genHP:6000,diff:{hp:1.6,dmg:1.2},
    brief:'北部変電所に灰の旗の大部隊が向かっています。変電所が落ちれば、北部一帯が停電します。4波にわたる攻撃が予想されます。施設を守り抜いてください。',
    goal:'変電所の防衛（敵の4波を全滅）',
    waves:[{t:2,list:[['mt',3],['tank',2]]},{t:30,list:[['heli',4],['mth',2]]},{t:65,list:[['mt',4],['mth',2]]},{t:100,list:[['mth',3],['heli',3]]}]},
-  {id:'m9',part:2,name:'灰の旗 指揮官機 撃破',client:'ノルド電力公社',map:'ruins',obj:'boss',reward:160000,par:160,diff:{hp:1.7,dmg:1.5},
+  {id:'m9',part:2,name:'灰の旗 指揮官機 撃破',client:'ノルド電力公社',map:'ruins',obj:'boss',reward:160000,par:160,diff:{hp:1.7,dmg:1.25},
    brief:'灰の旗を率いる傭兵の機体「レッドフラッグ」の潜伏先を突き止めました。廃墟区画です。指揮官を失えば、彼らは瓦解するでしょう。護衛のMTにも注意してください。',
-   goal:'敵AC「レッドフラッグ」の撃破',spawn:[['ac',1,{cfg:'redflag'}],['mth',2],['mt',3]]},
-  {id:'m10',part:2,name:'第九工業区画 再調査',client:'灰の旗',map:'night',obj:'targets',reward:150000,par:180,limit:240,diff:{hp:1.8,dmg:1.6},
+   goal:'敵AC「レッドフラッグ」の撃破',spawn:[['ac',1,{cfg:'redflag'}],['mth',1],['mt',3]]},
+  {id:'m10',part:2,name:'第九工業区画 再調査',client:'灰の旗',map:'night',obj:'targets',reward:150000,par:180,limit:240,diff:{hp:1.8,dmg:1.3},
    brief:'指揮官を討った傭兵に頼むのは筋違いだと分かっている。だが聞いてくれ。閉鎖されたはずの第九工業区画が、ノルドの名義で動いている。中のデータ端末5基を破壊して、何を作っているのか確かめてほしい。',
    goal:'データ端末5基の破壊（制限時間 4:00）',spawn:[['terminal',5,{target:true}],['mt',5],['mth',2],['turret',4]]},
-  {id:'m11',part:2,name:'無人AC試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.9,dmg:1.6},
+  {id:'m11',part:2,name:'無人AC試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.9,dmg:1.3},
    brief:'端末のデータを見た。ノルドはヴァルチャーの戦闘記録から、無人のAC「エコー」を作っている。試験場で2機が稼働中だ。量産される前に叩いてくれ。',
    goal:'無人AC「エコー」2機の撃破',spawn:[['ac',2,{cfg:'echo'}]]},
-  {id:'m12',part:2,name:'討伐部隊 迎撃',client:'傭兵管理局',map:'outer',obj:'annihilate',reward:180000,par:200,diff:{hp:2.0,dmg:1.7},
+  {id:'m12',part:2,name:'討伐部隊 迎撃',client:'傭兵管理局',map:'outer',obj:'annihilate',reward:180000,par:200,diff:{hp:2.0,dmg:1.35},
    brief:'{P} 様、緊急です。ノルド電力公社があなたの登録抹消を申請し、同時に討伐部隊を差し向けました。外郭区画で包囲されています。生き残ってください。本件の報酬は当局が保証します。',
    goal:'討伐部隊の全滅',spawn:[['mt',6],['mth',3],['heli',4],['echo',1]]},
-  {id:'m13',part:2,name:'中枢塔 外周突破',client:'灰の旗',map:'tower',obj:'targets',reward:220000,par:200,limit:270,diff:{hp:2.1,dmg:1.7},
+  {id:'m13',part:2,name:'中枢塔 外周突破',client:'灰の旗',map:'tower',obj:'targets',reward:220000,par:200,limit:270,diff:{hp:2.1,dmg:1.4},
    brief:'ノルドの中枢塔は、4基のシールド発生塔に守られている。全部落とせば塔への道が開く。時間をかければ増援が来る。急いでくれ。',
    goal:'シールド発生塔4基の破壊（制限時間 4:30）',spawn:[['pylon',4,{target:true,ring:62}],['turret',6],['mth',3],['heli',3]]},
-  {id:'m14',part:2,name:'中枢塔 頂上',client:'灰の旗',map:'tower',obj:'boss',reward:300000,par:200,diff:{hp:2.2,dmg:1.8},
+  {id:'m14',part:2,name:'中枢塔 頂上',client:'灰の旗',map:'tower',obj:'boss',reward:300000,par:200,diff:{hp:2.2,dmg:1.45},
    brief:'塔の前で待っている機体がいる。アリーナの頂点、ネメシス。奴の正体は、ノルドの役員直属の傭兵だ。……ここで終わらせよう、{A}。',
    goal:'敵AC「ネメシス」の撃破',spawn:[['ac',1,{cfg:'nemesis'}],['mth',2]]}
 ];
@@ -451,7 +452,7 @@ function calcStats(eq){
   const opts=(eq.opts||[]).map(id=>OPTS.find(o=>o.id===id)).filter(Boolean),has=id=>opts.some(o=>o.id===id);
   const load=h.w+c.w+a.w+(wa?0:r.w)+b.w+(wa?0:lw.w)+bo.w+g.w+opts.reduce((t,o)=>t+o.w,0);
   return {h,c,a,l,r,b,lw,bo,g,wa:!!wa,opts,
-    ap:Math.round((h.ap+c.ap+a.ap+l.ap)*(has('OP-AP')?1.08:1)),en:c.en+g.en,regen:+(g.regen*(has('OP-EN')?1.15:1)).toFixed(2),
+    ap:Math.round((h.ap+c.ap+a.ap+l.ap)*(has('OP-AP')?1.08:1)),en:c.en+g.en+(has('OP-EC')?250:0),regen:+(g.regen*(has('OP-EN')?1.15:1)).toFixed(2),
     lockT:h.lockT*(has('OP-LK')?0.8:1),lockR:Math.round(h.lockR*(b.lockMul||1)),radar:Math.round(h.radar*(b.radar||1)),
     boxMul:has('OP-SP')?1.2:1,ammoMul:has('OP-AM')?1.25:1,qbEn:Math.round(bo.qbEn*(has('OP-QB')?0.8:1)),icpt:has('OP-IC'),stab:has('OP-ST'),
     load,cap:l.load,over:load>l.load,spdF:1-0.22*Math.min(1,load/l.load)};
@@ -1612,7 +1613,7 @@ function renderMissions(){
   dock.innerHTML=`${head('ミッション')}
   <div class="plist">${items}</div>
   <div class="detail"><div class="h">▼ ${m.client}より</div><p>${fillT(m.brief)}</p>
-    <div class="dl"><span>作戦目標</span><b>${m.goal}</b><span>作戦領域</span><b>${MAPS[m.map].name}</b><span>難易度</span><b class="am">${'★'.repeat(m.diff?Math.min(5,Math.round((m.diff.hp-1)*4)+1):1)}</b><span>報酬</span><b class="am">${fmt(m.reward)} cr</b>
+    <div class="dl"><span>作戦目標</span><b>${m.goal}</b><span>作戦領域</span><b>${MAPS[m.map].name}</b><span>難易度</span><b class="am">${'★'.repeat(m.diff?Math.min(5,Math.round((m.diff.hp-1)*4)+1):1)}${m.diff?`<span class="sub2">　敵耐久 ×${m.diff.hp} ／ 被ダメージ ×${m.diff.dmg}</span>`:''}</b><span>報酬</span><b class="am">${fmt(m.reward)} cr</b>
     <span>最高評価</span><b>${save.cleared[m.id]||'─'}</b></div></div>
   <div class="row"><button class="btn" data-act="accept">受諾してガレージへ</button><button class="btn sub" data-act="menu">戻る</button></div>`;
   const el=dock.querySelector('.pitem.sel');if(el)el.scrollIntoView({block:'nearest'});
