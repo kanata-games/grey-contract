@@ -212,12 +212,12 @@ const PARTS={
     {id:'HD-D',name:'HD-D ホークアイ',desc:'最高級の索敵頭部。ロック距離と速さが最も優秀',ap:280,w:150,lockR:400,lockT:0.18,radar:380,price:30000,req:'m3'},
     {id:'HD-E',name:'HD-E アウル 暗視頭部',desc:'レーダーとロック距離に優れる中堅頭部',ap:380,w:150,lockR:300,lockT:0.32,radar:300,price:16000},
     {id:'HD-F',name:'HD-F ミニマム 軽量頭部',desc:'最軽量。性能は最低限',ap:220,w:70,lockR:240,lockT:0.45,radar:200,price:8000},
-    {id:'HD-G',name:'HD-G センチネル 重装索敵頭部',desc:'装甲と索敵を両立した高級頭部',ap:600,w:260,lockR:350,lockT:0.28,radar:300,price:38000,req:'m4'}],
+    {id:'HD-G',name:'HD-G センチネル 重装索敵頭部',desc:'装甲と索敵を両立した高級頭部',ap:600,w:260,lockR:350,lockT:0.28,radar:300,price:38000,req:'m8'}],
   core:[
     {id:'CR-A',name:'CR-A スタンダード',desc:'標準的なコア',ap:2600,w:600,en:1000,price:0},
     {id:'CR-B',name:'CR-B フォートレス',desc:'重装甲コア。EN容量は少なめ',ap:3800,w:900,en:850,price:28000},
     {id:'CR-C',name:'CR-C ライトフレーム',desc:'軽量コア。装甲は薄いがEN容量が多い',ap:2000,w:440,en:1150,price:18000},
-    {id:'CR-D',name:'CR-D オーバーロード',desc:'重装甲と大容量ENを両立した高級コア',ap:3600,w:820,en:1150,price:52000,req:'m4'},
+    {id:'CR-D',name:'CR-D オーバーロード',desc:'重装甲と大容量ENを両立した高級コア',ap:3600,w:820,en:1150,price:52000,req:'m7'},
     {id:'CR-E',name:'CR-E ストライク',desc:'やや軽く、EN容量に余裕のある中量コア',ap:2300,w:520,en:1080,price:24000},
     {id:'CR-F',name:'CR-F バンカー',desc:'最も硬いコア。重くEN容量は少ない',ap:4400,w:1050,en:800,price:40000,req:'m3'}],
   arms:[
@@ -226,7 +226,7 @@ const PARTS={
     {id:'AR-C',name:'AR-C ヘヴィアーム',desc:'頑丈な腕部。連射はやや遅い',ap:1400,w:480,rate:1.1,blade:1,price:15000},
     {id:'AR-D',name:'AR-D ソードアーム',desc:'格闘向けの腕部。ブレードの威力が35%上がる',ap:800,w:300,rate:1.05,blade:1.35,price:26000,req:'m2'},
     {id:'AR-E',name:'AR-E ライトアーム',desc:'最軽量の腕部。装甲は薄い',ap:550,w:200,rate:1,blade:1,price:9000},
-    {id:'AR-F',name:'AR-F マスター',desc:'射撃も格闘もこなす高級腕部',ap:1000,w:340,rate:0.9,blade:1.15,price:48000,req:'m5'},
+    {id:'AR-F',name:'AR-F マスター',desc:'射撃も格闘もこなす高級腕部',ap:1000,w:340,rate:0.9,blade:1.15,price:48000,req:'m7'},
     {id:'WA-MG',name:'WA-MG 機銃腕',desc:'両腕が機関銃の武器腕。手持ち武器とブレードは使えない',ap:1100,w:620,rate:1,blade:1,price:26000,
      wa:{id:'WA-MG',hud:'ARM MG',w:0,dmg:26,cd:0.05,spd:230,ammo:1600,cost:4,spread:0.03,kind:'b'}},
     {id:'WA-CN',name:'WA-CN 砲腕',desc:'両腕が速射砲の武器腕。重いが一発が大きい',ap:1500,w:900,rate:1,blade:1,price:38000,req:'m3',
@@ -244,17 +244,17 @@ const PARTS={
     {id:'LG-M',type:'biped',bulk:1.12,name:'LG-M ガーディアン 中量二脚',desc:'装甲と積載を少し上乗せした二脚',ap:2400,load:2850,walk:13.5,dash:31,jump:12,price:18000},
     {id:'LG-H',type:'biped',bulk:1.3,name:'LG-H バスティオン 重量二脚',desc:'装甲と積載に優れた重い二脚',ap:2900,load:3200,walk:12,dash:29,jump:11,price:28000,req:'m2'},
     {id:'LG-SH',type:'biped',bulk:1.5,name:'LG-SH モノリス 超重量二脚',desc:'二脚とは思えない装甲と積載。足は遅い',ap:3500,load:3700,walk:10.5,dash:26,jump:9.5,price:42000,req:'m4'},
-    {id:'LG-X',type:'biped',bulk:0.95,name:'LG-X ヴェクター 高性能二脚',desc:'速さと積載を高い水準で両立した最高級品',ap:2300,load:2750,walk:16.5,dash:37,jump:14,price:60000,req:'m5'},
+    {id:'LG-X',type:'biped',bulk:0.95,name:'LG-X ヴェクター 高性能二脚',desc:'速さと積載を高い水準で両立した最高級品',ap:2300,load:2750,walk:16.5,dash:37,jump:14,price:60000,req:'m8'},
     {id:'LG-R1',type:'reverse',bulk:0.85,name:'LG-R1 ホッパー 軽量逆関節',desc:'跳躍力が最も高い。装甲は紙同然',ap:1250,load:1950,walk:16,dash:37,jump:23,price:18000},
     {id:'LG-R',type:'reverse',name:'LG-R 逆関節',desc:'軽量で跳躍力が高い。装甲は薄い',ap:1500,load:2250,walk:15,dash:35,jump:20,price:24000},
     {id:'LG-R3',type:'reverse',bulk:1.2,name:'LG-R3 ジャッカル 重量逆関節',desc:'積載を増やした逆関節。跳躍力は控えめ',ap:2000,load:2700,walk:13.5,dash:31,jump:17,price:30000,req:'m3'},
-    {id:'LG-RX',type:'reverse',bulk:1.0,name:'LG-RX セラフ 高性能逆関節',desc:'跳躍と積載を両立した高級逆関節',ap:1700,load:2550,walk:16,dash:37,jump:22,price:56000,req:'m5'},
+    {id:'LG-RX',type:'reverse',bulk:1.0,name:'LG-RX セラフ 高性能逆関節',desc:'跳躍と積載を両立した高級逆関節',ap:1700,load:2550,walk:16,dash:37,jump:22,price:56000,req:'m8'},
     {id:'LG-Q1',type:'quad',bulk:0.85,name:'LG-Q1 スパイダー 軽量四脚',desc:'身軽な四脚。空中で滞空できる',ap:2100,load:2900,walk:14.5,dash:33,jump:10,hover:true,price:26000},
     {id:'LG-Q',type:'quad',name:'LG-Q 四脚',desc:'上昇中は空中でふわりと滞空できる',ap:2600,load:3300,walk:13,dash:31,jump:10,hover:true,price:30000},
     {id:'LG-Q3',type:'quad',bulk:1.2,name:'LG-Q3 アトラス 重量四脚',desc:'重武装の砲台になれる四脚',ap:3200,load:3900,walk:11,dash:27,jump:9,hover:true,price:44000,req:'m4'},
     {id:'LG-T1',type:'tank',bulk:0.85,name:'LG-T1 ラビット 軽量タンク',desc:'タンクにしては速い。装甲と積載は控えめ',ap:3500,load:3900,walk:10.5,dash:25,jump:6.5,price:30000,req:'m3'},
     {id:'LG-T',type:'tank',name:'LG-T タンク',desc:'遅いが非常に硬い。反動を受けない',ap:4200,load:4500,walk:9,dash:23,jump:6,price:36000,req:'m3'},
-    {id:'LG-T3',type:'tank',bulk:1.15,name:'LG-T3 フォートレス 重量タンク',desc:'動く要塞。全脚部で最も硬く最も重い',ap:5200,load:5300,walk:7.5,dash:20,jump:5,price:52000,req:'m5'}],
+    {id:'LG-T3',type:'tank',bulk:1.15,name:'LG-T3 フォートレス 重量タンク',desc:'動く要塞。全脚部で最も硬く最も重い',ap:5200,load:5300,walk:7.5,dash:20,jump:5,price:52000,req:'m7'}],
   rw:[
     {id:'RF',name:'RF-55 ライフル',hud:'RIFLE',desc:'扱いやすい標準ライフル',w:300,dmg:55,cd:0.11,spd:240,ammo:420,cost:12,spread:0.012,kind:'b',price:0},
     {id:'MG',name:'MG-22 マシンガン',hud:'MACHINE GUN',desc:'高連射。一発は軽い',w:260,dmg:21,cd:0.045,spd:220,ammo:1200,cost:3,spread:0.03,kind:'b',price:9000},
@@ -273,7 +273,7 @@ const PARTS={
     {id:'LB-77',name:'LB-77 ロングブレード',hud:'LONG BLADE',desc:'長く重い光刃。威力も間合いも大きい',w:320,dmg:1600,range:11,lunge:40,en:300,cd:1.6,len:6.5,price:32000},
     {id:'LB-X',name:'PB-1 パイルバンカー',hud:'PILE BUNKER',desc:'杭を打ち込む近接兵器。間合いは短いが威力は最大',w:420,dmg:2800,range:6,lunge:24,en:140,cd:2.4,len:2.2,pile:true,price:42000,req:'m4'},
     {id:'LB-5',name:'LB-5 ダガー',hud:'DAGGER',desc:'軽くて振りの速い短いブレード',w:110,dmg:700,range:7,lunge:26,en:110,cd:0.7,len:3.0,price:14000},
-    {id:'LB-200',name:'LB-200 グレイヴ',hud:'GLAIVE',desc:'最長・最強の光刃。ENを大量に使う',w:380,dmg:2000,range:12,lunge:44,en:380,cd:1.8,len:7.5,price:58000,req:'m5'}],
+    {id:'LB-200',name:'LB-200 グレイヴ',hud:'GLAIVE',desc:'最長・最強の光刃。ENを大量に使う',w:380,dmg:2000,range:12,lunge:44,en:380,cd:1.8,len:7.5,price:58000,req:'m11'}],
   bw:[
     {id:'MS',name:'MS-4 ミサイル',hud:'MISSILE',desc:'最大4ロックの小型ミサイル',w:350,dmg:380,ammo:48,cost:150,locks:4,kind:'m',price:0},
     {id:'MM',name:'MM-6 多連装ミサイル',hud:'MULTI MISSILE',desc:'最大6ロック。一発は軽め',w:480,dmg:260,ammo:72,cost:110,locks:6,kind:'m',price:26000},
@@ -283,10 +283,10 @@ const PARTS={
     {id:'MS2',name:'MS-2 小型ミサイル',hud:'SMALL MSL',desc:'軽い2ロックミサイル',w:220,dmg:300,ammo:40,cost:110,locks:2,kind:'m',price:8000},
     {id:'MH',name:'MH-16 マイクロミサイル',hud:'MICRO MSL',desc:'小さなミサイルを8発まとめて撃つ',w:420,dmg:130,ammo:128,cost:45,locks:8,kind:'m',micro:true,price:30000,req:'m3'},
     {id:'MD',name:'MD-2 大型ミサイル',hud:'LARGE MSL',desc:'一発が非常に重い2ロック大型ミサイル',w:620,dmg:900,ammo:16,cost:420,locks:2,kind:'m',big:true,price:40000,req:'m4'},
-    {id:'VL8',name:'VL-8 多弾頭垂直ミサイル',hud:'VERTICAL x8',desc:'8発を撃ち上げて降らせる垂直ミサイル',w:560,dmg:220,ammo:64,cost:120,locks:8,kind:'m',vert:true,price:44000,req:'m5'},
+    {id:'VL8',name:'VL-8 多弾頭垂直ミサイル',hud:'VERTICAL x8',desc:'8発を撃ち上げて降らせる垂直ミサイル',w:560,dmg:220,ammo:64,cost:120,locks:8,kind:'m',vert:true,price:44000,req:'m9'},
     {id:'GR6',name:'GR-60 軽量グレネード',hud:'LIGHT GRENADE',desc:'軽くて扱いやすいグレネード。爆風は小さめ',w:480,dmg:600,ammo:24,cost:260,locks:0,kind:'g',spd:120,blast:9,bsize:6,cd:1.4,recoil:8,price:22000},
     {id:'CN8',name:'CN-80 軽量キャノン',hud:'LIGHT CANNON',desc:'連射のきく小口径キャノン',w:560,dmg:420,ammo:40,cost:160,locks:0,kind:'g',spd:210,blast:4,bsize:3.5,cd:0.8,recoil:5,price:24000},
-    {id:'PC',name:'PC-1 プラズマキャノン',hud:'PLASMA CANNON',desc:'ENで撃つ光学キャノン。弾薬費なし',w:720,dmg:850,ammo:0,en:420,cost:0,locks:0,kind:'g',spd:160,blast:8,bsize:6,cd:1.6,recoil:6,energy:true,price:52000,req:'m5'},
+    {id:'PC',name:'PC-1 プラズマキャノン',hud:'PLASMA CANNON',desc:'ENで撃つ光学キャノン。弾薬費なし',w:720,dmg:850,ammo:0,en:420,cost:0,locks:0,kind:'g',spd:160,blast:8,bsize:6,cd:1.6,recoil:6,energy:true,price:52000,req:'m11'},
     {id:'CG',name:'CG-30 チェインガン',hud:'CHAIN GUN',desc:'肩から10連射する機関砲。ロック不要',w:600,dmg:48,ammo:400,cost:8,locks:0,kind:'auto',spd:230,burst:10,cd:1.1,price:26000,req:'m2'},
     {id:'RD1',name:'RD-1 レーダー',hud:'RADAR',desc:'背部武器の代わりにレーダーを積む。索敵範囲1.5倍、ロック距離+10%',w:160,dmg:0,ammo:0,cost:0,locks:0,kind:'radar',radar:1.5,lockMul:1.1,price:10000},
     {id:'RD2',name:'RD-2 広域レーダー',hud:'WIDE RADAR',desc:'高性能レーダー。索敵範囲2倍、ロック距離+20%',w:240,dmg:0,ammo:0,cost:0,locks:0,kind:'radar',radar:2,lockMul:1.2,price:26000,req:'m3'}],
@@ -295,13 +295,13 @@ const PARTS={
     {id:'BS-B',name:'BS-B ハイスラスト',desc:'高出力型。速いがENを多く使う',w:170,dash:1.12,up:1.15,qb:58,qbEn:300,qbCd:0.4,price:22000},
     {id:'BS-C',name:'BS-C エコノミー',desc:'省電力型。クイックブーストを連発しやすい',w:110,dash:0.95,up:0.92,qb:40,qbEn:140,qbCd:0.25,price:16000},
     {id:'BS-D',name:'BS-D スカイハイ',desc:'上昇力に特化したブースター',w:150,dash:1.02,up:1.3,qb:44,qbEn:240,qbCd:0.35,price:20000},
-    {id:'BS-E',name:'BS-E オーバードライブ',desc:'全性能が最高水準の高級ブースター',w:200,dash:1.2,up:1.2,qb:64,qbEn:320,qbCd:0.35,price:58000,req:'m5'}],
+    {id:'BS-E',name:'BS-E オーバードライブ',desc:'全性能が最高水準の高級ブースター',w:200,dash:1.2,up:1.2,qb:64,qbEn:320,qbCd:0.35,price:58000,req:'m9'}],
   gen:[
     {id:'GN-A',name:'GN-A スタンダード',desc:'標準的なジェネレーター',w:200,en:0,regen:1,price:0},
     {id:'GN-B',name:'GN-B キャパシター',desc:'EN容量が大きい。回復はやや遅い',w:300,en:400,regen:0.9,price:24000},
     {id:'GN-C',name:'GN-C リアクター',desc:'EN回復が速い。容量は少なめ',w:240,en:-120,regen:1.45,price:28000,req:'m3'},
     {id:'GN-D',name:'GN-D コンパクト',desc:'軽量で小型。容量は少ない',w:120,en:-200,regen:1,price:9000},
-    {id:'GN-E',name:'GN-E フュージョン',desc:'容量も回復も優秀な最高級ジェネレーター',w:340,en:300,regen:1.3,price:62000,req:'m5'}]
+    {id:'GN-E',name:'GN-E フュージョン',desc:'容量も回復も優秀な最高級ジェネレーター',w:340,en:300,regen:1.3,price:62000,req:'m10'}]
 };
 const OPTS=[
   {id:'OP-AP',name:'OP-AP 増加装甲',desc:'機体のAPが8%増える',w:120,price:12000},
@@ -328,7 +328,13 @@ const ACS={
   cerberus:{name:'ケルベロス',spec:{head:'HD-A',core:'CR-B',arms:'AR-B',legs:'LG-B',rw:'MG',bw:'MM',lw:'LB-77'},cols:[0x2a2a30,0x15151a,0xe03050],
     hp:9500,r:3.2,cy:3.4,qb:true,sp:19,dash:36,jump:15,burst:8,gap:0.06,bd:38,bs:190,mcd:5.5,mslN:4,mslD:240,blade:1300,range:150},
   mt:{name:'MT',spec:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-R',rw:'MG',bw:'MS',lw:'LB-0'},cols:[0x6a6e5a,0x3a3c32,0xa04030],
-    hp:520,r:2.2,cy:2.1,scale:0.62,sp:11,dash:0,jump:11,burst:5,gap:0.1,bd:28,bs:150,mcd:0,mslN:0,blade:0,range:130,rad:1.1}
+    hp:520,r:2.2,cy:2.1,scale:0.62,sp:11,dash:0,jump:11,burst:5,gap:0.1,bd:28,bs:150,mcd:0,mslN:0,blade:0,range:130,rad:1.1,mt:true},
+  mth:{name:'重MT',mt:true,spec:{head:'HD-C',core:'CR-B',arms:'AR-C',legs:'LG-H',rw:'BZ',bw:'MS',lw:'LB-0'},cols:[0x5a5e4a,0x2e3026,0xc06030],
+    hp:1100,r:2.6,cy:2.4,scale:0.7,sp:8,dash:0,jump:8,burst:1,gap:0,bd:220,bs:130,kind:'s',burstCd:2.4,mcd:0,mslN:0,blade:0,range:140,rad:1.3},
+  echo:{name:'エコー',spec:{head:'HD-D',core:'CR-C',arms:'AR-B',legs:'LG-L',rw:'RF77',bw:'MS',lw:'LB-10',boost:'BS-B'},cols:[0xe8ecf0,0x8a9aa8,0x40e0ff],
+    hp:5200,r:3.0,cy:3.4,qb:true,sp:20,dash:38,jump:15,burst:3,gap:0.1,bd:110,bs:330,mcd:5,mslN:2,mslD:300,blade:1000,range:170,lead:0.95,spread:0.015},
+  redflag:{name:'レッドフラッグ',spec:{head:'HD-C',core:'CR-D',arms:'AR-C',legs:'LG-Q',rw:'MGH',bw:'GR',lw:'LB-0'},cols:[0x8a2a24,0x3a2420,0xe8e0c8],
+    hp:7200,r:3.2,cy:3.4,sp:14,dash:28,jump:10,burst:8,gap:0.06,bd:42,bs:230,can:600,canSpd:110,canCd:4,mcd:0,mslN:0,blade:0,range:170}
 };
 
 const MAPS={
@@ -338,6 +344,10 @@ const MAPS={
   desert:{name:'ハルサ砂漠 補給路',sky:0xd0a070,fog:[70,330],hemi:[0xfff0d0,0x6a4a2a,0.85],sun:0.9,ground:'sand',style:'desert',seed:33,lim:300},
   night:{name:'第九工業区画',sky:0x0e1420,fog:[25,165],hemi:[0x7a8aaa,0x101010,0.6],sun:0.22,ground:'concrete',style:'factory',seed:44,lim:240},
   ruins:{name:'灰塵の廃墟区画',sky:0x5c6068,fog:[40,200],hemi:[0xc8ccd4,0x2a2c30,0.75],sun:0.5,ground:'ash',style:'ruins',seed:55,lim:200},
+  outer:{name:'外郭配給区画',sky:0x6a4a5a,fog:[45,220],hemi:[0xffc0a0,0x2a2030,0.8],sun:0.6,ground:'ash',style:'city',seed:88,lim:252},
+  snowplant:{name:'北部変電所',sky:0xc8ccd4,fog:[40,200],hemi:[0xf0f4ff,0x707880,0.95],sun:0.7,ground:'snow',style:'city',seed:99,lim:252,gen:true,snow:true},
+  proving:{name:'ノルド無人機試験場',sky:0xd0d4d0,fog:[60,240],hemi:[0xffffff,0x606468,0.9],sun:0.6,ground:'arena',style:'arena',seed:111,lim:104,start:[0,0,70]},
+  tower:{name:'ノルド中枢塔',sky:0x141a2a,fog:[40,230],hemi:[0x8a9ac0,0x101018,0.7],sun:0.3,ground:'concrete',style:'tower',seed:122,lim:240,start:[0,0,160]},
   arena:{name:'アリーナ 第一闘技場',sky:0x22252a,fog:[70,240],hemi:[0xe8ecf0,0x30343a,0.95],sun:0.6,ground:'arena',style:'arena',seed:77,lim:104,start:[0,0,70]},
   hq:{name:'ガルム重工 本社区画',sky:0x6a4058,fog:[50,250],hemi:[0xffc8b0,0x2a1a24,0.8],sun:0.7,ground:'concrete',style:'hq',seed:66,lim:252}
 };
@@ -361,7 +371,32 @@ const MISSIONS=[
    goal:'敵AC「ヴァルチャー」の撃破',spawn:[['ac',1,{cfg:'vulture'}]]},
   {id:'m6',name:'ガルム重工本社 強襲',client:'ノルド電力公社',map:'hq',obj:'boss',reward:150000,par:200,
    brief:'全て分かりました。発電施設の襲撃も、データの件も、ガルム重工の自作自演です。本社を守る専属AC「ケルベロス」を撃破してください。これが最後の依頼になります。',
-   goal:'敵AC「ケルベロス」の撃破',spawn:[['ac',1,{cfg:'cerberus'}],['mt',4],['turret',2]]}
+   goal:'敵AC「ケルベロス」の撃破',spawn:[['ac',1,{cfg:'cerberus'}],['mt',4],['turret',2]]},
+  {id:'m7',part:2,name:'配給区画の鎮圧',client:'ノルド電力公社',map:'outer',obj:'annihilate',reward:120000,par:200,diff:{hp:1.5,dmg:1.4},
+   brief:'ガルム解体から半年。当社は市の電力を一手に担っています。外郭区画で、配給制に反対する武装集団「灰の旗」が変電設備を占拠しました。排除してください。抵抗は激しいと聞いています。',
+   goal:'武装集団の全滅',spawn:[['mt',5],['mth',2],['tank',4],['turret',3]]},
+  {id:'m8',part:2,name:'北部変電所 防衛',client:'ノルド電力公社',map:'snowplant',obj:'defend',reward:140000,par:180,genHP:6000,diff:{hp:1.6,dmg:1.5},
+   brief:'北部変電所に灰の旗の大部隊が向かっています。変電所が落ちれば、北部一帯が停電します。4波にわたる攻撃が予想されます。施設を守り抜いてください。',
+   goal:'変電所の防衛（敵の4波を全滅）',
+   waves:[{t:2,list:[['mt',3],['tank',2]]},{t:30,list:[['heli',4],['mth',2]]},{t:65,list:[['mt',4],['mth',2]]},{t:100,list:[['mth',3],['heli',3]]}]},
+  {id:'m9',part:2,name:'灰の旗 指揮官機 撃破',client:'ノルド電力公社',map:'ruins',obj:'boss',reward:160000,par:160,diff:{hp:1.7,dmg:1.5},
+   brief:'灰の旗を率いる傭兵の機体「レッドフラッグ」の潜伏先を突き止めました。廃墟区画です。指揮官を失えば、彼らは瓦解するでしょう。護衛のMTにも注意してください。',
+   goal:'敵AC「レッドフラッグ」の撃破',spawn:[['ac',1,{cfg:'redflag'}],['mth',2],['mt',3]]},
+  {id:'m10',part:2,name:'第九工業区画 再調査',client:'灰の旗',map:'night',obj:'targets',reward:150000,par:180,limit:240,diff:{hp:1.8,dmg:1.6},
+   brief:'指揮官を討った傭兵に頼むのは筋違いだと分かっている。だが聞いてくれ。閉鎖されたはずの第九工業区画が、ノルドの名義で動いている。中のデータ端末5基を破壊して、何を作っているのか確かめてほしい。',
+   goal:'データ端末5基の破壊（制限時間 4:00）',spawn:[['terminal',5,{target:true}],['mt',5],['mth',2],['turret',4]]},
+  {id:'m11',part:2,name:'無人AC試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.9,dmg:1.6},
+   brief:'端末のデータを見た。ノルドはヴァルチャーの戦闘記録から、無人のAC「エコー」を作っている。試験場で2機が稼働中だ。量産される前に叩いてくれ。',
+   goal:'無人AC「エコー」2機の撃破',spawn:[['ac',2,{cfg:'echo'}]]},
+  {id:'m12',part:2,name:'討伐部隊 迎撃',client:'傭兵管理局',map:'outer',obj:'annihilate',reward:180000,par:200,diff:{hp:2.0,dmg:1.7},
+   brief:'{P} 様、緊急です。ノルド電力公社があなたの登録抹消を申請し、同時に討伐部隊を差し向けました。外郭区画で包囲されています。生き残ってください。本件の報酬は当局が保証します。',
+   goal:'討伐部隊の全滅',spawn:[['mt',6],['mth',3],['heli',4],['echo',1]]},
+  {id:'m13',part:2,name:'中枢塔 外周突破',client:'灰の旗',map:'tower',obj:'targets',reward:220000,par:200,limit:270,diff:{hp:2.1,dmg:1.7},
+   brief:'ノルドの中枢塔は、4基のシールド発生塔に守られている。全部落とせば塔への道が開く。時間をかければ増援が来る。急いでくれ。',
+   goal:'シールド発生塔4基の破壊（制限時間 4:30）',spawn:[['pylon',4,{target:true,ring:62}],['turret',6],['mth',3],['heli',3]]},
+  {id:'m14',part:2,name:'中枢塔 頂上',client:'灰の旗',map:'tower',obj:'boss',reward:300000,par:200,diff:{hp:2.2,dmg:1.8},
+   brief:'塔の前で待っている機体がいる。アリーナの頂点、ネメシス。奴の正体は、ノルドの役員直属の傭兵だ。……ここで終わらせよう、{A}。',
+   goal:'敵AC「ネメシス」の撃破',spawn:[['ac',1,{cfg:'nemesis'}],['mth',2]]}
 ];
 
 const MAILS={
@@ -373,7 +408,15 @@ const MAILS={
   m3:{from:'匿名',title:'頼みたい仕事がある',body:'君の戦い方を見ていた。ひとつ頼みたい仕事がある。報酬は弾む。\nミッション一覧を確認してくれ。'},
   m4:{from:'ガルム重工',title:'先日の件',body:'あの工場は当社の施設だ。君がやったことは分かっている。\n不問にする代わりに、次の仕事を受けてもらおう。拒否はできない。'},
   m5:{from:'ヴァルチャー',title:'このメールが届いたなら',body:'このメールが届いたなら、俺はもう死んでいる。\nガルムはノルドの施設を襲わせ、その罪を武装勢力に着せて、この街の電力を丸ごと奪うつもりだ。\n盗んだデータはノルドに送ってある。あとは任せたぞ、{A}。'},
-  m6:{from:'ノルド電力公社',title:'終わりに',body:'ガルム重工は解体されることになりました。この街の空も、少しは澄むでしょう。\n{P} さん、あなたは自由です。ガレージはそのまま使ってください。\n\n── 全ミッション達成。お疲れさまでした。'}
+  m6:{from:'ノルド電力公社',title:'終わりに',body:'ガルム重工は解体されることになりました。この街の空も、少しは澄むでしょう。\n{P} さん、あなたは自由です。ガレージはそのまま使ってください。\n\n── 第一部 完 ──\n\n（半年後。ミッション一覧に新しい依頼が届いています）'},
+  m7:{from:'ノルド電力公社',title:'引き続きのご契約を',body:'見事でした。灰の旗の残党は、まだ北部に潜んでいます。\n引き続き当社と契約してください。報酬は惜しみません。'},
+  m8:{from:'匿名',title:'考えたことはあるか',body:'変電所を守ったのはお前か。\nノルドの電気が誰のために流れているか、考えたことはあるか。'},
+  m9:{from:'灰の旗',title:'頼みがある',body:'レッドフラッグは死んだ。指揮官を討った相手に頼むのは癪だが、もうお前しかいない。\n第九工業区画を見てくれ。ノルドは何かを作っている。'},
+  m10:{from:'灰の旗',title:'最悪だ',body:'データを確認した。……最悪だ。\nノルドは、ヴァルチャーの戦い方を写した無人ACを作っている。依頼を出した。'},
+  m11:{from:'傭兵管理局',title:'ご注意ください',body:'{P} 様。ノルド電力公社より、あなたに関する照会が来ています。\n身辺にご注意ください。'},
+  m12:{from:'灰の旗',title:'決着をつける',body:'よく生き残った。ノルドはもう、お前を消すつもりだ。\nこちらも決着をつける。中枢塔を落とす。手を貸してくれ。'},
+  m13:{from:'灰の旗',title:'塔の上で',body:'シールドは落ちた。\n塔の前で、あの機体が待っている。'},
+  m14:{from:'灰の旗',title:'灰色の契約',body:'ノルドの中枢塔は止まった。街の電気は、もう一企業のものじゃない。\n……{P}。お前は結局、誰の依頼で戦ったんだろうな。\n灰色の契約は、これで終わりだ。\n\n── 第二部 完 ──'}
 };
 
 const ACTIONS=[['fwd','前進'],['back','後退'],['left','左移動'],['right','右移動'],['turnL','左旋回'],['turnR','右旋回'],['lookU','上を向く'],['lookD','下を向く'],
@@ -394,6 +437,7 @@ try{const s=JSON.parse(localStorage.getItem(SKEY));if(s&&s.eq&&Array.isArray(s.o
 try{if(!save.pilot){const o=JSON.parse(localStorage.getItem(OLDKEY));if(o&&o.eq){save.cr=Math.max(save.cr,o.cr|0);save.owned=[...new Set(save.owned.concat(o.owned||[]))];Object.assign(save.eq,o.eq);}}}catch(e){}
 if(!save.arena)save.arena={rank:11};
 if(!Array.isArray(save.eq.opts))save.eq.opts=[];
+while(save.prog<MISSIONS.length-1&&save.cleared[MISSIONS[save.prog].id])save.prog++;
 for(const [k,v] of [['lw','LB-10'],['boost','BS-A'],['gen','GN-A']]){if(!save.eq[k])save.eq[k]=v;if(!save.owned.includes(v))save.owned.push(v);}
 function normSettings(){const s=save.settings=Object.assign(defSettings(),save.settings||{});s.keys=Object.assign(defSettings().keys,s.keys||{});for(const a in DEF_KEYS)if(!Array.isArray(s.keys[a])||s.keys[a].length!==2)s.keys[a]=DEF_KEYS[a].slice();s.pad=Object.assign({},DEF_PAD,s.pad||{});}
 normSettings();
@@ -461,6 +505,7 @@ function tex(key){
     case 'g_concrete':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#6a6a66';g.fillRect(0,0,w,h);speck(g,w,h,400,90,30,[0,0,-4]);g.fillStyle='#4a4a46';g.fillRect(0,0,w,1);g.fillRect(0,0,1,h);g.fillRect(0,32,w,1);g.fillRect(32,0,1,h);},90,90);break;
     case 'g_sand':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#c09060';g.fillRect(0,0,w,h);for(let y=0;y<h;y+=4){g.fillStyle=`rgba(120,70,30,${0.06+R()*0.08})`;g.fillRect(0,y+(R()*2|0),w,2);}speck(g,w,h,260,150,40,[40,10,-30]);},80,80);break;
     case 'g_ash':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#4e4e50';g.fillRect(0,0,w,h);speck(g,w,h,600,50,40,[0,0,4]);for(let i=0;i<30;i++){g.fillStyle='#2e2e30';g.fillRect(R()*w|0,R()*h|0,3+R()*4|0,2);}},90,90);break;
+    case 'g_snow':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#e8ecf2';g.fillRect(0,0,w,h);speck(g,w,h,300,210,40,[0,4,12]);for(let i=0;i<14;i++){g.fillStyle='rgba(120,130,150,.25)';g.fillRect(R()*w|0,R()*h|0,4+R()*8|0,2);}},80,80);break;
     case 'g_arena':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#3e4246';g.fillRect(0,0,w,h);speck(g,w,h,240,56,22,[0,2,6]);g.fillStyle='#2a2d31';g.fillRect(0,0,w,2);g.fillRect(0,0,2,h);g.fillStyle='rgba(242,184,75,.35)';g.fillRect(31,0,1,h);g.fillRect(0,31,w,1);},40,40);break;
     case 'g_hangar':t=canvasTex(64,64,(g,w,h)=>{g.fillStyle='#55574f';g.fillRect(0,0,w,h);speck(g,w,h,300,70,26,[0,2,-4]);g.fillStyle='#3a3c36';g.fillRect(0,0,w,2);g.fillRect(0,0,2,h);g.fillStyle='#c09a30';for(let x=0;x<w;x+=8){g.fillRect(x,58,4,6);}},10,10);break;
     case 'b_city0':case 'b_city1':case 'b_city2':{const P=[['#8a8070','#37373d'],['#6f7478','#2b2f35'],['#9a8a6a','#433e37']][+key.slice(-1)];
@@ -514,6 +559,7 @@ function loadMap(id){
       let h=ruin?4+rnd()*18:(rnd()<0.2?40+rnd()*36:7+rnd()*26);
       const x=i*34+(rnd()-.5)*8,z=j*34+(rnd()-.5)*8;
       addBld(x,z,w,d,h,ruin?'b_ruin':'b_city'+((rnd()*3)|0),ruin?0x55575a:0x5a554c);
+      if(MAP.snow)deco(new THREE.BoxGeometry(w+0.4,0.7,d+0.4),0xf2f4f8,x,h+0.35,z);
       if(ruin&&rnd()<0.7)addBld(x+(rnd()-.5)*w*0.4,z+(rnd()-.5)*d*0.4,w*0.45,d*0.45,2+rnd()*5,'b_ruin',0x55575a,{y0:h});
     }
     if(ruin)for(let k=0;k<40;k++){const x=(rnd()-.5)*380,z=(rnd()-.5)*380;if(Math.hypot(x,z)<30||nearBld(x,z,3))continue;const s=2+rnd()*4;addBld(x,z,s,s*(0.6+rnd()),0.8+rnd()*1.2,'b_ruin',0x4a4c50);}
@@ -533,6 +579,16 @@ function loadMap(id){
       addBld(x,z,w,d,h,'b_metal',0x30343a);
     for(let i=0;i<16;i++){const a=i/16*Math.PI*2,x=Math.cos(a)*(R-3),z=Math.sin(a)*(R-3);deco(new THREE.BoxGeometry(3,1.2,3),0xfff2d0,x,31,z,true);}
     for(let i=0;i<8;i++)blinkers.push(deco(new THREE.BoxGeometry(1.2,0.6,1.2),0xff9a30,Math.cos(i/8*6.28)*(R-3),26,Math.sin(i/8*6.28)*(R-3),true));
+  }else if(st==='tower'){
+    for(let i=-6;i<=6;i++)for(let j=-6;j<=6;j++){
+      const ring=Math.max(Math.abs(i),Math.abs(j));if(ring<=3||(i===0&&j>0))continue;if(rnd()<0.45)continue;
+      const w=12+rnd()*12,d=12+rnd()*12,h=ring>=5?40+rnd()*50:10+rnd()*20,x=i*38+(rnd()-.5)*6,z=j*38+(rnd()-.5)*6;
+      addBld(x,z,w,d,h,'b_glass',0x2a2c38);if(h>60)blinkers.push(deco(new THREE.BoxGeometry(1,1,1),0xff3020,x,h+1,z,true));
+    }
+    addBld(0,0,34,34,170,'b_glass',0x1a1c28,{unit:10});
+    for(let y=20;y<170;y+=25)deco(new THREE.BoxGeometry(34.8,0.6,34.8),0x60e0ff,0,y,0,true);
+    deco(new THREE.CylinderGeometry(2.5,2.5,30,8),0x3a3e48,0,185,0);
+    blinkers.push(deco(new THREE.BoxGeometry(2,2,2),0xff3020,0,201,0,true));
   }else if(st==='desert'){
     for(let k=0;k<4;k++){const a=rnd()*6.28,r=120+rnd()*120;addBld(Math.cos(a)*r,Math.sin(a)*r,40+rnd()*30,40+rnd()*30,24+rnd()*20,'b_rock',0xb08458,{unit:10});}
     for(let k=0;k<46;k++){const x=(rnd()-.5)*560,z=(rnd()-.5)*560;if(Math.hypot(x,z)<45||nearBld(x,z,6))continue;
@@ -919,7 +975,7 @@ function updateShots(dt){
   }
 }
 function hurtPlayer(d){
-  if(!P.alive||outcome)return;P.ap-=d;const stb=S.stab?0.4:1;hitFlash=Math.min(0.8,hitFlash+0.35*stb);shake=Math.max(shake,0.5*stb);sfx.hit();
+  if(!P.alive||outcome)return;P.ap-=d*(curM&&curM.diff?curM.diff.dmg:1);const stb=S.stab?0.4:1;hitFlash=Math.min(0.8,hitFlash+0.35*stb);shake=Math.max(shake,0.5*stb);sfx.hit();
   if(P.ap<=0){P.ap=0;P.alive=false;boom(playerCenter(),7);P.mech.g.visible=false;say('機体大破',3,'#ff4b3a');endMission('fail');}
 }
 function hurtGen(d){
@@ -974,8 +1030,21 @@ function spawnTurret(o){
   g.position.copy(o.pos||openSpot(60,220));scene.add(g);
   return {type:'turret',g,head,pos:g.position,vel:new V3(),hp:800,max:800,r:3.2,cy:3,alive:true,cd:1+Math.random()*2,lock:0,target:!!o.target,center:centerFn};
 }
+function spawnPylon(o){
+  const g=new THREE.Group();box(g,6,2,6,0x3a3e48,0,1,0);box(g,2.4,16,2.4,0x4a5060,0,10,0);box(g,4,1,4,0x2a2e38,0,18,0);
+  const core=new THREE.Mesh(new THREE.IcosahedronGeometry(2.2,0),new THREE.MeshBasicMaterial({color:0x60e0ff}));core.position.y=20.5;g.add(core);
+  const a=(o.idx||0)/(o.n||4)*Math.PI*2+Math.PI/4,R=o.ring||60;g.position.copy(o.pos||new V3(Math.cos(a)*R,0,Math.sin(a)*R));scene.add(g);
+  return {type:'pylon',g,core,pos:g.position,vel:new V3(),hp:1600,max:1600,r:3.6,cy:12,alive:true,lock:0,target:!!o.target,center:centerFn};
+}
+function spawnTerminal(o){
+  const g=new THREE.Group();box(g,4,5,3,0x3a3e44,0,2.5,0);box(g,4.4,0.4,3.4,0x2a2c30,0,5.2,0);
+  const scr=new THREE.Mesh(new THREE.BoxGeometry(3,2,0.1),new THREE.MeshBasicMaterial({color:0x40ff90}));scr.position.set(0,3.4,-1.56);g.add(scr);
+  g.position.copy(o.pos||openSpot(50,200));scene.add(g);
+  return {type:'terminal',g,pos:g.position,vel:new V3(),hp:700,max:700,r:3,cy:2.5,alive:true,lock:0,target:!!o.target,center:centerFn};
+}
+function nemesisCfg(){const c=acFromArena(Object.assign({},arenaOpp(1),{hpMul:1.15}));c.name='ネメシス';return c;}
 function spawnAC(o){
-  const cfg=typeof o.cfg==='object'?o.cfg:ACS[o.cfg||'mt'],isMT=cfg===ACS.mt,m=buildMech(cfg.spec,cfg.cols);
+  const cfg=typeof o.cfg==='object'?o.cfg:o.cfg==='nemesis'?nemesisCfg():ACS[o.cfg||'mt'],isMT=!!cfg.mt,m=buildMech(cfg.spec,cfg.cols);
   if(cfg.scale)m.g.scale.setScalar(cfg.scale);
   let p=o.pos;
   if(!p){p=openSpot(o.cfg==='mt'?70:100,o.cfg==='mt'?200:170);for(let k=0;k<40&&p.distanceTo(P.pos)<80;k++)p=openSpot(80,220);}
@@ -986,7 +1055,9 @@ function spawnAC(o){
 function spawnOne(type,o){
   o=o||{};let e;
   if(type==='tank')e=spawnTank(o);else if(type==='heli')e=spawnHeli(o);else if(type==='turret')e=spawnTurret(o);
-  else if(type==='mt')e=spawnAC({cfg:'mt',pos:o.pos});else e=spawnAC(o);
+  else if(type==='pylon')e=spawnPylon(o);else if(type==='terminal')e=spawnTerminal(o);
+  else if(type==='ac')e=spawnAC(o);else e=spawnAC(Object.assign({},o,{cfg:ACS[type]?type:'mt'}));
+  if(curM&&curM.diff){e.hp=e.max=Math.round(e.hp*curM.diff.hp);}
   if(o.goal)e.goal=true;
   enemies.push(e);return e;
 }
@@ -1084,6 +1155,7 @@ function updateEnemies(dt,time){
           dir.x+=(Math.random()-.5)*0.05;dir.y+=(Math.random()-.5)*0.05;dir.normalize();
           spawnShot({p:from.addScaledVector(dir,3),v:dir.multiplyScalar(135),dmg:60,foe:true,kind:'b',life:2.2});sfx.eshot(e.pos);}}
       }else e.vel.set(0,0,0);
+    }else if(e.type==='pylon'){e.core.rotation.y+=dt*2;e.core.rotation.x+=dt;
     }else if(e.type==='turret'){
       if(act&&dist<200){
         const want=yawTo(e.pos,T.pos);e.head.rotation.y+=clamp(angDiff(e.head.rotation.y,want),-dt*1.4,dt*1.4);
@@ -1414,7 +1486,7 @@ function reset(){
     fireCd:0,mslCd:0,bladeCd:0,slash:0,lungeT:0,slashed:true,jl:false,qbT:0,qbCd:0});
   if(MAP.start)P.pos.set(...MAP.start);else P.pos.set(0,0,MAP.gen?8:0);P.vel.set(0,0,0);rebuildPlayer();
   if(GEN){GEN.hp=GEN.max=curM.genHP||4000;}
-  for(const [type,n,o] of (curM.spawn||[]))for(let i=0;i<n;i++)spawnOne(type,Object.assign({},o||{}));
+  for(const [type,n,o] of (curM.spawn||[]))for(let i=0;i<n;i++)spawnOne(type,Object.assign({},o||{},{idx:i,n}));
   waveIdx=0;missionT=0;endTimer=-1;outcome='';usedB=0;usedM=0;kills=0;hitFlash=0;shake=0;hitMark=0;
   if(curM.arena){const o=arenaOpp(curM.arena);say(`${o.pilot}「${o.line}」`,3.5,'#f2b84b');}
   else say(save.acName+'、作戦を開始する',3);
@@ -1531,17 +1603,19 @@ function renderMissions(){
   const open=MISSIONS.slice(0,save.prog+1);
   if(!selM||!open.includes(selM))selM=open.find(m=>!save.cleared[m.id])||open[open.length-1];
   const items=MISSIONS.map((m,i)=>{
-    if(i>save.prog)return `<div class="pitem lock"><span class="nm">─── 未公開の依頼</span><span class="pr">LOCK</span></div>`;
+    const dv=i===6?'<div class="sub2" style="margin-top:6px">── 第二部 ──</div>':'';
+    if(i>save.prog)return dv+`<div class="pitem lock"><span class="nm">─── 未公開の依頼</span><span class="pr">LOCK</span></div>`;
     const c=save.cleared[m.id];
-    return `<button class="pitem${m===selM?' sel':''}" data-act="selm" data-id="${m.id}"><span class="nm">${String(i+1).padStart(2,'0')}　${m.name}</span>
+    return dv+`<button class="pitem${m===selM?' sel':''}" data-act="selm" data-id="${m.id}"><span class="nm">${String(i+1).padStart(2,'0')}　${m.name}</span>
       <span class="pr">${c?'評価 '+c:'<span class="no">NEW</span>'}</span><span class="st">依頼主：${m.client}</span></button>`;}).join('');
   const m=selM;
   dock.innerHTML=`${head('ミッション')}
   <div class="plist">${items}</div>
-  <div class="detail"><div class="h">▼ ${m.client}より</div><p>${esc(m.brief)}</p>
-    <div class="dl"><span>作戦目標</span><b>${m.goal}</b><span>作戦領域</span><b>${MAPS[m.map].name}</b><span>報酬</span><b class="am">${fmt(m.reward)} cr</b>
+  <div class="detail"><div class="h">▼ ${m.client}より</div><p>${fillT(m.brief)}</p>
+    <div class="dl"><span>作戦目標</span><b>${m.goal}</b><span>作戦領域</span><b>${MAPS[m.map].name}</b><span>難易度</span><b class="am">${'★'.repeat(m.diff?Math.min(5,Math.round((m.diff.hp-1)*4)+1):1)}</b><span>報酬</span><b class="am">${fmt(m.reward)} cr</b>
     <span>最高評価</span><b>${save.cleared[m.id]||'─'}</b></div></div>
   <div class="row"><button class="btn" data-act="accept">受諾してガレージへ</button><button class="btn sub" data-act="menu">戻る</button></div>`;
+  const el=dock.querySelector('.pitem.sel');if(el)el.scrollIntoView({block:'nearest'});
 }
 function renderMail(){
   if(!selMail&&save.mails.length)selMail=save.mails[0].id;
