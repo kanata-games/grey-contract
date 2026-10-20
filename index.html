@@ -293,15 +293,15 @@ const PARTS={
     {id:'LB-5',name:'LB-5 ダガー',hud:'DAGGER',desc:'軽くて振りの速い短いブレード',w:110,dmg:700,range:7,lunge:26,en:110,cd:0.7,len:3.0,price:14000},
     {id:'LB-200',name:'LB-200 グレイヴ',hud:'GLAIVE',desc:'最長・最強の光刃。ENを大量に使う',w:380,dmg:2000,range:12,lunge:44,en:380,cd:1.8,len:7.5,price:58000,req:'m11'}],
   bw:[
-    {id:'MS',name:'MS-4 ミサイル',hud:'MISSILE',desc:'最大4ロックの小型ミサイル',w:350,dmg:380,ammo:48,cost:150,locks:4,kind:'m',price:0},
-    {id:'MM',name:'MM-6 多連装ミサイル',hud:'MULTI MISSILE',desc:'最大6ロック。一発は軽め',w:480,dmg:260,ammo:72,cost:110,locks:6,kind:'m',price:26000},
-    {id:'VL',name:'VL-4 垂直ミサイル',hud:'VERTICAL MSL',desc:'真上に撃ち上げてから降り注ぐ。建物の陰の敵に強い',w:400,dmg:340,ammo:40,cost:170,locks:4,kind:'m',vert:true,price:28000,req:'m3'},
+    {id:'MS',name:'MS-4 ミサイル',hud:'MISSILE',desc:'最大4ロックの小型ミサイル',w:350,dmg:380,ammo:48,cost:150,locks:4,kind:'m',cd:1.3,price:0},
+    {id:'MM',name:'MM-6 多連装ミサイル',hud:'MULTI MISSILE',desc:'最大6ロック。一発は軽め',w:480,dmg:230,ammo:72,cost:110,locks:6,kind:'m',cd:2.0,price:26000},
+    {id:'VL',name:'VL-4 垂直ミサイル',hud:'VERTICAL MSL',desc:'真上に撃ち上げてから降り注ぐ。建物の陰の敵に強い',w:400,dmg:290,ammo:40,cost:170,locks:4,kind:'m',cd:2.2,vert:true,price:28000,req:'m3'},
     {id:'GR',name:'GR-90 グレネード',hud:'GRENADE',desc:'爆風で周囲もまとめて吹き飛ばす榴弾砲。ロック不要',w:700,dmg:950,ammo:20,cost:400,locks:0,kind:'g',spd:110,blast:13,bsize:8,cd:1.8,recoil:14,price:38000},
     {id:'CN',name:'CN-120 キャノン',hud:'CANNON',desc:'弾速の速い大口径砲。小さな爆風つき',w:820,dmg:780,ammo:30,cost:260,locks:0,kind:'g',spd:190,blast:6,bsize:4.5,cd:1.3,recoil:9,price:34000,req:'m2'},
-    {id:'MS2',name:'MS-2 小型ミサイル',hud:'SMALL MSL',desc:'軽い2ロックミサイル',w:220,dmg:300,ammo:40,cost:110,locks:2,kind:'m',price:8000},
-    {id:'MH',name:'MH-16 マイクロミサイル',hud:'MICRO MSL',desc:'小さなミサイルを8発まとめて撃つ',w:420,dmg:130,ammo:128,cost:45,locks:8,kind:'m',micro:true,price:30000,req:'m3'},
-    {id:'MD',name:'MD-2 大型ミサイル',hud:'LARGE MSL',desc:'一発が非常に重い2ロック大型ミサイル',w:620,dmg:900,ammo:16,cost:420,locks:2,kind:'m',big:true,price:40000,req:'m4'},
-    {id:'VL8',name:'VL-8 多弾頭垂直ミサイル',hud:'VERTICAL x8',desc:'8発を撃ち上げて降らせる垂直ミサイル',w:560,dmg:220,ammo:64,cost:120,locks:8,kind:'m',vert:true,price:44000,req:'m9'},
+    {id:'MS2',name:'MS-2 小型ミサイル',hud:'SMALL MSL',desc:'軽い2ロックミサイル',w:220,dmg:300,ammo:40,cost:110,locks:2,kind:'m',cd:0.9,price:8000},
+    {id:'MH',name:'MH-16 マイクロミサイル',hud:'MICRO MSL',desc:'小さなミサイルを8発まとめて撃つ',w:420,dmg:110,ammo:128,cost:45,locks:8,kind:'m',cd:2.4,micro:true,price:30000,req:'m3'},
+    {id:'MD',name:'MD-2 大型ミサイル',hud:'LARGE MSL',desc:'一発が非常に重い2ロック大型ミサイル',w:620,dmg:900,ammo:16,cost:420,locks:2,kind:'m',cd:2.8,big:true,price:40000,req:'m4'},
+    {id:'VL8',name:'VL-8 多弾頭垂直ミサイル',hud:'VERTICAL x8',desc:'8発を撃ち上げて降らせる垂直ミサイル',w:560,dmg:160,ammo:64,cost:120,locks:8,kind:'m',cd:3.2,vert:true,price:44000,req:'m9'},
     {id:'GR6',name:'GR-60 軽量グレネード',hud:'LIGHT GRENADE',desc:'軽くて扱いやすいグレネード。爆風は小さめ',w:480,dmg:600,ammo:24,cost:260,locks:0,kind:'g',spd:120,blast:9,bsize:6,cd:1.4,recoil:8,price:22000},
     {id:'CN8',name:'CN-80 軽量キャノン',hud:'LIGHT CANNON',desc:'連射のきく小口径キャノン',w:560,dmg:420,ammo:40,cost:160,locks:0,kind:'g',spd:210,blast:4,bsize:3.5,cd:0.8,recoil:5,price:24000},
     {id:'PC',name:'PC-1 プラズマキャノン',hud:'PLASMA CANNON',desc:'ENで撃つ光学キャノン。弾薬費なし',w:720,dmg:850,ammo:0,en:420,cost:0,locks:0,kind:'g',spd:160,blast:8,bsize:6,cd:1.6,recoil:6,energy:true,price:52000,req:'m11'},
@@ -346,17 +346,17 @@ let HAND_=null;const HAND=()=>HAND_||(HAND_=[PARTS.lw[0],...PARTS.rw,...PARTS.lw
 const pt=(cat,id)=>{const L=(cat==='rw'||cat==='lw')?HAND():PARTS[cat];return L.find(p=>p.id===id)||L[0];};
 
 const ACS={
-  vulture:{name:'ヴァルチャー',spec:{head:'HD-B',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',bw:'MS',lw:'LB-0'},cols:[0x7a2a24,0x3a3432,0xd0b040],
+  vulture:{evade:0.55,name:'ヴァルチャー',spec:{head:'HD-B',core:'CR-A',arms:'AR-A',legs:'LG-B',rw:'RF',bw:'MS',lw:'LB-0'},cols:[0x7a2a24,0x3a3432,0xd0b040],
     hp:6000,r:3.0,cy:3.4,qb:true,sp:17,dash:32,jump:14,burst:3,gap:0.12,bd:105,bs:175,mcd:6,mslN:2,mslD:320,blade:0,range:150},
-  cerberus:{name:'ケルベロス',spec:{head:'HD-A',core:'CR-B',arms:'AR-B',legs:'LG-B',rw:'MG',bw:'MM',lw:'LB-77'},cols:[0x2a2a30,0x15151a,0xe03050],
+  cerberus:{evade:0.7,icpt:0.25,name:'ケルベロス',spec:{head:'HD-A',core:'CR-B',arms:'AR-B',legs:'LG-B',rw:'MG',bw:'MM',lw:'LB-77'},cols:[0x2a2a30,0x15151a,0xe03050],
     hp:9500,r:3.2,cy:3.4,qb:true,sp:19,dash:36,jump:15,burst:8,gap:0.06,bd:38,bs:190,mcd:5.5,mslN:4,mslD:240,blade:1300,range:150},
   mt:{name:'MT',spec:{head:'HD-A',core:'CR-A',arms:'AR-A',legs:'LG-R',rw:'MG',bw:'MS',lw:'LB-0'},cols:[0x6a6e5a,0x3a3c32,0xa04030],
     hp:520,r:2.2,cy:2.1,scale:0.62,sp:11,dash:0,jump:11,burst:5,gap:0.1,bd:28,bs:150,mcd:0,mslN:0,blade:0,range:130,rad:1.1,mt:true},
   mth:{name:'重MT',mt:true,spec:{head:'HD-C',core:'CR-B',arms:'AR-C',legs:'LG-H',rw:'BZ',bw:'MS',lw:'LB-0'},cols:[0x5a5e4a,0x2e3026,0xc06030],
     hp:1100,r:2.6,cy:2.4,scale:0.7,sp:8,dash:0,jump:8,burst:1,gap:0,bd:220,bs:130,kind:'s',burstCd:2.4,mcd:0,mslN:0,blade:0,range:140,rad:1.3},
-  echo:{name:'エコー',spec:{head:'HD-D',core:'CR-C',arms:'AR-B',legs:'LG-L',rw:'RF77',bw:'MS',lw:'LB-10',boost:'BS-B'},cols:[0xe8ecf0,0x8a9aa8,0x40e0ff],
+  echo:{evade:0.85,icpt:0.3,name:'エコー',spec:{head:'HD-D',core:'CR-C',arms:'AR-B',legs:'LG-L',rw:'RF77',bw:'MS',lw:'LB-10',boost:'BS-B'},cols:[0xe8ecf0,0x8a9aa8,0x40e0ff],
     hp:5200,r:3.0,cy:3.4,qb:true,sp:20,dash:38,jump:15,burst:3,gap:0.1,bd:110,bs:330,mcd:5,mslN:2,mslD:300,blade:1000,range:170,lead:0.95,spread:0.015},
-  redflag:{name:'レッドフラッグ',spec:{head:'HD-C',core:'CR-D',arms:'AR-C',legs:'LG-Q',rw:'MGH',bw:'GR',lw:'LB-0'},cols:[0x8a2a24,0x3a2420,0xe8e0c8],
+  redflag:{evade:0.25,name:'レッドフラッグ',spec:{head:'HD-C',core:'CR-D',arms:'AR-C',legs:'LG-Q',rw:'MGH',bw:'GR',lw:'LB-0'},cols:[0x8a2a24,0x3a2420,0xe8e0c8],
     hp:7200,r:3.2,cy:3.4,sp:14,dash:28,jump:10,burst:6,gap:0.07,bd:40,bs:230,can:450,canSpd:110,canCd:5,mcd:0,mslN:0,blade:0,range:170}
 };
 
@@ -976,12 +976,14 @@ function updateShots(dt){
   for(let i=shots.length-1;i>=0;i--){
     const s=shots[i];s.life-=dt;s.age+=dt;
     if(s.foe&&s.kind==='m'&&S.icpt&&!s.icDone&&s.p.distanceTo(pc)<42){s.icDone=true;if(Math.random()<0.45){part(s.p,{mat:matSpark,life:0.18,s:1.2,grow:7});nz(0.08,4000,0.12);scene.remove(s.mesh);shots.splice(i,1);continue;}}
+    if(!s.foe&&s.kind==='m'&&s.target&&s.target.alive&&s.target.cfg&&s.target.cfg.icpt&&!s.icDone&&s.p.distanceTo(s.target.center())<30){
+      s.icDone=true;if(Math.random()<s.target.cfg.icpt){part(s.p,{mat:matSpark,life:0.18,s:1.2,grow:7});nz(0.08,4000,0.1*fall(s.p));scene.remove(s.mesh);shots.splice(i,1);continue;}}
     if(s.flame){s.mesh.scale.x+=dt*14;s.mesh.scale.y+=dt*14;}
     if(s.kind==='m'){
       const tg=s.foe?(P.alive?pc:null):(s.target&&s.target.alive?s.target.center():null);
-      const sp=s.v.length(),ns=Math.min(s.foe?58:s.big?85:115,sp+(s.foe?22:90)*dt);
-      if(tg&&s.age>(s.vert?0.55:0.18)){
-        const want=tmp.copy(tg).sub(s.p).normalize(),cur=s.v.clone().normalize(),ang=cur.angleTo(want),mt=(s.foe?1.5:s.vert?7:s.big?2.4:4.6)*dt;
+      const sp=s.v.length(),ns=Math.min(s.foe?58:s.big?62:s.micro?80:74,sp+(s.foe?22:55)*dt);
+      if(tg&&s.age>(s.vert?0.55:0.18)&&(s.foe||s.age<(s.vert?3.2:2.4))){
+        const want=tmp.copy(tg).sub(s.p).normalize(),cur=s.v.clone().normalize(),ang=cur.angleTo(want),mt=(s.foe?1.5:s.vert?2.4:s.big?1.4:s.micro?2.6:2.2)*dt;
         if(ang>1e-4)cur.lerp(want,Math.min(1,mt/ang)).normalize();s.v.copy(cur).multiplyScalar(ns);
       }else s.v.setLength(ns);
       s.tr-=dt;if(s.tr<=0){s.tr=0.035;part(s.p,{mat:matTrail,life:0.7,s:0.5,grow:1.6});}
@@ -994,7 +996,7 @@ function updateShots(dt){
       if(P.alive&&segSphere(s.prev,s.p,pc,2.4)){hurtPlayer(s.dmg);hit=true;}
       else if(GEN&&GEN.hp>0&&segSphere(s.prev,s.p,GEN.c,6.5)){hurtGen(s.dmg);hit=true;}
     }
-    else for(const e of enemies){if(e.alive&&segSphere(s.prev,s.p,e.center(),e.r+(s.kind==='g'?1:0))){if(s.kind!=='g')hurtEnemy(e,s.dmg);hit=true;break;}}
+    else for(const e of enemies){if(e.alive&&segSphere(s.prev,s.p,e.center(),s.kind==='m'?e.r*0.75:e.r+(s.kind==='g'?1:0))){if(s.kind!=='g')hurtEnemy(e,s.dmg);hit=true;break;}}
     if(!hit&&(s.p.y<0||inBld(s.p)))hit=true;
     if(hit||s.life<=0){
       if(hit){
@@ -1120,6 +1122,11 @@ function updateAC(e,dt){
       const near=c.near??(c.blade?14:32),far=T.gen?30:(c.far??65),rad=dist>far?1:dist<near?-1:(c.blade&&Math.random()<0.02?1:0);
       e.dash-=dt;const sp=e.dash>0?c.dash:c.sp;
       const tv=f.multiplyScalar(rad).add(r.multiplyScalar(e.sd)).normalize().multiplyScalar(sp);
+      e.evCd=(e.evCd||0)-dt;
+      if(e.evCd<=0&&!c.mt){for(const sh of shots){if(sh.foe||sh.kind!=='m'||sh.target!==e)continue;const d2=sh.p.distanceTo(e.center());
+        if(d2<75&&d2>8){e.evCd=1.0;if(Math.random()<(c.evade??0.5)){const s2=(Math.random()<.5?1:-1);
+          if(c.qb){e.vel.x=Math.cos(e.yaw)*s2*44;e.vel.z=-Math.sin(e.yaw)*s2*44;e.qbT=0.22;nz(0.25,1800,0.25*fall(e.pos));part(e.center(),{mat:matBlue,life:0.2,s:1.2,grow:6});}
+          else{e.sd=s2;e.dash=0.8;if(e.grounded&&Math.random()<0.5){e.vel.y=c.jump;e.hover=0.5;}}}break;}}}
       if(e.qbT>0)e.qbT-=dt;else{e.vel.x+=(tv.x-e.vel.x)*Math.min(1,dt*5);e.vel.z+=(tv.z-e.vel.z)*Math.min(1,dt*5);}
       if(c.qb){e.qbt=(e.qbt===undefined?1+Math.random()*2:e.qbt)-dt;if(e.qbt<=0){e.qbt=1.4+Math.random()*2.2;const s2=(Math.random()<.5?1:-1)*44;e.vel.x=Math.cos(e.yaw)*s2;e.vel.z=-Math.sin(e.yaw)*s2;e.qbT=0.22;nz(0.25,1800,0.25*fall(e.pos));part(e.center(),{mat:matBlue,life:0.2,s:1.2,grow:6});}}
     }
@@ -1465,7 +1472,7 @@ function updatePlayer(dt){
         part(pod,{geo:gIco,mat:matFire,life:0.2,s:1,grow:8});sfx.heavy();shake=Math.max(shake,0.8);
         if(LG.type!=='tank'){P.vel.addScaledVector(fwd,-B.recoil);if(!P.grounded)P.vel.y=Math.max(P.vel.y,2);}
       }else{
-        P.mslCd=0.9;
+        P.mslCd=B.cd||1.2;
         const tg=lockedList.length?lockedList:[null];
         tg.forEach((t,i)=>{if(P.msl<=0)return;P.msl--;usedM++;
           const off=i-(tg.length-1)/2;let v;
@@ -1856,7 +1863,7 @@ function acFromArena(o){
     sp:l.walk*1.1*k,dash:l.dash*st.bo.dash*(k>0.95?1:0.85),jump:l.jump,qb:o.qb,range:160,lead:0.55+0.4*k,
     mslN:b.kind==='m'?(b.id==='MM'?4:b.id==='VL'?3:2):0,mslD:Math.round(b.dmg*0.85),mcd:b.kind==='m'?7-2*k:0,
     can:b.kind==='g'?Math.round(b.dmg*0.6):0,canSpd:b.spd||150,canCd:(b.cd||1.5)*3,
-    blade:isBlade(lw)?Math.round(lw.dmg*0.9):0},W);
+    blade:isBlade(lw)?Math.round(lw.dmg*0.9):0,evade:0.25+0.65*k,icpt:k>=0.9?0.15+(k-0.9)*2:0},W);
   c.spread=(W.spread||0.025)*(1.6-k*0.7);
   return c;
 }
