@@ -212,14 +212,17 @@ const PARTS={
     {id:'HD-D',name:'HD-D ホークアイ',desc:'最高級の索敵頭部。ロック距離と速さが最も優秀',ap:280,w:150,lockR:400,lockT:0.18,radar:380,price:30000,req:'m3'},
     {id:'HD-E',name:'HD-E アウル 暗視頭部',desc:'レーダーとロック距離に優れる中堅頭部',ap:380,w:150,lockR:300,lockT:0.32,radar:300,price:16000},
     {id:'HD-F',name:'HD-F ミニマム 軽量頭部',desc:'最軽量。性能は最低限',ap:220,w:70,lockR:240,lockT:0.45,radar:200,price:8000},
-    {id:'HD-G',name:'HD-G センチネル 重装索敵頭部',desc:'装甲と索敵を両立した高級頭部',ap:600,w:260,lockR:350,lockT:0.28,radar:300,price:38000,req:'m8'}],
+    {id:'HD-G',name:'HD-G センチネル 重装索敵頭部',desc:'装甲と索敵を両立した高級頭部',ap:600,w:260,lockR:350,lockT:0.28,radar:300,price:38000,req:'m8'},
+    {id:'HD-H',name:'HD-H アイギス',desc:'第二部の高級頭部。軽く、硬く、索敵も優秀',ap:750,w:160,lockR:320,lockT:0.3,radar:280,price:52000,req:'m8'}],
   core:[
     {id:'CR-A',name:'CR-A スタンダード',desc:'標準的なコア',ap:2600,w:600,en:1000,price:0},
     {id:'CR-B',name:'CR-B フォートレス',desc:'重装甲コア。EN容量は少なめ',ap:3800,w:900,en:850,price:28000},
     {id:'CR-C',name:'CR-C ライトフレーム',desc:'軽量コア。装甲は薄いがEN容量が多い',ap:2000,w:440,en:1150,price:18000},
     {id:'CR-D',name:'CR-D オーバーロード',desc:'重装甲と大容量ENを両立した高級コア',ap:3600,w:820,en:1150,price:52000,req:'m7'},
     {id:'CR-E',name:'CR-E ストライク',desc:'やや軽く、EN容量に余裕のある中量コア',ap:2300,w:520,en:1080,price:24000},
-    {id:'CR-F',name:'CR-F バンカー',desc:'最も硬いコア。重くEN容量は少ない',ap:4400,w:1050,en:800,price:40000,req:'m3'}],
+    {id:'CR-F',name:'CR-F バンカー',desc:'最も硬いコア。重くEN容量は少ない',ap:4400,w:1050,en:800,price:40000,req:'m3'},
+    {id:'CR-G',name:'CR-G イージス',desc:'フォートレス並みに硬く、ずっと軽い高級コア',ap:4200,w:700,en:1100,price:78000,req:'m9'},
+    {id:'CR-H',name:'CR-H ゼファー',desc:'軽量コアの最高峰。装甲もEN容量も十分',ap:3000,w:480,en:1250,price:70000,req:'m11'}],
   arms:[
     {id:'AR-A',name:'AR-A スタンダード',desc:'標準的な腕部',ap:900,w:300,rate:1,blade:1,price:0},
     {id:'AR-B',name:'AR-B プレシジョン',desc:'細身の射撃用腕部。連射間隔が短い',ap:650,w:260,rate:0.85,blade:1,price:14000},
@@ -236,7 +239,8 @@ const PARTS={
     {id:'WA-FR',name:'WA-FR 火炎放射腕',desc:'至近距離を焼き払う武器腕。射程は短い',ap:1300,w:700,rate:1,blade:1,price:30000,req:'m2',
      wa:{id:'WA-FR',hud:'ARM FLAMER',w:0,dmg:22,cd:0.035,spd:70,ammo:1400,cost:3,spread:0.12,kind:'b',flame:true,life:0.45}},
     {id:'WA-RK',name:'WA-RK ロケット腕',desc:'無誘導ロケットを連射する武器腕。小さな爆風つき',ap:1200,w:760,rate:1,blade:1,price:34000,req:'m3',
-     wa:{id:'WA-RK',hud:'ARM ROCKET',w:0,dmg:230,cd:0.32,spd:150,ammo:80,cost:90,spread:0.01,kind:'g',blast:5,bsize:3}}],
+     wa:{id:'WA-RK',hud:'ARM ROCKET',w:0,dmg:230,cd:0.32,spd:150,ammo:80,cost:90,spread:0.01,kind:'g',blast:5,bsize:3}},
+    {id:'AR-G',name:'AR-G ガントレット',desc:'軽さと装甲を両立した高級腕部',ap:1500,w:320,rate:0.95,blade:1.1,price:56000,req:'m8'}],
   legs:[
     {id:'LG-L',type:'biped',bulk:0.8,name:'LG-L スプライト 軽量二脚',desc:'速くて軽い二脚。積載量は少なめ',ap:1600,load:2200,walk:17,dash:38,jump:14,price:22000},
     {id:'LG-B2',type:'biped',bulk:0.9,name:'LG-B2 スカウト 準軽量二脚',desc:'標準より少し軽く速い二脚',ap:1800,load:2350,walk:16,dash:36,jump:13.5,price:12000},
@@ -248,13 +252,16 @@ const PARTS={
     {id:'LG-R1',type:'reverse',bulk:0.85,name:'LG-R1 ホッパー 軽量逆関節',desc:'跳躍力が最も高い。装甲は紙同然',ap:1250,load:1950,walk:16,dash:37,jump:23,price:18000},
     {id:'LG-R',type:'reverse',name:'LG-R 逆関節',desc:'軽量で跳躍力が高い。装甲は薄い',ap:1500,load:2250,walk:15,dash:35,jump:20,price:24000},
     {id:'LG-R3',type:'reverse',bulk:1.2,name:'LG-R3 ジャッカル 重量逆関節',desc:'積載を増やした逆関節。跳躍力は控えめ',ap:2000,load:2700,walk:13.5,dash:31,jump:17,price:30000,req:'m3'},
-    {id:'LG-RX',type:'reverse',bulk:1.0,name:'LG-RX セラフ 高性能逆関節',desc:'跳躍と積載を両立した高級逆関節',ap:1700,load:2550,walk:16,dash:37,jump:22,price:56000,req:'m8'},
+    {id:'LG-RX',type:'reverse',bulk:1.0,name:'LG-RX セラフ 高性能逆関節',desc:'跳躍と積載を両立した高級逆関節',ap:1900,load:2650,walk:16,dash:37,jump:22,price:56000,req:'m8'},
     {id:'LG-Q1',type:'quad',bulk:0.85,name:'LG-Q1 スパイダー 軽量四脚',desc:'身軽な四脚。空中で滞空できる',ap:2100,load:2900,walk:14.5,dash:33,jump:10,hover:true,price:26000},
     {id:'LG-Q',type:'quad',name:'LG-Q 四脚',desc:'上昇中は空中でふわりと滞空できる',ap:2600,load:3300,walk:13,dash:31,jump:10,hover:true,price:30000},
     {id:'LG-Q3',type:'quad',bulk:1.2,name:'LG-Q3 アトラス 重量四脚',desc:'重武装の砲台になれる四脚',ap:3200,load:3900,walk:11,dash:27,jump:9,hover:true,price:44000,req:'m4'},
     {id:'LG-T1',type:'tank',bulk:0.85,name:'LG-T1 ラビット 軽量タンク',desc:'タンクにしては速い。装甲と積載は控えめ',ap:3500,load:3900,walk:10.5,dash:25,jump:6.5,price:30000,req:'m3'},
     {id:'LG-T',type:'tank',name:'LG-T タンク',desc:'遅いが非常に硬い。反動を受けない',ap:4200,load:4500,walk:9,dash:23,jump:6,price:36000,req:'m3'},
-    {id:'LG-T3',type:'tank',bulk:1.15,name:'LG-T3 フォートレス 重量タンク',desc:'動く要塞。全脚部で最も硬く最も重い',ap:5200,load:5300,walk:7.5,dash:20,jump:5,price:52000,req:'m7'}],
+    {id:'LG-T3',type:'tank',bulk:1.15,name:'LG-T3 フォートレス 重量タンク',desc:'動く要塞。全脚部で最も硬く最も重い',ap:5200,load:5300,walk:7.5,dash:20,jump:5,price:52000,req:'m7'},
+    {id:'LG-HZ',type:'biped',bulk:1.25,name:'LG-HZ ティターン 高性能重量二脚',desc:'重量二脚の装甲と積載のまま、足回りを軽くした高級脚',ap:3600,load:3600,walk:13.5,dash:31,jump:12,price:88000,req:'m10'},
+    {id:'LG-QZ',type:'quad',bulk:1.1,name:'LG-QZ ヘカトン 高性能四脚',desc:'重量四脚に迫る積載と、標準四脚の機動を両立',ap:3400,load:4000,walk:13,dash:31,jump:10,hover:true,price:86000,req:'m11'},
+    {id:'LG-RZ',type:'reverse',bulk:1.1,name:'LG-RZ アークエンジェル 重装逆関節',desc:'跳躍力を保ったまま装甲と積載を大きく高めた最高級逆関節',ap:2600,load:2900,walk:15,dash:35,jump:20,price:90000,req:'m12'}],
   rw:[
     {id:'RF',name:'RF-55 ライフル',hud:'RIFLE',desc:'扱いやすい標準ライフル',w:300,dmg:55,cd:0.11,spd:240,ammo:420,cost:12,spread:0.012,kind:'b',price:0},
     {id:'MG',name:'MG-22 マシンガン',hud:'MACHINE GUN',desc:'高連射。一発は軽い',w:260,dmg:21,cd:0.045,spd:220,ammo:1200,cost:3,spread:0.03,kind:'b',price:9000},
@@ -312,6 +319,7 @@ const OPTS=[
   {id:'OP-QB',name:'OP-QB QB効率化',desc:'クイックブーストの消費ENが20%減る',w:50,price:20000,req:'m3'},
   {id:'OP-IC',name:'OP-IC ミサイル迎撃',desc:'近づいた敵ミサイルを自動で撃ち落とすことがある',w:110,price:24000,req:'m3'},
   {id:'OP-EC',name:'OP-EC 大容量コンデンサ',desc:'EN容量が250増える',w:140,price:22000},
+  {id:'OP-AP2',name:'OP-AP2 複合装甲',desc:'機体のAPが15%増える（増加装甲とは重ねがけ可能）',w:160,price:60000,req:'m10'},
   {id:'OP-ST',name:'OP-ST 姿勢制御',desc:'被弾したときの画面の揺れと赤い点滅が弱くなる',w:30,price:6000}
 ];
 const OPT_SLOTS=3;
@@ -452,7 +460,7 @@ function calcStats(eq){
   const opts=(eq.opts||[]).map(id=>OPTS.find(o=>o.id===id)).filter(Boolean),has=id=>opts.some(o=>o.id===id);
   const load=h.w+c.w+a.w+(wa?0:r.w)+b.w+(wa?0:lw.w)+bo.w+g.w+opts.reduce((t,o)=>t+o.w,0);
   return {h,c,a,l,r,b,lw,bo,g,wa:!!wa,opts,
-    ap:Math.round((h.ap+c.ap+a.ap+l.ap)*(has('OP-AP')?1.08:1)),en:c.en+g.en+(has('OP-EC')?250:0),regen:+(g.regen*(has('OP-EN')?1.15:1)).toFixed(2),
+    ap:Math.round((h.ap+c.ap+a.ap+l.ap)*(has('OP-AP')?1.08:1)*(has('OP-AP2')?1.15:1)),en:c.en+g.en+(has('OP-EC')?250:0),regen:+(g.regen*(has('OP-EN')?1.15:1)).toFixed(2),
     lockT:h.lockT*(has('OP-LK')?0.8:1),lockR:Math.round(h.lockR*(b.lockMul||1)),radar:Math.round(h.radar*(b.radar||1)),
     boxMul:has('OP-SP')?1.2:1,ammoMul:has('OP-AM')?1.25:1,qbEn:Math.round(bo.qbEn*(has('OP-QB')?0.8:1)),icpt:has('OP-IC'),stab:has('OP-ST'),
     load,cap:l.load,over:load>l.load,spdF:1-0.22*Math.min(1,load/l.load)};
