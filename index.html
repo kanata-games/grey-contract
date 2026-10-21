@@ -449,7 +449,7 @@ const DEF_KEYS={fwd:['KeyW',''],back:['KeyS',''],left:['KeyA',''],right:['KeyD',
 const PAD_ACTS=['fire','bw','blade','jump','dash','qb','pause'];
 const DEF_PAD={fire:7,bw:6,blade:5,jump:0,dash:1,qb:4,pause:9};
 const PADN=['A','B','X','Y','LB','RB','LT','RT','SELECT','START','L3','R3','十字↑','十字↓','十字←','十字→','HOME'];
-function defSettings(){return {res:240,vol:0.7,sens:1,padSens:1,invY:false,keys:JSON.parse(JSON.stringify(DEF_KEYS)),pad:Object.assign({},DEF_PAD)};}
+function defSettings(){return {res:240,vol:0.7,bgmVol:0.6,assist:true,sens:1,padSens:1,invY:false,bgmNames:{},keys:JSON.parse(JSON.stringify(DEF_KEYS)),pad:Object.assign({},DEF_PAD)};}
 
 /* ================= save ================= */
 const SKEY='irondust-save-v2',OLDKEY='irondust-save-v1';
@@ -460,6 +460,7 @@ try{const s=JSON.parse(localStorage.getItem(SKEY));if(s&&s.eq&&Array.isArray(s.o
 try{if(!save.pilot){const o=JSON.parse(localStorage.getItem(OLDKEY));if(o&&o.eq){save.cr=Math.max(save.cr,o.cr|0);save.owned=[...new Set(save.owned.concat(o.owned||[]))];Object.assign(save.eq,o.eq);}}}catch(e){}
 if(!save.arena)save.arena={rank:11};
 if(!Array.isArray(save.eq.opts))save.eq.opts=[];
+if(!Array.isArray(save.presets))save.presets=[null,null,null];
 while(save.prog<MISSIONS.length-1&&save.cleared[MISSIONS[save.prog].id])save.prog++;
 for(const [k,v] of [['lw','LB-10'],['boost','BS-A'],['gen','GN-A']]){if(!save.eq[k])save.eq[k]=v;if(!save.owned.includes(v))save.owned.push(v);}
 function normSettings(){const s=save.settings=Object.assign(defSettings(),save.settings||{});s.keys=Object.assign(defSettings().keys,s.keys||{});for(const a in DEF_KEYS)if(!Array.isArray(s.keys[a])||s.keys[a].length!==2)s.keys[a]=DEF_KEYS[a].slice();s.pad=Object.assign({},DEF_PAD,s.pad||{});}
@@ -922,6 +923,22 @@ const sfx={
   deny:()=>tone(200,0.15,0.06,'square')
 };
 
+/* ================= BGM (user tracks in IndexedDB) ================= */
+const BGM={el:null,cur:'',urls:{}};
+function idb(){return new Promise((res,rej)=>{try{const r=indexedDB.open('grey-contract-bgm',1);r.onupgradeneeded=()=>r.result.createObjectStore('t');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error);}catch(e){rej(e);}});}
+async function idbDo(mode,fn){try{const db=await idb();return await new Promise((res,rej)=>{const tx=db.transaction('t',mode),st=tx.objectStore('t'),r=fn(st);tx.oncomplete=()=>res(r&&r.result);tx.onerror=()=>rej(tx.error);});}catch(e){return null;}}
+async function bgmLoad(){for(const k of ['menu','battle']){const b=await idbDo('readonly',st=>st.get(k));if(b){if(BGM.urls[k])URL.revokeObjectURL(BGM.urls[k]);BGM.urls[k]=URL.createObjectURL(b);}}}
+async function bgmSet(k,file){await idbDo('readwrite',st=>st.put(file,k));if(BGM.urls[k])URL.revokeObjectURL(BGM.urls[k]);BGM.urls[k]=URL.createObjectURL(file);if(BGM.cur===k)BGM.cur='';}
+function bgmClear(){idbDo('readwrite',st=>st.clear());for(const k in BGM.urls)URL.revokeObjectURL(BGM.urls[k]);BGM.urls={};if(BGM.el)BGM.el.pause();BGM.cur='';}
+function bgmVolume(){if(BGM.el)BGM.el.volume=Math.max(0,Math.min(1,save.settings.bgmVol*save.settings.vol));}
+function bgmPlay(k,force){
+  if(!BGM.el){BGM.el=new Audio();BGM.el.loop=true;}
+  if(BGM.cur===k&&!force)return;BGM.cur=k;const u=BGM.urls[k];
+  if(!u){BGM.el.pause();return;}
+  BGM.el.src=u;bgmVolume();const p=BGM.el.play();if(p&&p.catch)p.catch(()=>{BGM.cur='';});
+}
+bgmLoad();
+
 /* ================= state ================= */
 const P={pos:new V3(),vel:new V3(),yaw:0,pitch:0.05,ap:6000,max:6000,en:1000,enMax:1000,over:false,grounded:true,alive:true,
   ammo:420,msl:48,fireCd:0,mslCd:0,bladeCd:0,slash:0,lungeT:0,lungeTgt:null,slashed:true,boosting:false,dashing:false,mech:null};
@@ -931,7 +948,7 @@ function rebuildPlayer(){
 }
 const enemies=[],shots=[],parts=[];
 let state='title',curM=null,missionT=0,endTimer=-1,outcome='',shake=0,hitFlash=0,waveIdx=0;
-let rifleT=null,hitMark=0,usedB=0,usedM=0,kills=0,lockedList=[],msg={t:'',time:0,c:'#9ef07c'},aimPoint=new V3(),lockFailed=false,warnT=0;
+let aimMsl=null,rifleT=null,hitMark=0,usedB=0,usedM=0,kills=0,lockedList=[],msg={t:'',time:0,c:'#9ef07c'},aimPoint=new V3(),lockFailed=false,warnT=0;
 function say(t,time,c){msg={t,time:time||2.5,c:c||'#9ef07c'};}
 
 /* ================= particles ================= */
@@ -997,6 +1014,9 @@ function updateShots(dt){
       else if(GEN&&GEN.hp>0&&segSphere(s.prev,s.p,GEN.c,6.5)){hurtGen(s.dmg);hit=true;}
     }
     else for(const e of enemies){if(e.alive&&segSphere(s.prev,s.p,e.center(),s.kind==='m'?e.r*0.75:e.r+(s.kind==='g'?1:0))){if(s.kind!=='g')hurtEnemy(e,s.dmg);hit=true;break;}}
+    if(!hit&&!s.foe&&s.kind!=='m'){for(let k=shots.length-1;k>=0;k--){const o=shots[k];
+      if(o.foe&&o.kind==='m'&&segSphere(s.prev,s.p,o.p,1.3)){part(o.p,{mat:matSpark,life:0.2,s:1.3,grow:8});nz(0.12,3000,0.18);hitMark=0.15;
+        scene.remove(o.mesh);shots.splice(k,1);if(k<i)i--;hit=true;break;}}}
     if(!hit&&(s.p.y<0||inBld(s.p)))hit=true;
     if(hit||s.life<=0){
       if(hit){
@@ -1436,7 +1456,8 @@ function updatePlayer(dt){
 
   const R=S.r,B=S.b;
   P.fireCd-=dt;P.mslCd-=dt;
-  const aimAt=(from,spd)=>{if(rifleT&&rifleT.alive){const c=rifleT.center(),t=c.distanceTo(from)/spd;if(rifleT.vel)c.addScaledVector(rifleT.vel,t);return c;}return aimPoint.clone();};
+  const aimAt=(from,spd)=>{if(aimMsl&&shots.includes(aimMsl)){const t=aimMsl.p.distanceTo(from)/spd;return aimMsl.p.clone().addScaledVector(aimMsl.v,t);}
+    if(save.settings.assist&&rifleT&&rifleT.alive){const c=rifleT.center(),t=c.distanceTo(from)/spd;if(rifleT.vel)c.addScaledVector(rifleT.vel,t);return c;}return aimPoint.clone();};
   const shoot=(side,W)=>{
     const st=P.hands[side],canFire=W.en?(!P.over&&P.en>=W.en):st.ammo>0;
     if(st.cd>0||!canFire||P.slash>0)return;
@@ -1513,6 +1534,9 @@ function updateLocks(dt){
     if(S.b.locks&&e.lock>=HD.lockT)list.push([e,dist]);
   }
   list.sort((a,b)=>a[1]-b[1]);lockedList=list.slice(0,S.b.locks).map(a=>a[0]);
+  aimMsl=null;let mb=0.13;
+  for(const m of shots){if(!m.foe||m.kind!=='m')continue;const d=m.p.distanceTo(P.pos);if(d>90)continue;
+    const c=m.p.clone().project(camera);if(c.z>=1)continue;const sd=Math.hypot(c.x,c.y*0.8);if(sd<mb){mb=sd;aimMsl=m;m.sx=(c.x+1)/2*w;m.sy=(1-c.y)/2*h;}}
 }
 
 /* ================= mission flow ================= */
@@ -1606,7 +1630,7 @@ function hideAll(){for(const id of ['title','boot','dock','pause','result','touc
 function startPlay(){
   initAudio();hideAll();
   if(isTouch)$('touch').hidden=false;else requestLock();
-  state='play';
+  state='play';bgmPlay('battle');
 }
 function sortie(){if(!curM||calcStats(save.eq).over)return;reset();startPlay();}
 
@@ -1618,7 +1642,7 @@ function toHub(view){
   initAudio();hideAll();clearWorld();
   if(curMapId!=='hangar'){loadMap('hangar');}
   P.pos.set(0,0,0);P.vel.set(0,0,0);P.yaw=0;rebuildPlayer();P.mech.g.visible=true;
-  state='hub';hubView=view||'menu';dock.hidden=false;renderHub();
+  state='hub';hubView=view||'menu';dock.hidden=false;renderHub();bgmPlay('menu');
 }
 function renderHub(){
   dock.classList.toggle('tall',hubView!=='menu');
@@ -1686,6 +1710,14 @@ function renderSystem(){
     <div class="srow"><label class="lbl" for="sVol">音量 <span class="v" id="sVolV">${Math.round(st.vol*100)}</span></label><input type="range" id="sVol" min="0" max="100" step="5" value="${Math.round(st.vol*100)}"></div>
     <div class="srow"><label class="lbl" for="sSens">マウス・キー視点感度 <span class="v" id="sSensV">${st.sens.toFixed(1)}</span></label><input type="range" id="sSens" min="3" max="25" value="${Math.round(st.sens*10)}"></div>
     <div class="srow"><span class="lbl">視点の上下反転（マウス・パッド）</span><div class="row"><button class="btn sub" data-act="invY" aria-pressed="${st.invY}">${st.invY?'反転する':'反転しない'}</button></div></div>
+    <div class="srow"><span class="lbl">照準補正（枠内の敵を自動で狙う）</span><div class="row"><button class="btn sub" data-act="assist" aria-pressed="${st.assist}">${st.assist?'オン':'オフ（自分で狙う）'}</button></div>
+      <span class="sub2">オフにすると、手持ち武器は画面中央の照準に向かってまっすぐ飛びます。ミサイルのロックはそのまま使えます。</span></div>
+    <div class="srow"><span class="lbl">BGM（自分の曲を設定できます）</span>
+      <div class="row"><label class="btn sub" for="bgmMenuIn">メニュー曲を選ぶ</label><input type="file" id="bgmMenuIn" accept="audio/*" hidden><span class="sub2">${esc(st.bgmNames.menu||'未設定')}</span></div>
+      <div class="row"><label class="btn sub" for="bgmBattleIn">出撃曲を選ぶ</label><input type="file" id="bgmBattleIn" accept="audio/*" hidden><span class="sub2">${esc(st.bgmNames.battle||'未設定')}</span></div>
+      <label class="lbl" for="sBgm">BGM音量 <span class="v" id="sBgmV">${Math.round(st.bgmVol*100)}</span></label><input type="range" id="sBgm" min="0" max="100" step="5" value="${Math.round(st.bgmVol*100)}">
+      <div class="row"><button class="btn sub" data-act="bgmclr">設定した曲を消す</button></div>
+      <span class="sub2">曲はこの端末の中にだけ保存されます。</span></div>
     <div class="srow"><span class="lbl">操作設定</span><div class="row">
       <button class="btn sub" data-act="keys">キー設定</button><button class="btn sub" data-act="pad">ゲームパッド設定</button></div>
       <span class="sub2">${padStatus()}</span></div>
@@ -1699,9 +1731,12 @@ function renderSystem(){
   </div>
   <div class="row"><button class="btn sub" data-act="menu" data-back>戻る</button></div>`;
   const vol=$('sVol'),sens=$('sSens');
-  vol.oninput=()=>{st.vol=vol.value/100;$('sVolV').textContent=vol.value;if(master)master.gain.value=st.vol*0.7;persist();};
+  vol.oninput=()=>{st.vol=vol.value/100;$('sVolV').textContent=vol.value;if(master)master.gain.value=st.vol*0.7;bgmVolume();persist();};
   vol.onchange=()=>sfx.click();
   sens.oninput=()=>{st.sens=sens.value/10;$('sSensV').textContent=st.sens.toFixed(1);persist();};
+  const bv=$('sBgm');bv.oninput=()=>{st.bgmVol=bv.value/100;$('sBgmV').textContent=bv.value;bgmVolume();persist();};
+  for(const [id,kind] of [['bgmMenuIn','menu'],['bgmBattleIn','battle']]){const inp=$(id);inp.onchange=async()=>{const f=inp.files&&inp.files[0];if(!f)return;
+    await bgmSet(kind,f);st.bgmNames[kind]=f.name;persist();sfx.buy();if(kind==='menu')bgmPlay('menu',true);renderHub();};}
 }
 function renderKeys(){
   const K=KB(),w=(a,s)=>bindWait&&bindWait.kind==='key'&&bindWait.action===a&&bindWait.slot===s;
@@ -1767,6 +1802,7 @@ function renderGarage(){
     <div><span>巡航速度</span><b>${Math.round(S.l.walk*S.spdF*12)} km/h</b></div><div><span>脚部</span><b>${S.l.name.split(' ').pop()}</b></div>
     <div class="full"><span>積載量</span><b class="${S.over?'ng':''}">${fmt(S.load)} / ${fmt(S.cap)}</b></div>
     <div class="lbar${S.over?' over':''}"><i style="width:calc(${pct}% - 2px)"></i></div></div>
+  <div class="row" style="gap:6px">${[0,1,2].map(i=>`<button class="btn sub" data-act="pload" data-i="${i}" ${save.presets[i]?'':'disabled'} title="呼び出す">構成${i+1}${save.presets[i]?'：'+esc(save.presets[i].name):'：空き'}</button><button class="btn sub" data-act="psave" data-i="${i}">保存</button>`).join('')}</div>
   <div class="gnote ${!S.over&&gNoteOk?'ok':''}">${S.over?'積載オーバーです。軽いパーツにするか、積載量の多い脚部に替えてください。':esc(gNote)}</div>
   <div class="row">${curM?`<button class="btn" data-act="sortie" ${S.over?'disabled':''}>出撃する</button>`:''}<button class="btn sub" data-act="menu">${curM?'依頼をやめて戻る':'戻る'}</button></div>`;
   persist();
@@ -1808,6 +1844,11 @@ dock.addEventListener('click',e=>{
     case 'challenge':sfx.buy();curM=arenaMission(selA);gNote='';hubView='garage';break;
     case 'pad':sfx.click();hubView='pad';break;
     case 'invY':sfx.click();save.settings.invY=!save.settings.invY;persist();break;
+    case 'assist':sfx.click();save.settings.assist=!save.settings.assist;persist();break;
+    case 'bgmclr':sfx.back();bgmClear();save.settings.bgmNames={};persist();break;
+    case 'psave':{const i2=+b.dataset.i;save.presets[i2]={eq:JSON.parse(JSON.stringify(save.eq)),name:`${pt('legs',save.eq.legs).name.split(' ').pop()}／${pt('rw',save.eq.rw).name.split(' ').pop()}`};gNote=`構成${i2+1}に保存しました。`;gNoteOk=true;sfx.buy();break;}
+    case 'pload':{const pr=save.presets[+b.dataset.i];if(!pr){sfx.deny();break;}const miss=Object.values(pr.eq).flat().filter(v=>typeof v==='string'&&v.includes('-')&&!save.owned.includes(v));
+      save.eq=Object.assign(JSON.parse(JSON.stringify(pr.eq)),{color:save.eq.color});if(!Array.isArray(save.eq.opts))save.eq.opts=[];rebuildPlayer();gNote=`構成${+b.dataset.i+1}を呼び出しました。`;gNoteOk=true;sfx.click();break;}
     case 'kslot':{const a2=b.dataset.a,s2=+b.dataset.s;sfx.click();bindWait=(bindWait&&bindWait.kind==='key'&&bindWait.action===a2&&bindWait.slot===s2)?null:{kind:'key',action:a2,slot:s2};break;}
     case 'pslot':{const a2=b.dataset.a;sfx.click();bindWait=(bindWait&&bindWait.kind==='pad'&&bindWait.action===a2)?null:{kind:'pad',action:a2};break;}
     case 'kdef':sfx.click();save.settings.keys=JSON.parse(JSON.stringify(DEF_KEYS));persist();break;
@@ -1961,7 +2002,7 @@ function drawHUD(time){
     hx.textAlign='center';
     if(locked){hx.fillStyle=HR;hx.fillText('LOCK',e.sx,e.sy+s+2*u);}
     else if(e.target){hx.fillStyle=HA;hx.fillText('TARGET',e.sx,e.sy+s+2*u);}
-    if(e===rifleT){hx.strokeStyle=HA;hx.beginPath();hx.arc(e.sx,e.sy,s+5*u,0,Math.PI*2);hx.stroke();}
+    if(e===rifleT&&save.settings.assist&&!aimMsl){hx.strokeStyle=HA;hx.beginPath();hx.arc(e.sx,e.sy,s+5*u,0,Math.PI*2);hx.stroke();}
     if(e.lock>0||locked||e===rifleT){hx.fillStyle='rgba(158,240,124,.25)';hx.fillRect(e.sx-14*u,e.sy-s-8*u,28*u,3*u);hx.fillStyle=HG;hx.fillRect(e.sx-14*u,e.sy-s-8*u,28*u*Math.max(0,e.hp/e.max),3*u);}
   }
   const enc=P.over?HR:HA;
@@ -2005,6 +2046,15 @@ function drawHUD(time){
   if(msg.time>0){hx.textAlign='center';hx.font=F(16);hx.fillStyle=msg.c;if(msg.time>0.3||Math.floor(time*10)%2)hx.fillText(msg.t,w/2,cy-bh-34*u);}
   if(shots.some(s=>s.foe&&s.kind==='m')&&Math.floor(time*4)%2){hx.textAlign='center';hx.font=F(14);hx.fillStyle=HR;hx.fillText('▲ MISSILE ▲',w/2,cy+bh+28*u);}
   if(P.ap/P.max<0.3&&P.alive&&Math.floor(time*2)%2){hx.textAlign='center';hx.font=F(13);hx.fillStyle=HR;hx.fillText('AP 低下',w/2,52*u+(bs?36*u:0));}
+  if(aimMsl&&aimMsl.sx!==undefined){hx.strokeStyle='#ffffff';hx.beginPath();const r=9*u;hx.moveTo(aimMsl.sx,aimMsl.sy-r);hx.lineTo(aimMsl.sx+r,aimMsl.sy);hx.lineTo(aimMsl.sx,aimMsl.sy+r);hx.lineTo(aimMsl.sx-r,aimMsl.sy);hx.closePath();hx.stroke();
+    hx.textAlign='center';hx.font=F(10);hx.fillStyle='#ffffff';hx.fillText('迎撃',aimMsl.sx,aimMsl.sy+r+2*u);}
+  if(missionT<3.2&&!outcome){const a=Math.min(1,(3.2-missionT)/0.6,missionT/0.25);hx.globalAlpha=a;
+    hx.fillStyle='rgba(8,10,7,.75)';hx.fillRect(0,cy-46*u,w,92*u);hx.fillStyle=HA;hx.fillRect(0,cy-46*u,w,2*u);hx.fillRect(0,cy+44*u,w,2*u);
+    hx.textAlign='center';hx.font=F(30);hx.fillStyle=HA;hx.fillText(curM.arena?'ARENA':'MISSION START',w/2,cy-36*u);
+    hx.font=F(14);hx.fillStyle=HG;hx.fillText(MAPS[curM.map].name+'　／　'+curM.name,w/2,cy+2*u);hx.fillStyle='#e6e0c6';hx.fillText(curM.goal||'',w/2,cy+20*u);hx.globalAlpha=1;}
+  if(outcome&&endTimer>0){const win=outcome==='win',a=Math.min(1,(3-endTimer)/0.4);hx.globalAlpha=Math.max(0,a);
+    hx.fillStyle='rgba(8,10,7,.75)';hx.fillRect(0,cy-34*u,w,68*u);hx.fillStyle=win?HA:HR;hx.fillRect(0,cy-34*u,w,2*u);hx.fillRect(0,cy+32*u,w,2*u);
+    hx.textAlign='center';hx.font=F(34);hx.fillText(curM.arena?(win?'WIN':'LOSE'):(win?'MISSION COMPLETE':'MISSION FAILED'),w/2,cy-18*u);hx.globalAlpha=1;}
   if(lockFailed&&missionT<6&&!isTouch){hx.textAlign='center';hx.font=F(11);hx.fillStyle=HA;hx.fillText('マウスを画面内で動かして旋回できます',w/2,h-70*u);}
 }
 
