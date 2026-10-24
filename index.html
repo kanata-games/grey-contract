@@ -354,8 +354,8 @@ const ACS={
     hp:520,r:2.2,cy:2.1,scale:0.62,sp:11,dash:0,jump:11,burst:5,gap:0.1,bd:28,bs:150,mcd:0,mslN:0,blade:0,range:130,rad:1.1,mt:true},
   mth:{name:'重MT',mt:true,spec:{head:'HD-C',core:'CR-B',arms:'AR-C',legs:'LG-H',rw:'BZ',bw:'MS',lw:'LB-0'},cols:[0x5a5e4a,0x2e3026,0xc06030],
     hp:1100,r:2.6,cy:2.4,scale:0.7,sp:8,dash:0,jump:8,burst:1,gap:0,bd:220,bs:130,kind:'s',burstCd:2.4,mcd:0,mslN:0,blade:0,range:140,rad:1.3},
-  echo:{evade:0.85,icpt:0.3,name:'エコー',spec:{head:'HD-D',core:'CR-C',arms:'AR-B',legs:'LG-L',rw:'RF77',bw:'MS',lw:'LB-10',boost:'BS-B'},cols:[0xe8ecf0,0x8a9aa8,0x40e0ff],
-    hp:5200,r:3.0,cy:3.4,qb:true,sp:20,dash:38,jump:15,burst:3,gap:0.1,bd:110,bs:330,mcd:5,mslN:2,mslD:300,blade:1000,range:170,lead:0.95,spread:0.015},
+  echo:{evade:0.6,icpt:0.15,name:'エコー',spec:{head:'HD-D',core:'CR-C',arms:'AR-B',legs:'LG-L',rw:'RF77',bw:'MS',lw:'LB-10',boost:'BS-B'},cols:[0xe8ecf0,0x8a9aa8,0x40e0ff],
+    hp:4000,r:3.0,cy:3.4,qb:true,sp:19,dash:36,jump:15,burst:3,gap:0.12,bd:100,bs:320,burstCd:2.0,mcd:6.5,mslN:2,mslD:260,blade:800,range:170,lead:0.8,spread:0.03},
   redflag:{evade:0.25,name:'レッドフラッグ',spec:{head:'HD-C',core:'CR-D',arms:'AR-C',legs:'LG-Q',rw:'MGH',bw:'GR',lw:'LB-0'},cols:[0x8a2a24,0x3a2420,0xe8e0c8],
     hp:7200,r:3.2,cy:3.4,sp:14,dash:28,jump:10,burst:6,gap:0.07,bd:40,bs:230,can:450,canSpd:110,canCd:5,mcd:0,mslN:0,blade:0,range:170}
 };
@@ -408,9 +408,9 @@ const MISSIONS=[
   {id:'m10',part:2,name:'第九工業区画 再調査',client:'灰の旗',map:'night',obj:'targets',reward:150000,par:180,limit:240,diff:{hp:1.8,dmg:1.3},
    brief:'指揮官を討った傭兵に頼むのは筋違いだと分かっている。だが聞いてくれ。閉鎖されたはずの第九工業区画が、ノルドの名義で動いている。中のデータ端末5基を破壊して、何を作っているのか確かめてほしい。',
    goal:'データ端末5基の破壊（制限時間 4:00）',spawn:[['terminal',5,{target:true}],['mt',5],['mth',2],['turret',4]]},
-  {id:'m11',part:2,name:'無人GW試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.9,dmg:1.3},
-   brief:'端末のデータを見た。ノルドはヴァルチャーの戦闘記録から、無人のGW「エコー」を作っている。試験場で2機が稼働中だ。量産される前に叩いてくれ。',
-   goal:'無人GW「エコー」2機の撃破',spawn:[['ac',2,{cfg:'echo'}]]},
+  {id:'m11',part:2,name:'無人GW試験場 襲撃',client:'灰の旗',map:'proving',obj:'boss',reward:200000,par:180,diff:{hp:1.7,dmg:1.3},
+   brief:'端末のデータを見た。ノルドはヴァルチャーの戦闘記録から、無人のGW「エコー」を作っている。試験場で2機が稼働中だ。1機を相手にしているうちに、もう1機も起動するだろう。量産される前に叩いてくれ。',
+   goal:'無人GW「エコー」2機の撃破',spawn:[['ac',1,{cfg:'echo'}]],reinf:{t:50,half:true,msg:'警告：2機目のエコー 起動',list:[['ac',1,{cfg:'echo'}]]}},
   {id:'m12',part:2,name:'討伐部隊 迎撃',client:'傭兵管理局',map:'outer',obj:'annihilate',reward:180000,par:200,diff:{hp:2.0,dmg:1.35},
    brief:'{P} 様、緊急です。ノルド電力公社があなたの登録抹消を申請し、同時に討伐部隊を差し向けました。外郭区画で包囲されています。生き残ってください。本件の報酬は当局が保証します。',
    goal:'討伐部隊の全滅',spawn:[['mt',6],['mth',3],['heli',4],['echo',1]]},
@@ -947,7 +947,7 @@ function rebuildPlayer(){
   P.mech=buildMech(save.eq,COLORS[save.eq.color||0].c);P.mech.g.position.copy(P.pos);P.mech.g.rotation.y=P.yaw;scene.add(P.mech.g);
 }
 const enemies=[],shots=[],parts=[];
-let state='title',curM=null,missionT=0,endTimer=-1,outcome='',shake=0,hitFlash=0,waveIdx=0;
+let state='title',curM=null,missionT=0,endTimer=-1,outcome='',shake=0,hitFlash=0,waveIdx=0,reinfDone=false;
 let aimMsl=null,rifleT=null,hitMark=0,usedB=0,usedM=0,kills=0,lockedList=[],msg={t:'',time:0,c:'#9ef07c'},aimPoint=new V3(),lockFailed=false,warnT=0;
 function say(t,time,c){msg={t,time:time||2.5,c:c||'#9ef07c'};}
 
@@ -1553,7 +1553,7 @@ function reset(){
   if(MAP.start)P.pos.set(...MAP.start);else P.pos.set(0,0,MAP.gen?8:0);P.vel.set(0,0,0);rebuildPlayer();
   if(GEN){GEN.hp=GEN.max=curM.genHP||4000;}
   for(const [type,n,o] of (curM.spawn||[]))for(let i=0;i<n;i++)spawnOne(type,Object.assign({},o||{},{idx:i,n}));
-  waveIdx=0;missionT=0;endTimer=-1;outcome='';usedB=0;usedM=0;kills=0;hitFlash=0;shake=0;hitMark=0;
+  waveIdx=0;reinfDone=false;missionT=0;endTimer=-1;outcome='';usedB=0;usedM=0;kills=0;hitFlash=0;shake=0;hitMark=0;
   if(curM.arena){const o=arenaOpp(curM.arena);say(`${o.pilot}「${o.line}」`,3.5,'#f2b84b');}
   else say(save.acName+'、作戦を開始する',3);
   if(curM.obj==='boss'&&!curM.arena)setTimeout(()=>{if(state==='play'&&!outcome){say('敵GW「'+enemies.find(e=>e.isBoss).cfg.name+'」を確認',3,'#ff4b3a');sfx.alarm();}},2600);
@@ -1576,10 +1576,12 @@ function updateMission(dt){
       say(`第${waveIdx}波 接近`,2.5,'#ff4b3a');sfx.alarm();
     }
   }
+  if(m.reinf&&!reinfDone&&!outcome&&(missionT>=m.reinf.t||objRemain()===0||(m.reinf.half&&enemies.some(e=>e.isBoss&&e.alive&&e.hp<e.max*0.5)))){
+    reinfDone=true;for(const [type,n,o] of m.reinf.list)for(let i=0;i<n;i++)spawnOne(type,Object.assign({},o||{},{idx:i,n}));say(m.reinf.msg,3,'#ff4b3a');sfx.alarm();}
   if(!outcome){
     if(m.limit&&missionT>=m.limit){say('作戦時間切れ',3,'#ff4b3a');endMission('fail');}
     else if(m.obj==='defend'){if(waveIdx>=m.waves.length&&objRemain()===0)endMission('win');}
-    else if(objRemain()===0)endMission('win');
+    else if(objRemain()===0&&(!m.reinf||reinfDone))endMission('win');
   }
   if(GEN&&GEN.flash>0)GEN.flash-=dt;
   if(endTimer>0){endTimer-=dt;if(endTimer<=0)showResult();}
