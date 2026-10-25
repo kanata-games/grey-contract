@@ -314,13 +314,18 @@ const PARTS={
     {id:'BS-C',name:'BS-C エコノミー',desc:'省電力型。クイックブーストを連発しやすい',w:110,dash:0.95,up:0.92,qb:40,qbEn:140,qbCd:0.25,price:16000},
     {id:'BS-D',name:'BS-D スカイハイ',desc:'上昇力に特化したブースター',w:150,dash:1.02,up:1.3,qb:44,qbEn:240,qbCd:0.35,price:20000},
     {id:'BS-E',name:'BS-E オーバードライブ',desc:'全性能が最高水準の高級ブースター',w:200,dash:1.2,up:1.2,qb:64,qbEn:320,qbCd:0.35,price:58000,req:'m9'},
-    {id:'BS-F',name:'BS-F ストーム',desc:'クイックブーストに特化。一回の加速が最も大きい',w:180,dash:1.0,up:0.95,qb:72,qbEn:380,qbCd:0.5,price:48000,req:'m9'}],
+    {id:'BS-F',name:'BS-F ストーム',desc:'クイックブーストに特化。一回の加速が最も大きい',w:180,dash:1.0,up:0.95,qb:72,qbEn:380,qbCd:0.5,price:48000,req:'m9'},
+    {id:'BS-G',name:'BS-G ファルコン',desc:'軽くて燃費のよい高級ブースター。QBの間隔も短い',w:130,dash:1.15,up:1.1,qb:58,qbEn:220,qbCd:0.3,price:64000,req:'m11'},
+    {id:'BS-X',name:'BS-X ゼニス',desc:'【クリア特典】全性能が最高峰のブースター',w:210,dash:1.28,up:1.3,qb:70,qbEn:300,qbCd:0.3,price:120000,req:'m14'}],
   gen:[
     {id:'GN-A',name:'GN-A スタンダード',desc:'標準的なジェネレーター',w:200,en:0,regen:1,price:0},
     {id:'GN-B',name:'GN-B キャパシター',desc:'EN容量が大きい。回復はやや遅い',w:300,en:400,regen:0.9,price:24000},
     {id:'GN-C',name:'GN-C リアクター',desc:'EN回復が速い。容量は少なめ',w:240,en:-120,regen:1.45,price:28000,req:'m3'},
     {id:'GN-D',name:'GN-D コンパクト',desc:'軽量で小型。容量は少ない',w:120,en:-200,regen:1,price:9000},
-    {id:'GN-E',name:'GN-E フュージョン',desc:'容量も回復も優秀な最高級ジェネレーター',w:340,en:300,regen:1.3,price:62000,req:'m10'}]
+    {id:'GN-E',name:'GN-E フュージョン',desc:'容量も回復も優秀な最高級ジェネレーター',w:340,en:300,regen:1.3,price:62000,req:'m10'},
+    {id:'GN-F',name:'GN-F アーク',desc:'大容量と高回復を両立した上位ジェネレーター',w:360,en:550,regen:1.25,price:72000,req:'m12'},
+    {id:'GN-G',name:'GN-G ノヴァ',desc:'回復速度が非常に速い。容量は控えめ',w:280,en:100,regen:1.7,price:76000,req:'m13'},
+    {id:'GN-X',name:'GN-X ゼニス',desc:'【クリア特典】容量も回復も最高峰のジェネレーター',w:380,en:600,regen:1.6,price:130000,req:'m14'}]
 };
 const OPTS=[
   {id:'OP-AP',name:'OP-AP 増加装甲',desc:'機体のAPが8%増える',w:120,price:12000},
@@ -844,7 +849,7 @@ function buildMech(spec,cols){
     };
     bladeR=hand(elbow,RW,muzzle,1);bladeL=hand(elbowL,LWp,muzzleL,-1);
   }
-  const flame=new THREE.Mesh(new THREE.ConeGeometry(0.5,2.4,5),new THREE.MeshBasicMaterial({color:spec.boost==='BS-B'?0xffb060:spec.boost==='BS-C'?0xa0ffb0:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
+  const flame=new THREE.Mesh(new THREE.ConeGeometry(0.5,2.4,5),new THREE.MeshBasicMaterial({color:spec.boost==='BS-B'?0xffb060:spec.boost==='BS-C'?0xa0ffb0:spec.boost==='BS-X'?0xd0a0ff:spec.boost==='BS-G'?0xfff0a0:0x8fd8ff,transparent:true,opacity:.85,blending:THREE.AdditiveBlending,depthWrite:false}));
   flame.rotation.x=Math.PI/2;flame.position.set(0,1.5+off,heavy?2.9:2.7);flame.visible=false;torso.add(flame);
   TEXMAP=null;
   return {g,hip,hipY:HIP,legType:lt,legs,torso,armR,armL,elbow,elbowL,muzzle,muzzle2,muzzleL,pod,flame,bladeR,bladeL,hasR:!!wa||RW.id!=='LB-0',hasL:!!wa||LWp.id!=='LB-0',phase:0,slashR:0,slashL:0};
